@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
@@ -54,6 +55,9 @@ class CameraXFragment : Fragment() {
 
                 }
             }
+            binding.btnGallery.setOnClickListener {
+                launchGalleryIntent.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
         } else {
             requestPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
@@ -95,7 +99,6 @@ class CameraXFragment : Fragment() {
                     currentImage = outputFileResults.savedUri
                     val action = CameraXFragmentDirections.actionCameraXFragmentToAnalysisFragment(currentImage.toString())
                     view?.findNavController()?.navigate(action)
-                    binding.ivCapturedImage.setImageURI(currentImage)
                 }
 
                 override fun onError(exception: ImageCaptureException) {
@@ -129,7 +132,6 @@ class CameraXFragment : Fragment() {
     private val takePictureLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
             val allGranted = result.all { it.value }
-
             if (allGranted) {
                 captureImage()
             } else {
@@ -145,7 +147,18 @@ class CameraXFragment : Fragment() {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
+    private val launchGalleryIntent = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ){uri->
+        if(uri!= null){
+            val action = CameraXFragmentDirections.actionCameraXFragmentToAnalysisFragment(uri.toString())
+            view?.findNavController()?.navigate(action)
+        }else{
+            showToast("No image selected")
+        }
+    }
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
+
 }
