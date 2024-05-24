@@ -31,6 +31,7 @@ class CameraXFragment : Fragment() {
     private var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>? = null
     private var imageCapture: ImageCapture? = null
     private var currentImage: Uri? = null
+    private var isBackCamera: Boolean = true
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,6 +59,10 @@ class CameraXFragment : Fragment() {
             binding.btnGallery.setOnClickListener {
                 launchGalleryIntent.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }
+            binding.btnSwitchCamera.setOnClickListener {
+                isBackCamera = !isBackCamera
+                startCamera()
+            }
         } else {
             requestPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
@@ -66,7 +71,7 @@ class CameraXFragment : Fragment() {
         val preview: androidx.camera.core.Preview = androidx.camera.core.Preview.Builder().build()
         val cameraSelector: androidx.camera.core.CameraSelector =
             androidx.camera.core.CameraSelector.Builder()
-                .requireLensFacing(androidx.camera.core.CameraSelector.LENS_FACING_BACK)
+                .requireLensFacing(if(isBackCamera)androidx.camera.core.CameraSelector.LENS_FACING_BACK else androidx.camera.core.CameraSelector.LENS_FACING_FRONT)
                 .build()
         preview.setSurfaceProvider(binding.pvCamera.surfaceProvider)
         val resolutionSelector = ResolutionSelector.Builder()
