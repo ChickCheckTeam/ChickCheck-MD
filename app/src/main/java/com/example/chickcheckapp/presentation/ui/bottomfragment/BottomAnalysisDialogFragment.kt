@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
+import androidx.navigation.findNavController
 import com.example.chickcheckapp.databinding.FragmentBottomAnalysisBinding
+import com.example.chickcheckapp.presentation.ui.analysis.AnalysisFragmentDirections
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomAnalysisDialogFragment : BottomSheetDialogFragment() {
@@ -25,9 +27,11 @@ class BottomAnalysisDialogFragment : BottomSheetDialogFragment() {
         val uri = arguments?.getString("uri")
         if (uri != null) {
             binding.ivAnalyzedImage.setImageURI(uri.toUri())
-        }
-        binding.btnViewDetail.setOnClickListener {
-            dismiss()
+            binding.btnViewDetail.setOnClickListener {
+                val action = AnalysisFragmentDirections.actionAnalysisFragmentToResultFragment(uri)
+                parentFragment?.view?.findNavController()?.navigate(action)
+                dismiss()
+            }
         }
         binding.btnClose.setOnClickListener {
             dismiss()

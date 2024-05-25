@@ -13,7 +13,7 @@ import com.example.chickcheckapp.presentation.ui.bottomfragment.BottomAnalysisDi
 class AnalysisFragment : Fragment() {
     private var _binding : FragmentAnalysisBinding? = null
     private val binding get() = _binding!!
-    val args: AnalysisFragmentArgs by navArgs()
+    private val args: AnalysisFragmentArgs by navArgs()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
