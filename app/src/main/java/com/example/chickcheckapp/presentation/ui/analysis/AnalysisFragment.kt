@@ -8,6 +8,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.chickcheckapp.databinding.FragmentAnalysisBinding
+import com.example.chickcheckapp.presentation.ui.bottomfragment.BottomAnalysisDialogFragment
 
 class AnalysisFragment : Fragment() {
     private var _binding : FragmentAnalysisBinding? = null
@@ -25,7 +26,10 @@ class AnalysisFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val imageUri = args.uriImage
+        val bottomAnalysisDialogFragment = BottomAnalysisDialogFragment.getInstance(imageUri)
         binding.ivImage.setImageURI(imageUri.toUri())
-
+        binding.btnAnalysis.setOnClickListener {
+            bottomAnalysisDialogFragment.show(parentFragmentManager, "BottomAnalysisDialogFragment")
+        }
     }
 }
