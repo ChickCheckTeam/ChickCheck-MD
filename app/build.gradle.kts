@@ -1,6 +1,10 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -15,6 +19,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
+        buildConfigField("String", "BASE_URL", "\"https://private-32c95-firstapi690.apiary-mock.com/\"")
     }
 
     buildTypes {
@@ -35,6 +42,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -54,6 +62,14 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(libs.flexbox)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+
+    implementation(libs.androidx.fragment.ktx)
 
 }
