@@ -20,28 +20,29 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:padding="16dp">
 
             <ImageView
                 android:id="@+id/iv_photo"
-                android:layout_width="188dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:src="@drawable/baseline_photo_24"
+                android:minHeight="100dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@tools:sample/avatars"/>
+                android:src="@drawable/baseline_photo_24"
+                tools:src="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/tv_display_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:text="Display Name"
-                android:textStyle="bold"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/iv_photo"
                 app:layout_constraintTop_toTopOf="@+id/iv_photo" />
 
@@ -59,10 +60,9 @@
                 android:id="@+id/tv_distance"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="100 km"
-                app:layout_constraintStart_toEndOf="@+id/iv_photo"
+                app:layout_constraintStart_toStartOf="@+id/tv_address"
                 app:layout_constraintTop_toBottomOf="@+id/tv_address" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

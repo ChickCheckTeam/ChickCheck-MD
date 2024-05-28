@@ -120,12 +120,23 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_nearby_places"
             android:layout_width="0dp"
-            android:layout_height="320dp"
+            android:layout_height="480dp"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="@+id/cv_information"
             app:layout_constraintStart_toStartOf="@+id/tv_location_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_location_title"
-            tools:listitem="@layout/item_nearby_places_layout"
+            tools:listitem="@layout/item_nearby_places_layout" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/rv_nearby_places"
+            app:layout_constraintEnd_toEndOf="@+id/rv_nearby_places"
+            app:layout_constraintStart_toStartOf="@+id/rv_nearby_places"
+            app:layout_constraintTop_toTopOf="@+id/rv_nearby_places"
+            android:visibility="gone"
+            tools:visibility="visible"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

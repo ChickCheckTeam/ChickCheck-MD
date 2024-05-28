@@ -22,9 +22,10 @@ import com.example.chickcheckapp.R
 import com.example.chickcheckapp.databinding.ActivityCameraBinding
 import com.example.chickcheckapp.databinding.ActivityMainBinding
 import com.google.common.util.concurrent.ListenableFuture
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.util.ArrayList
-
+@AndroidEntryPoint
 class CameraActivity : AppCompatActivity() {
     private var _binding: ActivityCameraBinding? = null
     private val binding get() = _binding!!

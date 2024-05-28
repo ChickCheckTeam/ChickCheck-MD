@@ -9,7 +9,9 @@ import androidx.navigation.findNavController
 import com.example.chickcheckapp.databinding.FragmentBottomAnalysisBinding
 import com.example.chickcheckapp.presentation.ui.analysis.AnalysisFragmentDirections
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BottomAnalysisDialogFragment : BottomSheetDialogFragment() {
     private var _binding : FragmentBottomAnalysisBinding? = null
     private val binding get() = _binding!!

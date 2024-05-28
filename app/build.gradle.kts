@@ -23,6 +23,8 @@ android {
         val properties = Properties()
         properties.load(project.rootProject.file("local.properties").inputStream())
         buildConfigField("String", "BASE_URL", "\"https://private-32c95-firstapi690.apiary-mock.com/\"")
+        buildConfigField("String", "BASE_URL_PLACES", "\"https://places.googleapis.com/v1/\"")
+        buildConfigField("String", "PLACES_API_KEY", "\"AIzaSyDBSa11gBY9VDYmnZcfqbSCK0YXbSZpKtk\"")
     }
 
     buildTypes {
@@ -63,7 +65,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
+    implementation (libs.glide)
     implementation(libs.flexbox)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.chickcheckapp.databinding.FragmentAnalysisBinding
 import com.example.chickcheckapp.presentation.ui.bottomfragment.BottomAnalysisDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AnalysisFragment : Fragment() {
     private var _binding : FragmentAnalysisBinding? = null
     private val binding get() = _binding!!
