@@ -1,5 +1,7 @@
 package com.example.chickcheckapp.presentation.adapter
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
@@ -31,20 +33,35 @@ class NearbyPlacesListAdapter(private val location: Location) : ListAdapter<Plac
                 .into(binding.ivPhoto)
             }
             itemView.setOnClickListener{
-                val gmmIntentUri = Uri.parse("geo:$locationLatitude,$locationLongitude?q=$locationLatitude,$locationLongitude")
-                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {
-                    setPackage("com.google.android.apps.maps")
-                }
-
-                if (mapIntent.resolveActivity(itemView.context.packageManager) != null) {
-                    itemView.context.startActivity(mapIntent)
-                } else {
-                    val webIntent = Intent(Intent.ACTION_VIEW).apply {
-                        data = Uri.parse(item.googleMapsUri)
+                val dialog = dialogAlertBuilder(item.displayName.text) {
+                    val gmmIntentUri = Uri.parse(item.googleMapsUri)
+                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {
+                        setPackage("com.google.android.apps.maps")
                     }
-                    itemView.context.startActivity(webIntent)
-                }
+                    if (mapIntent.resolveActivity(itemView.context.packageManager) != null) {
+                        itemView.context.startActivity(mapIntent)
+                    } else {
+                        val webIntent = Intent(Intent.ACTION_VIEW).apply {
+                            data = Uri.parse(item.googleMapsUri)
+                        }
+                        itemView.context.startActivity(webIntent)
+                    }
+                }.create()
+                dialog.show()
             }
+        }
+        private fun dialogAlertBuilder(string: String, positive : ()->Unit): AlertDialog.Builder{
+            val builder = AlertDialog.Builder(itemView.context)
+            builder.setMessage("Do you want to open google maps to find \"$string\"?")
+            builder.setTitle("Open google maps")
+            builder.setCancelable(true)
+            builder.setPositiveButton("Yes"){ _, _ ->
+                positive()
+            }
+            builder.setNegativeButton("No"){ dialog: DialogInterface?, which: Int->
+                dialog?.cancel()
+            }
+            return builder
         }
     }
 
