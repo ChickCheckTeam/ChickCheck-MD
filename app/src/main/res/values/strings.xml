@@ -3,8 +3,10 @@
     <string name="title_home">Home</string>
     <string name="title_history">History</string>
     <string name="title_scan">Scan</string>
+    <string name="analyze">Analyze</string>
     <string name="welcome_desc">Let’s check your chicken today!</string>
     <string name="welcome_title">Hello, %s!</string>
     <string name="articles_title">Articles</string>
     <string name="article_desc">Learn more about chicken diseases</string>
+    <string name="location_not_found">No location found</string>
 </resources>

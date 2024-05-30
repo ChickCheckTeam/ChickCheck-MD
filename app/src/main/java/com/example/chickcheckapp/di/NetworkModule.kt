@@ -2,6 +2,7 @@ package com.example.chickcheckapp.di
 
 import com.example.chickcheckapp.BuildConfig
 import com.example.chickcheckapp.network.ApiService
+import com.example.chickcheckapp.network.ApiServicePlace
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,6 +11,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -42,7 +44,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(
+    @Named("retrofitApp")
+    fun provideRetrofitApp(
         client: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
     ): Retrofit {
@@ -52,8 +55,24 @@ object NetworkModule {
             .client(client)
             .build()
     }
+    @Provides
+    @Singleton
+    @Named("retrofitPlaces")
+    fun provideRetrofitPlaces(
+        client: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL_PLACES)
+            .addConverterFactory(gsonConverterFactory)
+            .client(client)
+            .build()
+    }
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+    fun provideApiServiceApp(@Named("retrofitApp")retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+    @Provides
+    @Singleton
+    fun provideApiServiceGMaps(@Named("retrofitPlaces")retrofit: Retrofit): ApiServicePlace = retrofit.create(ApiServicePlace::class.java)
 }
