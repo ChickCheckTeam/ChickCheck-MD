@@ -13,9 +13,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.chickcheckapp.BuildConfig
+import com.example.chickcheckapp.R
 import com.example.chickcheckapp.data.remote.response.PlacesItem
 import com.example.chickcheckapp.databinding.ItemNearbyPlacesLayoutBinding
 import com.example.chickcheckapp.utils.Utils
+import com.example.chickcheckapp.utils.Utils.dialogAlertBuilder
 
 class NearbyPlacesListAdapter(private val location: Location) : ListAdapter<PlacesItem, NearbyPlacesListAdapter.NearbyPlacesViewHolder>(DIFF_CALLBACK) {
     class NearbyPlacesViewHolder(private val binding : ItemNearbyPlacesLayoutBinding,private val location: Location) : RecyclerView.ViewHolder(binding.root) {
@@ -27,13 +29,16 @@ class NearbyPlacesListAdapter(private val location: Location) : ListAdapter<Plac
             val distance = location.distanceTo(Utils.turnIntoLocation( locationLatitude,locationLongitude))
             binding.tvDistance.text = Utils.convertDistance(distance)
             if(item.photos != null){
-                val photoUrl = "${BuildConfig.BASE_URL_PLACES}${item.photos[0].name}/media?key=${BuildConfig.PLACES_API_KEY}&maxHeightPx=400&maxWidthPx=400"
+                val photoUrl = "${BuildConfig.BASE_URL_PLACES}v1/${item.photos[0].name}/media?key=${BuildConfig.PLACES_API_KEY}&maxHeightPx=400&maxWidthPx=400"
                 Glide.with(itemView)
-                .load(photoUrl)
+                    .load(photoUrl)
+                    .placeholder(R.drawable.baseline_photo_24)
                 .into(binding.ivPhoto)
             }
             itemView.setOnClickListener{
-                val dialog = dialogAlertBuilder(item.displayName.text) {
+                val title = "Open in Google Maps"
+                val message = "Are you sure you want to open this place in Google Maps?"
+                val dialog = dialogAlertBuilder(itemView.context,title,message) {
                     val gmmIntentUri = Uri.parse(item.googleMapsUri)
                     val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {
                         setPackage("com.google.android.apps.maps")
@@ -50,19 +55,7 @@ class NearbyPlacesListAdapter(private val location: Location) : ListAdapter<Plac
                 dialog.show()
             }
         }
-        private fun dialogAlertBuilder(string: String, positive : ()->Unit): AlertDialog.Builder{
-            val builder = AlertDialog.Builder(itemView.context)
-            builder.setMessage("Do you want to open google maps to find \"$string\"?")
-            builder.setTitle("Open google maps")
-            builder.setCancelable(true)
-            builder.setPositiveButton("Yes"){ _, _ ->
-                positive()
-            }
-            builder.setNegativeButton("No"){ dialog: DialogInterface?, which: Int->
-                dialog?.cancel()
-            }
-            return builder
-        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NearbyPlacesViewHolder {

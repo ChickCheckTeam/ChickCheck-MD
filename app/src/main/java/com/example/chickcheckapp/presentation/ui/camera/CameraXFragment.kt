@@ -6,6 +6,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.view.LayoutInflater
+import android.view.OrientationEventListener
+import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -21,6 +23,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.chickcheckapp.databinding.FragmentCameraxBinding
+import com.example.chickcheckapp.utils.Utils.rotateImage
 import com.google.common.util.concurrent.ListenableFuture
 import java.io.File
 import java.util.concurrent.Future
@@ -45,24 +48,7 @@ class CameraXFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (checkPermission(Manifest.permission.CAMERA)) {
             startCamera()
-            binding.btnCapture.setOnClickListener {
-                if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) && checkPermission(
-                        Manifest.permission.READ_EXTERNAL_STORAGE)
-                ) {
-                    captureImage()
-                }else{
-                    val listOfPermissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-                    takePictureLauncher.launch(listOfPermissions)
 
-                }
-            }
-            binding.btnGallery.setOnClickListener {
-                launchGalleryIntent.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-            }
-            binding.btnSwitchCamera.setOnClickListener {
-                isBackCamera = !isBackCamera
-                startCamera()
-            }
         } else {
             requestPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
@@ -101,7 +87,9 @@ class CameraXFragment : Fragment() {
             ContextCompat.getMainExecutor(requireContext()),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                    currentImage = outputFileResults.savedUri
+                    val savedUri = Uri.fromFile(destination)
+                    rotateImage(savedUri.path!!, binding.pvCamera)
+                    currentImage = savedUri
                     val action = CameraXFragmentDirections.actionCameraXFragmentToAnalysisFragment(currentImage.toString())
                     view?.findNavController()?.navigate(action)
                 }
@@ -113,9 +101,53 @@ class CameraXFragment : Fragment() {
             })
     }
 
+    private val orientationEventListener by lazy {
+        object : OrientationEventListener(requireContext()) {
+            override fun onOrientationChanged(orientation: Int) {
+                if (orientation == ORIENTATION_UNKNOWN) {
+                    return
+                }
+
+                val rotation = when (orientation) {
+                    in 45 until 135 -> Surface.ROTATION_270
+                    in 135 until 225 -> Surface.ROTATION_180
+                    in 225 until 315 -> Surface.ROTATION_90
+                    else -> Surface.ROTATION_0
+                }
+
+                imageCapture?.targetRotation = rotation
+            }
+        }
+    }
+    override fun onStart() {
+        super.onStart()
+        orientationEventListener.enable()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        orientationEventListener.disable()
+    }
     private fun startCamera() {
         cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+        binding.btnCapture.setOnClickListener {
+            if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) && checkPermission(
+                    Manifest.permission.READ_EXTERNAL_STORAGE)
+            ) {
+                captureImage()
+            }else{
+                val listOfPermissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                takePictureLauncher.launch(listOfPermissions)
 
+            }
+        }
+        binding.btnGallery.setOnClickListener {
+            launchGalleryIntent.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+        binding.btnSwitchCamera.setOnClickListener {
+            isBackCamera = !isBackCamera
+            startCamera()
+        }
         cameraProviderFuture?.addListener({
             val cameraProvider = cameraProviderFuture?.get()
             cameraProvider?.unbindAll()

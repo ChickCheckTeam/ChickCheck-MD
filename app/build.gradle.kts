@@ -23,7 +23,7 @@ android {
         val properties = Properties()
         properties.load(project.rootProject.file("local.properties").inputStream())
         buildConfigField("String", "BASE_URL", "\"https://private-32c95-firstapi690.apiary-mock.com/\"")
-        buildConfigField("String", "BASE_URL_PLACES", "\"https://places.googleapis.com/v1/\"")
+        buildConfigField("String", "BASE_URL_PLACES", "\"https://places.googleapis.com/\"")
         buildConfigField("String", "PLACES_API_KEY", "\"AIzaSyDBSa11gBY9VDYmnZcfqbSCK0YXbSZpKtk\"")
     }
 
