@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.chickcheckapp.R
 import com.example.chickcheckapp.databinding.FragmentHomeBinding
 import com.example.chickcheckapp.databinding.FragmentLoginBinding
@@ -31,6 +32,11 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.apply {
+            tvSignup.setOnClickListener {
+                findNavController().navigate(R.id.action_navigation_login_to_navigation_signup)
+            }
+        }
     }
 
     override fun onDestroy() {
