@@ -15,7 +15,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class AnalysisFragment : Fragment() {
     private var _binding : FragmentAnalysisBinding? = null
     private val binding get() = _binding!!
-    private val args: AnalysisFragmentArgs by navArgs()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -27,11 +26,10 @@ class AnalysisFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val imageUri = args.uriImage
-        val bottomAnalysisDialogFragment = BottomAnalysisDialogFragment.getInstance(imageUri)
-        binding.ivImage.setImageURI(imageUri.toUri())
-        binding.btnAnalysis.setOnClickListener {
-            bottomAnalysisDialogFragment.show(parentFragmentManager, "BottomAnalysisDialogFragment")
-        }
+//        val bottomAnalysisDialogFragment = BottomAnalysisDialogFragment.getInstance(imageUri)
+//        binding.ivImage.setImageURI(imageUri.toUri())
+//        binding.btnAnalysis.setOnClickListener {
+//            bottomAnalysisDialogFragment.show(parentFragmentManager, "BottomAnalysisDialogFragment")
+//        }
     }
 }

@@ -90,7 +90,7 @@ class CameraXFragment : Fragment() {
                     val savedUri = Uri.fromFile(destination)
                     rotateImage(savedUri.path!!, binding.pvCamera)
                     currentImage = savedUri
-                    val action = CameraXFragmentDirections.actionCameraXFragmentToAnalysisFragment(currentImage.toString())
+                    val action = CameraXFragmentDirections.actionCameraXFragmentToResultFragment(currentImage.toString())
                     view?.findNavController()?.navigate(action)
                 }
 
@@ -188,7 +188,7 @@ class CameraXFragment : Fragment() {
         ActivityResultContracts.PickVisualMedia()
     ){uri->
         if(uri!= null){
-            val action = CameraXFragmentDirections.actionCameraXFragmentToAnalysisFragment(uri.toString())
+            val action = CameraXFragmentDirections.actionCameraXFragmentToResultFragment(uri.toString())
             view?.findNavController()?.navigate(action)
         }else{
             showToast("No image selected")
