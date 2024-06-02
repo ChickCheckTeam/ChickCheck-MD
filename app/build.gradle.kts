@@ -21,7 +21,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         val properties = Properties()
         properties.load(project.rootProject.file("local.properties").inputStream())
-        buildConfigField("String", "BASE_URL", "\"https://private-32c95-firstapi690.apiary-mock.com/\"")
+        buildConfigField("String", "BASE_URL", "\"https://chickcheck-backend.et.r.appspot.com/api\"")
     }
 
     buildTypes {
