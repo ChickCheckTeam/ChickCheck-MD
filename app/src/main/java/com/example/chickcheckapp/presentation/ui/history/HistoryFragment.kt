@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.chickcheckapp.databinding.FragmentHistoryBinding
 import com.example.chickcheckapp.databinding.FragmentScanBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HistoryFragment : Fragment() {
 
     private var _binding: FragmentHistoryBinding? = null

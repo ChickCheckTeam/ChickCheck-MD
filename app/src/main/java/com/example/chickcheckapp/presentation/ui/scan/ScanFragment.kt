@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.chickcheckapp.databinding.FragmentHistoryBinding
 import com.example.chickcheckapp.databinding.FragmentScanBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ScanFragment : Fragment() {
 
     private var _binding: FragmentScanBinding? = null

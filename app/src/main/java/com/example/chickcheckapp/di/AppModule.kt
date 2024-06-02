@@ -3,6 +3,7 @@ package com.example.chickcheckapp.di
 import com.example.chickcheckapp.data.ChickCheckRepository
 import com.example.chickcheckapp.data.remote.RemoteDataSource
 import com.example.chickcheckapp.network.ApiService
+import com.example.chickcheckapp.network.ApiServicePlace
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,8 +15,8 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideRemoteDataSource(apiService: ApiService): RemoteDataSource {
-        return RemoteDataSource(apiService)
+    fun provideRemoteDataSource(apiService: ApiService,apiServicePlace: ApiServicePlace): RemoteDataSource {
+        return RemoteDataSource(apiService,apiServicePlace)
     }
 
     @Provides
