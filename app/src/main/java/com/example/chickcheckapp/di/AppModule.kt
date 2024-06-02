@@ -15,7 +15,7 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideRemoteDataSource(apiService: ApiService,apiServicePlace: ApiServicePlace): RemoteDataSource {
+    fun provideRemoteDataSource(apiService: ApiService, apiServicePlace: ApiServicePlace): RemoteDataSource {
         return RemoteDataSource(apiService,apiServicePlace)
     }
 
