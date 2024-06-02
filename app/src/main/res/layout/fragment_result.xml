@@ -6,21 +6,69 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_hero_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="270dp"
+            android:adjustViewBounds="true"
+            tools:src="@tools:sample/avatars" />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/background_result"
         android:paddingBottom="8dp">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="250dp"
+        <TextView
+            android:id="@+id/tv_desiase_name"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:adjustViewBounds="true"
-            android:contentDescription="Analysis"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:text="Nama penyakit" />
+
+        <TextView
+            android:id="@+id/tv_cause"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/tv_desiase_name"
+            app:layout_constraintStart_toStartOf="@+id/tv_desiase_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_desiase_name"
+            tools:text="Nama virus/bakteri" />
+
+        <TextView
+            android:id="@+id/tv_your_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            android:text="Your photo"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/tv_cause"
+            app:layout_constraintStart_toStartOf="@+id/tv_cause"
+            app:layout_constraintTop_toBottomOf="@id/tv_cause" />
+
+        <ImageView
+            android:id="@+id/iv_your_photo"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="Analysis"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_your_photo"
             tools:src="@tools:sample/avatars" />
 
         <TextView
@@ -29,83 +77,87 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Information"
+            android:text="General Information"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_your_photo" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_information"
+        <TextView
+            android:id="@+id/tv_information_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
-            app:cardCornerRadius="24dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_information_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_information_title"
+            tools:text="Devours an enemy unit, dealing a high amount of true damage. If the target is killed, Cho'Gath grows, gaining maximum Health." />
+
+        <TextView
+            android:id="@+id/tv_prevention_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Prevention"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_information_title">
+            app:layout_constraintTop_toBottomOf="@+id/tv_information_value" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
+        <TextView
+            android:id="@+id/tv_prevention_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_prevention_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_prevention_title"
+            tools:text="Devours an enemy unit, dealing a high amount of true damage. If the target is killed, Cho'Gath grows, gaining maximum Health." />
+        <TextView
+            android:id="@+id/tv_medication_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Medication"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_prevention_value" />
 
-                <TextView
-                    android:id="@+id/tv_result_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Result"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tv_medication_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_medication_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_medication_title"
+            tools:text="Devours an enemy unit, dealing a high amount of true damage. If the target is killed, Cho'Gath grows, gaining maximum Health." />
+       <TextView
+            android:id="@+id/tv_symptoms_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Symptoms"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_medication_value" />
 
-                <TextView
-                    android:id="@+id/tv_result_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Healthy"
-                    app:layout_constraintStart_toStartOf="@+id/tv_result_title"
-                    app:layout_constraintTop_toBottomOf="@id/tv_result_title" />
-                <TextView
-                    android:id="@+id/tv_medicine_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Medicine"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@id/tv_result_title"
-                    app:layout_constraintTop_toBottomOf="@id/tv_result_value" />
+        <TextView
+            android:id="@+id/tv_symptoms_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_symptoms_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_symptoms_title"
+            tools:text="Devours an enemy unit, dealing a high amount of true damage. If the target is killed, Cho'Gath grows, gaining maximum Health." />
 
-                <TextView
-                    android:id="@+id/tv_medicine_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Lorem ipsum"
-                    app:layout_constraintStart_toStartOf="@+id/tv_medicine_title"
-                    app:layout_constraintTop_toBottomOf="@id/tv_medicine_title" />
-                <TextView
-                    android:id="@+id/tv__title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Medicine"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@id/tv_medicine_title"
-                    app:layout_constraintTop_toBottomOf="@id/tv_medicine_value" />
 
-                <TextView
-                    android:id="@+id/tv__value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Lorem ipsum"
-                    app:layout_constraintStart_toStartOf="@+id/tv__title"
-                    app:layout_constraintTop_toBottomOf="@id/tv__title" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
         <TextView
             android:id="@+id/tv_location_title"
             android:layout_width="wrap_content"
@@ -115,15 +167,15 @@
             android:text="Veterinarian Places"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cv_information" />
+            app:layout_constraintTop_toBottomOf="@id/tv_symptoms_value"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_nearby_places"
             android:layout_width="0dp"
             android:layout_height="480dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/cv_information"
+            app:layout_constraintEnd_toEndOf="@+id/tv_symptoms_value"
             app:layout_constraintStart_toStartOf="@+id/tv_location_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_location_title"
             tools:listitem="@layout/item_nearby_places_layout" />
@@ -140,4 +192,5 @@
             tools:visibility="visible"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 </ScrollView>

@@ -45,6 +45,7 @@ class ResultFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val uri = args.uriImage
         binding.imageView.setImageURI(uri.toUri())
+        binding.ivHeroImage.setImageURI(uri.toUri())
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
             getMyLocation()
