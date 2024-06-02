@@ -58,13 +58,15 @@
             app:layout_constraintStart_toStartOf="@+id/tv_cause"
             app:layout_constraintTop_toBottomOf="@id/tv_cause" />
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_your_photo"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:adjustViewBounds="true"
+            android:background="@drawable/full_rounded_corners"
             android:contentDescription="Analysis"
+            app:shapeAppearanceOverlay="@style/RoundedImageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
