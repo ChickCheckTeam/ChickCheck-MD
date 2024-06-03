@@ -1,13 +1,10 @@
 package com.example.chickcheckapp.presentation.adapter
 
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
