@@ -12,11 +12,11 @@ import com.example.chickcheckapp.data.remote.response.Center
 import com.example.chickcheckapp.data.remote.response.Circle
 import com.example.chickcheckapp.data.remote.response.LocationRestriction
 import com.example.chickcheckapp.data.remote.response.LoginResponse
+import com.example.chickcheckapp.data.remote.response.LogoutResponse
 import com.example.chickcheckapp.data.remote.response.NearbyPlaceBodyResponse
 import com.example.chickcheckapp.data.remote.response.NearbyPlacesResponse
 import com.example.chickcheckapp.data.remote.response.SignupResponse
 import com.example.chickcheckapp.utils.Result
-import okhttp3.RequestBody
 import javax.inject.Inject
 
 class ChickCheckRepository @Inject constructor(
@@ -81,5 +81,15 @@ class ChickCheckRepository @Inject constructor(
 
     suspend fun logout() {
         localDataSource.logout()
+    }
+
+    fun logoutFromApi(token: String): LiveData<Result<LogoutResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = remoteDataSource.logout(token)
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
     }
 }
