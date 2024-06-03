@@ -35,7 +35,11 @@
         android:id="@+id/navigation_signup"
         android:name="com.example.chickcheckapp.presentation.ui.signup.SignUpFragment"
         android:label="@string/title_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_navigation_signup_to_navigation_login"
+            app:destination="@id/navigation_login" />
+    </fragment>
 
     <activity
         android:id="@+id/navigation_scan"

@@ -35,7 +35,6 @@
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="8dp"
         app:errorEnabled="true"
-        app:helperText="Required"
         app:helperTextTextColor="@android:color/holo_red_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +60,6 @@
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="8dp"
         app:errorEnabled="true"
-        app:helperText="Required"
         app:helperTextTextColor="@android:color/holo_red_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +85,6 @@
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="8dp"
         app:errorEnabled="true"
-        app:helperText="Required"
         app:helperTextTextColor="@android:color/holo_red_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +111,6 @@
         android:layout_marginTop="8dp"
         app:endIconMode="password_toggle"
         app:errorEnabled="true"
-        app:helperText="Required"
         app:helperTextTextColor="@android:color/holo_red_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -141,7 +137,6 @@
         android:layout_marginTop="8dp"
         app:endIconMode="password_toggle"
         app:errorEnabled="true"
-        app:helperText="Required"
         app:helperTextTextColor="@android:color/holo_red_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -194,5 +189,15 @@
             android:textStyle="bold" />
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

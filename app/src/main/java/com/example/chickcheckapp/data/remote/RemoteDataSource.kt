@@ -1,5 +1,6 @@
 package com.example.chickcheckapp.data.remote
 
+import com.example.chickcheckapp.data.remote.request.SignUpRequest
 import com.example.chickcheckapp.data.remote.response.NearbyPlaceBodyResponse
 import com.example.chickcheckapp.data.remote.response.SignupResponse
 import com.example.chickcheckapp.network.ApiService
@@ -18,5 +19,8 @@ class RemoteDataSource @Inject constructor(
         email: String,
         password: String,
         confirmPassword: String,
-    ): SignupResponse = apiService.registerUser(name, username, email, password, confirmPassword)
+    ): SignupResponse {
+        val requestBody = SignUpRequest(name, username, email, password, confirmPassword)
+        return apiService.registerUser(requestBody)
+    }
 }

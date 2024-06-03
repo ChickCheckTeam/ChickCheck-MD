@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.chickcheckapp.data.ChickCheckRepository
 import com.example.chickcheckapp.data.local.model.UserModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 @HiltViewModel

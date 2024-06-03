@@ -7,6 +7,7 @@ import androidx.lifecycle.liveData
 import com.example.chickcheckapp.data.local.LocalDataSource
 import com.example.chickcheckapp.data.local.model.UserModel
 import com.example.chickcheckapp.data.remote.RemoteDataSource
+import com.example.chickcheckapp.data.remote.request.SignUpRequest
 import com.example.chickcheckapp.data.remote.response.Center
 import com.example.chickcheckapp.data.remote.response.Circle
 import com.example.chickcheckapp.data.remote.response.LocationRestriction
@@ -14,6 +15,7 @@ import com.example.chickcheckapp.data.remote.response.NearbyPlaceBodyResponse
 import com.example.chickcheckapp.data.remote.response.NearbyPlacesResponse
 import com.example.chickcheckapp.data.remote.response.SignupResponse
 import com.example.chickcheckapp.utils.Result
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 class ChickCheckRepository @Inject constructor(
