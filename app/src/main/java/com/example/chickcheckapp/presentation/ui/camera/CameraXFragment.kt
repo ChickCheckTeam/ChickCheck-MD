@@ -26,7 +26,6 @@ import com.example.chickcheckapp.databinding.FragmentCameraxBinding
 import com.example.chickcheckapp.utils.Utils.rotateImage
 import com.google.common.util.concurrent.ListenableFuture
 import java.io.File
-import java.util.concurrent.Future
 
 class CameraXFragment : Fragment() {
     private var _binding : FragmentCameraxBinding? = null
