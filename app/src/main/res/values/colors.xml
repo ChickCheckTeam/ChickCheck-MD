@@ -7,6 +7,8 @@
     <color name="onPrimary">#FFFFFF</color>
     <color name="primaryContainer">#FFEFDBD0</color>
     <color name="onPrimaryContainer">#FF2A1607</color>
+
+    <color name="secondary">#FFF4EFE3</color>
     <color name="light_grey">#FFB2BEB5</color>
     <color name="text_color">#FF000000</color>"
 </resources>
