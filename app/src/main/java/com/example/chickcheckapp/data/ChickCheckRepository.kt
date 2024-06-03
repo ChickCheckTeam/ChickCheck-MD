@@ -11,6 +11,7 @@ import com.example.chickcheckapp.data.remote.request.SignUpRequest
 import com.example.chickcheckapp.data.remote.response.Center
 import com.example.chickcheckapp.data.remote.response.Circle
 import com.example.chickcheckapp.data.remote.response.LocationRestriction
+import com.example.chickcheckapp.data.remote.response.LoginResponse
 import com.example.chickcheckapp.data.remote.response.NearbyPlaceBodyResponse
 import com.example.chickcheckapp.data.remote.response.NearbyPlacesResponse
 import com.example.chickcheckapp.data.remote.response.SignupResponse
@@ -59,5 +60,26 @@ class ChickCheckRepository @Inject constructor(
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
         }
+    }
+
+    fun login(
+        username: String,
+        password: String
+    ): LiveData<Result<LoginResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = remoteDataSource.login(username, password)
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    suspend fun saveSession(user: UserModel) {
+        localDataSource.saveSession(user)
+    }
+
+    suspend fun logout() {
+        localDataSource.logout()
     }
 }

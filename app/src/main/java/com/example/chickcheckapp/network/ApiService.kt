@@ -1,7 +1,9 @@
 package com.example.chickcheckapp.network
 
 import android.view.PixelCopy.Request
+import com.example.chickcheckapp.data.remote.request.LoginRequest
 import com.example.chickcheckapp.data.remote.request.SignUpRequest
+import com.example.chickcheckapp.data.remote.response.LoginResponse
 import com.example.chickcheckapp.data.remote.response.SignupResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
@@ -16,5 +18,10 @@ interface ApiService {
     suspend fun registerUser(
         @Body requestBody: SignUpRequest
     ): SignupResponse
+
+    @POST("login")
+    suspend fun login(
+        @Body requestBody: LoginRequest
+    ): LoginResponse
 
 }

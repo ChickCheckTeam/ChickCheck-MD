@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.chickcheckapp.R
 import com.example.chickcheckapp.databinding.FragmentHomeBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,7 +42,23 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.btnLogout.setOnClickListener {
+            logout()
+        }
+    }
 
+    private fun logout() {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle("Logout")
+            setMessage("Are you sure want to logout?")
+            setPositiveButton("OK") { _, _ ->
+                viewModel.logout()
+                findNavController().navigate(R.id.action_navigation_home_to_navigation_login)
+            }
+            setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }.show()
+        }
     }
 
     override fun onDestroyView() {
