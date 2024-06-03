@@ -1,6 +1,8 @@
 package com.example.chickcheckapp.di
 
 import com.example.chickcheckapp.data.ChickCheckRepository
+import com.example.chickcheckapp.data.local.LocalDataSource
+import com.example.chickcheckapp.data.local.datastore.UserPreference
 import com.example.chickcheckapp.data.remote.RemoteDataSource
 import com.example.chickcheckapp.network.ApiService
 import com.example.chickcheckapp.network.ApiServicePlace
@@ -21,8 +23,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRepository(remoteDataSource: RemoteDataSource): ChickCheckRepository {
-        return ChickCheckRepository(remoteDataSource)
+    fun provideLocalDataSource(userPreference: UserPreference): LocalDataSource {
+        return LocalDataSource(userPreference)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRepository(remoteDataSource: RemoteDataSource, localDataSource: LocalDataSource): ChickCheckRepository {
+        return ChickCheckRepository(remoteDataSource, localDataSource)
     }
 
 }

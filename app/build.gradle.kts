@@ -78,5 +78,6 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.play.services.maps)
     implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.datastore.preferences)
 
 }
