@@ -3,11 +3,22 @@ package com.example.chickcheckapp.presentation.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.chickcheckapp.data.ChickCheckRepository
+import com.example.chickcheckapp.data.local.model.UserModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val repository: ChickCheckRepository
+) : ViewModel() {
+    fun getSession(): LiveData<UserModel> = repository.getSession()
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    fun logout() {
+        viewModelScope.launch {
+            repository.logout()
+        }
     }
-    val text: LiveData<String> = _text
 }

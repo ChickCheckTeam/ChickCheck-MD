@@ -9,4 +9,6 @@
     <string name="articles_title">Articles</string>
     <string name="article_desc">Learn more about chicken diseases</string>
     <string name="location_not_found">No location found</string>
+    <string name="title_login">Login</string>
+    <string name="title_sign_up">Sign Up</string>
 </resources>
