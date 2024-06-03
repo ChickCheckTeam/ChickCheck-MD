@@ -1,17 +1,16 @@
 package com.example.chickcheckapp.presentation.ui.login
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.chickcheckapp.R
 import com.example.chickcheckapp.data.local.model.UserModel
-import com.example.chickcheckapp.databinding.FragmentHomeBinding
 import com.example.chickcheckapp.databinding.FragmentLoginBinding
 import com.example.chickcheckapp.utils.Result
 import com.google.android.material.snackbar.Snackbar
