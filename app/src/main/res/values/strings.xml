@@ -17,4 +17,5 @@
     <string name="empty_image">Empty Image</string>
     <string name="scan_now">Scan Now</string>
     <string name="empty_scan_data">You haven’t scan image</string>
+    <string name="title_article">Article</string>
 </resources>
