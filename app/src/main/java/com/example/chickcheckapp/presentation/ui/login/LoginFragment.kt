@@ -67,7 +67,8 @@ class LoginFragment : Fragment() {
                             }
                             is Result.Error -> {
                                 progressBar.visibility = View.GONE
-                                showSnackBar(result.error)
+                                showSnackBar("Username or Password is Incorrect!")
+                                Log.e("LoginFragment", result.error)
                             }
                         }
                     }
