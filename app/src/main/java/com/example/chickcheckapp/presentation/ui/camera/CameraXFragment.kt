@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.OrientationEventListener
 import android.view.Surface
@@ -21,16 +22,24 @@ import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.example.chickcheckapp.data.remote.response.DataItem
 import com.example.chickcheckapp.databinding.FragmentCameraxBinding
+import com.example.chickcheckapp.presentation.ui.result.ResultFragment
+import com.example.chickcheckapp.utils.Result
+import com.example.chickcheckapp.utils.Utils
+import com.example.chickcheckapp.utils.Utils.reduceFileSize
 import com.example.chickcheckapp.utils.Utils.rotateImage
 import com.google.common.util.concurrent.ListenableFuture
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.util.concurrent.Future
-
+@AndroidEntryPoint
 class CameraXFragment : Fragment() {
     private var _binding : FragmentCameraxBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: CameraXViewModel by viewModels()
     private var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>? = null
     private var imageCapture: ImageCapture? = null
     private var currentImage: Uri? = null
@@ -77,11 +86,9 @@ class CameraXFragment : Fragment() {
     }
 
     private fun captureImage() {
-        val filename = "${System.currentTimeMillis()}"
-        val destination = File.createTempFile(
-            filename,".jpg",requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        )
+        val destination = Utils.createCustomTempFile(requireContext())
         val outputFileOptions = ImageCapture.OutputFileOptions.Builder(destination).build()
+        binding.progressBar.visibility = View.VISIBLE
         imageCapture?.takePicture(
             outputFileOptions,
             ContextCompat.getMainExecutor(requireContext()),
@@ -89,11 +96,8 @@ class CameraXFragment : Fragment() {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(destination)
                     rotateImage(savedUri.path!!, binding.pvCamera)
-                    currentImage = savedUri
-                    val action = CameraXFragmentDirections.actionCameraXFragmentToResultFragment(currentImage.toString())
-                    view?.findNavController()?.navigate(action)
+                    sendImage(savedUri)
                 }
-
                 override fun onError(exception: ImageCaptureException) {
                     showToast(exception.message.toString())
                 }
@@ -117,6 +121,35 @@ class CameraXFragment : Fragment() {
 
                 imageCapture?.targetRotation = rotation
             }
+        }
+    }
+    private fun sendImage(uri: Uri){
+        val file = Utils.uriToFile(uri, requireContext()).reduceFileSize()
+        viewModel.getSession().observe(viewLifecycleOwner){
+        viewModel.postDetection(file,it.token).observe(viewLifecycleOwner){result->
+            when(result){
+                is Result.Loading ->{
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.loadingBackground.visibility = View.VISIBLE
+                    binding.tvScanLoadingText.visibility  = View.VISIBLE
+                }
+                is Result.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.loadingBackground.visibility = View.GONE
+                    binding.tvScanLoadingText.visibility = View.GONE
+                    showToast(result.error)
+                    Log.d(ResultFragment.TAG, "error: ${result.error}")
+                }
+                is Result.Success ->{
+                    binding.progressBar.visibility = View.GONE
+                    binding.loadingBackground.visibility = View.GONE
+                    binding.tvScanLoadingText.visibility = View.GONE
+                    val data : DataItem = result.data
+                    val action = CameraXFragmentDirections.actionCameraXFragmentToResultFragment(currentImage.toString(),data)
+                    view?.findNavController()?.navigate(action)
+                }
+            }
+        }
         }
     }
     override fun onStart() {
@@ -188,8 +221,7 @@ class CameraXFragment : Fragment() {
         ActivityResultContracts.PickVisualMedia()
     ){uri->
         if(uri!= null){
-            val action = CameraXFragmentDirections.actionCameraXFragmentToResultFragment(uri.toString())
-            view?.findNavController()?.navigate(action)
+            sendImage(uri)
         }else{
             showToast("No image selected")
         }

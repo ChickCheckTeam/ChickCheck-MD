@@ -44,8 +44,11 @@ class ResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val uri = args.uriImage
+        val data = args.data
         binding.ivYourPhoto.setImageURI(uri.toUri())
         binding.ivHeroImage.setImageURI(uri.toUri())
+        binding.tvDesiaseName.text = data.title
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
             getMyLocation()

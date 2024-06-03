@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.camera.view.PreviewView
         android:id="@+id/pv_camera"
@@ -57,8 +58,6 @@
             app:layout_constraintStart_toStartOf="@+id/btn_gallery"
             app:layout_constraintTop_toBottomOf="@+id/btn_gallery" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
     <ImageButton
         android:id="@+id/btn_switch_camera"
         android:layout_width="48dp"
@@ -69,4 +68,37 @@
         android:backgroundTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/loading_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:alpha="0.5"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="@+id/pv_camera"
+        app:layout_constraintStart_toStartOf="@+id/pv_camera"
+        app:layout_constraintTop_toTopOf="@+id/pv_camera"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tv_scan_loading_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:text="Scanning..."
+        app:layout_constraintEnd_toEndOf="@+id/progress_bar"
+        app:layout_constraintStart_toStartOf="@+id/progress_bar"
+        app:layout_constraintTop_toBottomOf="@id/progress_bar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

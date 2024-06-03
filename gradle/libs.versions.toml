@@ -26,6 +26,7 @@ retrofit = "2.9.0"
 legacySupportV4Version = "1.0.0"
 playServicesLocation = "21.2.0"
 datastorePreferences = "1.1.1"
+datastoreCoreAndroid = "1.1.1"
 
 [libraries]
 androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraxVersion" }
@@ -57,6 +58,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 androidx-legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportV4Version" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
+androidx-datastore-core-android = { group = "androidx.datastore", name = "datastore-core-android", version.ref = "datastoreCoreAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
