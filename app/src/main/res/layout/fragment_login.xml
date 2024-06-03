@@ -35,6 +35,7 @@
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="8dp"
         app:errorEnabled="true"
+        app:helperTextTextColor="@android:color/holo_red_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvLoginTitle"
@@ -59,6 +60,7 @@
         android:layout_marginHorizontal="32dp"
         app:endIconMode="password_toggle"
         app:errorEnabled="true"
+        app:helperTextTextColor="@android:color/holo_red_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edEmailLayout"
@@ -86,30 +88,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edPasswordLayout"/>
 
-    <TextView
-        android:id="@+id/tvMoveToSignup"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="105dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="32dp"
-        android:text="Don't have any account?"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin"
-        app:layout_constraintVertical_bias="0.111" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <TextView
-        android:id="@+id/tvSignup"
+        <TextView
+            android:id="@+id/tvMoveToSignup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have any account?" />
+
+        <TextView
+            android:id="@+id/tvSignup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:text="Sign Up"
+            android:textColor="?attr/colorPrimary"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:text="Sign Up"
-        android:textColor="?attr/colorPrimary"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/tvMoveToSignup"
-        app:layout_constraintStart_toEndOf="@+id/tvMoveToSignup"
-        app:layout_constraintTop_toTopOf="@+id/tvMoveToSignup"
-        app:layout_constraintVertical_bias="0.0" />
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
     
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,7 +22,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         val properties = Properties()
         properties.load(project.rootProject.file("local.properties").inputStream())
-        buildConfigField("String", "BASE_URL", "\"https://chickcheck-backend.et.r.appspot.com/api\"")
+        buildConfigField("String", "BASE_URL", "\"https://chickcheck-backend.et.r.appspot.com/api/\"")
         buildConfigField("String", "BASE_URL_PLACES", "\"https://places.googleapis.com/\"")
         buildConfigField("String", "PLACES_API_KEY", "\"AIzaSyDBSa11gBY9VDYmnZcfqbSCK0YXbSZpKtk\"")
     }
@@ -78,5 +78,6 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.play.services.maps)
     implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.datastore.preferences)
 
 }
