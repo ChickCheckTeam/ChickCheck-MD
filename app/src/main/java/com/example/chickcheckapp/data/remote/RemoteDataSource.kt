@@ -5,6 +5,7 @@ import com.example.chickcheckapp.data.remote.request.LoginRequest
 import com.example.chickcheckapp.data.remote.request.SignUpRequest
 import com.example.chickcheckapp.data.remote.response.DetectionResultResponse
 import com.example.chickcheckapp.data.remote.response.LoginResponse
+import com.example.chickcheckapp.data.remote.response.LogoutResponse
 import com.example.chickcheckapp.data.remote.response.NearbyPlaceBodyResponse
 import com.example.chickcheckapp.data.remote.response.SignupResponse
 import com.example.chickcheckapp.network.ApiService
@@ -38,4 +39,6 @@ class RemoteDataSource @Inject constructor(
         val requestBody = LoginRequest(email, password)
         return apiService.login(requestBody)
     }
+
+    suspend fun logout(token: String): LogoutResponse = apiService.logout(token)
 }

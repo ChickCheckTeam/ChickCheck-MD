@@ -1,32 +1,27 @@
-package com.example.chickcheckapp.presentation.ui.scan
+package com.example.chickcheckapp.presentation.ui.article
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.chickcheckapp.databinding.FragmentScanBinding
+import androidx.fragment.app.viewModels
+import com.example.chickcheckapp.databinding.FragmentArticleBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ScanFragment : Fragment() {
+class ArticleFragment : Fragment() {
 
-    private var _binding: FragmentScanBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private var _binding: FragmentArticleBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: ArticleViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(ScanViewModel::class.java)
-
-        _binding = FragmentScanBinding.inflate(inflater, container, false)
+        _binding = FragmentArticleBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         return root

@@ -9,12 +9,12 @@ import androidx.lifecycle.liveData
 import com.example.chickcheckapp.data.local.LocalDataSource
 import com.example.chickcheckapp.data.local.model.UserModel
 import com.example.chickcheckapp.data.remote.RemoteDataSource
-import com.example.chickcheckapp.data.remote.request.SignUpRequest
 import com.example.chickcheckapp.data.remote.response.Center
 import com.example.chickcheckapp.data.remote.response.Circle
 import com.example.chickcheckapp.data.remote.response.DataItem
 import com.example.chickcheckapp.data.remote.response.LocationRestriction
 import com.example.chickcheckapp.data.remote.response.LoginResponse
+import com.example.chickcheckapp.data.remote.response.LogoutResponse
 import com.example.chickcheckapp.data.remote.response.NearbyPlaceBodyResponse
 import com.example.chickcheckapp.data.remote.response.NearbyPlacesResponse
 import com.example.chickcheckapp.data.remote.response.SignupResponse
@@ -117,7 +117,16 @@ class ChickCheckRepository @Inject constructor(
         localDataSource.logout()
     }
 
-    companion object{
+    companion object {
         const val TAG = "ChickCheckRepository"
+    }
+    fun logoutFromApi(token: String): LiveData<Result<LogoutResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = remoteDataSource.logout(token)
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
     }
 }

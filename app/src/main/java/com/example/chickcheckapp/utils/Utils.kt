@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.Surface
 import androidx.camera.view.PreviewView
 import com.example.chickcheckapp.data.remote.response.ErrorResponse
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -36,8 +37,8 @@ object Utils {
             String.format("%.1f km", distance / 1000)
         }
     }
-    fun dialogAlertBuilder(context: Context,title:String, message: String, positive : ()->Unit): AlertDialog.Builder{
-        val builder = AlertDialog.Builder(context)
+    fun dialogAlertBuilder(context: Context,title:String, message: String, positive : ()->Unit): MaterialAlertDialogBuilder{
+        val builder =  MaterialAlertDialogBuilder(context)
         builder.setMessage(message)
         builder.setTitle(title)
         builder.setCancelable(true)
