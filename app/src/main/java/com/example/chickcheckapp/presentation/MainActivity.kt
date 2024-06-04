@@ -20,13 +20,14 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setupView()
+    }
 
+    private fun setupView() {
         val navView: BottomNavigationView = binding.navView
-
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
         navView.setupWithNavController(navController)
-
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.navigation_login -> navView.visibility = View.GONE

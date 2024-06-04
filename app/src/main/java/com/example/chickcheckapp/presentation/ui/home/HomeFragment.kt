@@ -29,19 +29,14 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
         viewModel.getSession().observe(viewLifecycleOwner) { user ->
             token = user.token
-            if (user.token.isEmpty()) {
+            if (!user.isLogin) {
                 findNavController().navigate(R.id.action_navigation_home_to_navigation_login)
-            } else {
-                findNavController().popBackStack(R.id.navigation_login, true)
             }
         }
-
         return root
     }
 
@@ -51,6 +46,14 @@ class HomeFragment : Fragment() {
         binding.btnLogout.setOnClickListener {
             logout()
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    requireActivity().finish()
+                }
+            }
+        )
     }
 
     private fun logout() {

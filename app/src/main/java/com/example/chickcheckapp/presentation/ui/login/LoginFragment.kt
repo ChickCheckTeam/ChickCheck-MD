@@ -6,6 +6,7 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -38,6 +39,14 @@ class LoginFragment : Fragment() {
 
         formValidation()
         login()
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    requireActivity().finish()
+                }
+            }
+        )
     }
 
     private fun login() {
