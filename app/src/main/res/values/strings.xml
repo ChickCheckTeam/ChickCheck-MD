@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ChickCheckApp</string>
+    <string name="app_name">ChickCheck</string>
     <string name="title_home">Home</string>
     <string name="title_history">History</string>
     <string name="title_scan">Scan</string>
