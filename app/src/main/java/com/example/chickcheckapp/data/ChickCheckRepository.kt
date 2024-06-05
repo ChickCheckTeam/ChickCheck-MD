@@ -59,16 +59,33 @@ class ChickCheckRepository @Inject constructor(
     fun postDetection(file: File,token:String):LiveData<Result<DataItem>> = liveData{
         emit(Result.Loading)
         try {
-            val requestImageFile = file.asRequestBody("image/jpg".toMediaType())
-            val multipartBody = MultipartBody.Part.createFormData(
-                "image",
-                file.name,
-                requestImageFile
-            )
-            val requestToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlZFSkxTaUlmYXlDMGRzN2ZPUFQzIiwiaWF0IjoxNzE3NDE5Njg1fQ.u0dYA5Gz3-BDxhZG0xOSVdyt8buNX7Y8wkCbsOT0Dmk"
-            Log.d(TAG,requestToken)
-            val response = remoteDataSource.postDetection(multipartBody,token=requestToken)
-            emit(Result.Success(response.data))
+//            val requestImageFile = file.asRequestBody("image/jpg".toMediaType())
+//            val multipartBody = MultipartBody.Part.createFormData(
+//                "image",
+//                file.name,
+//                requestImageFile
+//            )
+            Log.d(TAG,token)
+
+            val response = Utils.dummyData().random()
+            emit(Result.Success(response))
+        } catch (e: HttpException) {
+            val errorMessage = Utils.parseJsonToErrorMessage(e.response()?.errorBody()?.string())
+            emit(Result.Error(errorMessage))
+            Log.e(TAG, "postDetection: $errorMessage")
+        }
+    }
+    fun getArticles():LiveData<Result<List<DataItem>>> = liveData{
+        emit(Result.Loading)
+        try {
+//            val requestImageFile = file.asRequestBody("image/jpg".toMediaType())
+//            val multipartBody = MultipartBody.Part.createFormData(
+//                "image",
+//                file.name,
+//                requestImageFile
+//            )
+            val response = Utils.dummyData()
+            emit(Result.Success(response))
         } catch (e: HttpException) {
             val errorMessage = Utils.parseJsonToErrorMessage(e.response()?.errorBody()?.string())
             emit(Result.Error(errorMessage))
@@ -117,16 +134,18 @@ class ChickCheckRepository @Inject constructor(
         localDataSource.logout()
     }
 
-    companion object {
-        const val TAG = "ChickCheckRepository"
-    }
+
     fun logoutFromApi(token: String): LiveData<Result<LogoutResponse>> = liveData {
         emit(Result.Loading)
         try {
+            Log.d(TAG,"logout: $token")
             val response = remoteDataSource.logout(token)
             emit(Result.Success(response))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
         }
+    }
+    companion object {
+        const val TAG = "ChickCheckRepository"
     }
 }

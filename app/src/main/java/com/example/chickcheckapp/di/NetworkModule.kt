@@ -32,16 +32,9 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
-        val authInterceptor = Interceptor { chain ->
-            val req = chain.request()
-            val requestHeaders = req.newBuilder()
-                .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlZFSkxTaUlmYXlDMGRzN2ZPUFQzIiwiaWF0IjoxNzE3NDE5Njg1fQ.u0dYA5Gz3-BDxhZG0xOSVdyt8buNX7Y8wkCbsOT0Dmk")
-                .build()
-            chain.proceed(requestHeaders)
-        }
+
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(authInterceptor)
             .build()
     }
 

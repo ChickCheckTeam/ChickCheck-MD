@@ -35,9 +35,10 @@ import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.util.concurrent.Future
+
 @AndroidEntryPoint
 class CameraXFragment : Fragment() {
-    private var _binding : FragmentCameraxBinding? = null
+    private var _binding: FragmentCameraxBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CameraXViewModel by viewModels()
     private var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>? = null
@@ -49,7 +50,7 @@ class CameraXFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCameraxBinding.inflate(inflater,container,false)
+        _binding = FragmentCameraxBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -62,11 +63,12 @@ class CameraXFragment : Fragment() {
             requestPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
     }
+
     private fun bindPreview(cameraProvider: ProcessCameraProvider?) {
         val preview: androidx.camera.core.Preview = androidx.camera.core.Preview.Builder().build()
         val cameraSelector: androidx.camera.core.CameraSelector =
             androidx.camera.core.CameraSelector.Builder()
-                .requireLensFacing(if(isBackCamera)androidx.camera.core.CameraSelector.LENS_FACING_BACK else androidx.camera.core.CameraSelector.LENS_FACING_FRONT)
+                .requireLensFacing(if (isBackCamera) androidx.camera.core.CameraSelector.LENS_FACING_BACK else androidx.camera.core.CameraSelector.LENS_FACING_FRONT)
                 .build()
         preview.setSurfaceProvider(binding.pvCamera.surfaceProvider)
         val resolutionSelector = ResolutionSelector.Builder()
@@ -98,6 +100,7 @@ class CameraXFragment : Fragment() {
                     rotateImage(savedUri.path!!, binding.pvCamera)
                     sendImage(savedUri)
                 }
+
                 override fun onError(exception: ImageCaptureException) {
                     showToast(exception.message.toString())
                 }
@@ -123,35 +126,43 @@ class CameraXFragment : Fragment() {
             }
         }
     }
-    private fun sendImage(uri: Uri){
+
+    private fun sendImage(uri: Uri) {
         val file = Utils.uriToFile(uri, requireContext()).reduceFileSize()
-        viewModel.getSession().observe(viewLifecycleOwner){
-        viewModel.postDetection(file,it.token).observe(viewLifecycleOwner){result->
-            when(result){
-                is Result.Loading ->{
-                    binding.progressBar.visibility = View.VISIBLE
-                    binding.loadingBackground.visibility = View.VISIBLE
-                    binding.tvScanLoadingText.visibility  = View.VISIBLE
-                }
-                is Result.Error -> {
-                    binding.progressBar.visibility = View.GONE
-                    binding.loadingBackground.visibility = View.GONE
-                    binding.tvScanLoadingText.visibility = View.GONE
-                    showToast(result.error)
-                    Log.d(ResultFragment.TAG, "error: ${result.error}")
-                }
-                is Result.Success ->{
-                    binding.progressBar.visibility = View.GONE
-                    binding.loadingBackground.visibility = View.GONE
-                    binding.tvScanLoadingText.visibility = View.GONE
-                    val data : DataItem = result.data
-                    val action = CameraXFragmentDirections.actionCameraXFragmentToResultFragment(currentImage.toString(),data)
-                    view?.findNavController()?.navigate(action)
+        viewModel.getSession().observe(viewLifecycleOwner) {
+            viewModel.postDetection(file, it.token).observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Result.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                        binding.loadingBackground.visibility = View.VISIBLE
+                        binding.tvScanLoadingText.visibility = View.VISIBLE
+                    }
+
+                    is Result.Error -> {
+                        binding.progressBar.visibility = View.GONE
+                        binding.loadingBackground.visibility = View.GONE
+                        binding.tvScanLoadingText.visibility = View.GONE
+                        showToast(result.error)
+                        Log.d(ResultFragment.TAG, "error: ${result.error}")
+                    }
+
+                    is Result.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        binding.loadingBackground.visibility = View.GONE
+                        binding.tvScanLoadingText.visibility = View.GONE
+                        val data: DataItem = result.data
+                        val action =
+                            CameraXFragmentDirections.actionCameraXFragmentToResultFragment(
+                                uri.toString(),
+                                data
+                            )
+                        view?.findNavController()?.navigate(action)
+                    }
                 }
             }
         }
-        }
     }
+
     override fun onStart() {
         super.onStart()
         orientationEventListener.enable()
@@ -161,15 +172,20 @@ class CameraXFragment : Fragment() {
         super.onStop()
         orientationEventListener.disable()
     }
+
     private fun startCamera() {
         cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         binding.btnCapture.setOnClickListener {
             if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) && checkPermission(
-                    Manifest.permission.READ_EXTERNAL_STORAGE)
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
             ) {
                 captureImage()
-            }else{
-                val listOfPermissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+            } else {
+                val listOfPermissions = arrayOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
                 takePictureLauncher.launch(listOfPermissions)
 
             }
@@ -219,13 +235,14 @@ class CameraXFragment : Fragment() {
 
     private val launchGalleryIntent = registerForActivityResult(
         ActivityResultContracts.PickVisualMedia()
-    ){uri->
-        if(uri!= null){
+    ) { uri ->
+        if (uri != null) {
             sendImage(uri)
-        }else{
+        } else {
             showToast("No image selected")
         }
     }
+
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }

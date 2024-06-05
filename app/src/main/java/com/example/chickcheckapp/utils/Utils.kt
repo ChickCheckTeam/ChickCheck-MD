@@ -12,6 +12,7 @@ import android.net.Uri
 import android.util.Log
 import android.view.Surface
 import androidx.camera.view.PreviewView
+import com.example.chickcheckapp.data.remote.response.DataItem
 import com.example.chickcheckapp.data.remote.response.ErrorResponse
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
@@ -113,5 +114,20 @@ object Utils {
      fun parseJsonToErrorMessage(jsonInString: String?): String {
         val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
         return errorBody.message
+    }
+
+    fun dummyData():List<DataItem>{
+        val list = listOf(
+            DataItem(
+                "2024-01-01","No for now","Salmonellosis","100% accurate"
+            ), DataItem(
+                "2024-01-02","No for now","New Castle Disease","100% accurate"
+            ),DataItem(
+                "2024-01-03","No for now","Coccidiosis","100% accurate"
+            ),DataItem(
+                "2024-01-04","No for now","Healthy","100% accurate"
+            ),
+        )
+        return list
     }
 }

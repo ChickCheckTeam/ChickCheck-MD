@@ -16,6 +16,12 @@
         android:name="com.example.chickcheckapp.presentation.ui.result.ResultFragment"
         android:label="ResultFragment" >
         <argument android:name="uri_image" app:argType="string" />
-        <argument android:name="data" app:argType="com.example.chickcheckapp.data.remote.response.DataItem" />"
+        <argument android:name="data" app:argType="com.example.chickcheckapp.data.remote.response.DataItem" />
+        <action
+            android:id="@+id/action_resultFragment_to_cameraXFragment"
+            app:destination="@id/cameraXFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/resultFragment"
+            app:popUpToInclusive="true" />"
     </fragment>
 </navigation>

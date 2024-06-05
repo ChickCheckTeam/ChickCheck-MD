@@ -20,7 +20,7 @@ class RemoteDataSource @Inject constructor(
     suspend fun findNearbyPlaces(bodyResponse: NearbyPlaceBodyResponse) = apiServicePlace.findNearbyPlaces(requestBody = bodyResponse)
     suspend fun postDetection(image: MultipartBody.Part,token: String) : DetectionResultResponse
         { Log.d("RemoteDataSource", "postDetection: $token")
-        return apiService.postDetection( image) }
+        return apiService.postDetection( image,token) }
     suspend fun registerUser(
         name: String,
         username: String,

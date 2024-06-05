@@ -1,12 +1,21 @@
 package com.example.chickcheckapp.presentation.ui.article
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.chickcheckapp.data.remote.response.DataItem
 import com.example.chickcheckapp.databinding.FragmentArticleBinding
+import com.example.chickcheckapp.presentation.adapter.ArticleListAdapter
+import com.example.chickcheckapp.presentation.ui.camera.CameraXFragmentDirections
+import com.example.chickcheckapp.presentation.ui.result.ResultFragment
+import com.example.chickcheckapp.utils.Result
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,6 +34,38 @@ class ArticleFragment : Fragment() {
         val root: View = binding.root
 
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.rvArticle.layoutManager = LinearLayoutManager(requireContext())
+        viewModel.getArticles().observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+
+                }
+
+                is Result.Error -> {
+                    binding.progressBar.visibility = View.GONE
+
+                    showToast(result.error)
+                    Log.d(ResultFragment.TAG, "error: ${result.error}")
+                }
+
+                is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    val data = result.data
+                    val articleAdapter = ArticleListAdapter(data)
+                    binding.rvArticle.adapter = articleAdapter
+
+                }
+            }
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {

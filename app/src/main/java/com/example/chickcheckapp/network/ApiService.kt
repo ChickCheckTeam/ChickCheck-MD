@@ -32,6 +32,7 @@ interface ApiService {
     @POST("scan")
     suspend fun postDetection(
         @Part image : MultipartBody.Part,
+        @Header("Authorization") token: String
     ): DetectionResultResponse
 
     @POST("logout")
