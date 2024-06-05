@@ -2,13 +2,18 @@ package com.example.chickcheckapp.presentation
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.chickcheckapp.R
 import com.example.chickcheckapp.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -17,7 +22,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupView()
@@ -32,6 +36,7 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.navigation_login -> navView.visibility = View.GONE
                 R.id.navigation_signup -> navView.visibility = View.GONE
+                R.id.navigation_splash -> navView.visibility = View.GONE
                 else -> navView.visibility = View.VISIBLE
             }
         }
