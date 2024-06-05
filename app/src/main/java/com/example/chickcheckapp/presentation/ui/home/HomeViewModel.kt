@@ -15,7 +15,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val repository: ChickCheckRepository
 ) : ViewModel() {
-    fun getSession(): LiveData<UserModel> = repository.getSession()
+    fun getSession() = repository.getSession()
 
     fun logout() {
         viewModelScope.launch {
