@@ -26,14 +26,15 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
 import java.io.File
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class ChickCheckRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
 ) {
-    fun getSession(): LiveData<UserModel> {
-        return localDataSource.getSession().asLiveData()
+    fun getSession(): Flow<UserModel> {
+        return localDataSource.getSession()
     }
 
     fun findNearbyPlaces(location:Location) : LiveData<Result<NearbyPlacesResponse>> = liveData {

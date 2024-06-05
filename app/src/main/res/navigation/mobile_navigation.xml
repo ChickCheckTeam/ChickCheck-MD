@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_splash">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -60,4 +60,21 @@
         <argument android:name="uri_image" app:argType="string" android:defaultValue=""/>
         <argument android:name="data" app:argType="com.example.chickcheckapp.data.remote.response.DataItem" />
     </fragment>
+    <fragment
+        android:id="@+id/navigation_splash"
+        android:name="com.example.chickcheckapp.presentation.ui.splash.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_navigation_splash_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_navigation_splash_to_navigation_login"
+            app:destination="@id/navigation_login"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
+
 </navigation>
