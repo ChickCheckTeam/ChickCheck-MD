@@ -16,14 +16,15 @@ import com.example.chickcheckapp.data.remote.response.NearbyPlaceBodyResponse
 import com.example.chickcheckapp.data.remote.response.NearbyPlacesResponse
 import com.example.chickcheckapp.data.remote.response.SignupResponse
 import com.example.chickcheckapp.utils.Result
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class ChickCheckRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
 ) {
-    fun getSession(): LiveData<UserModel> {
-        return localDataSource.getSession().asLiveData()
+    fun getSession(): Flow<UserModel> {
+        return localDataSource.getSession()
     }
 
     fun findNearbyPlaces(location:Location) : LiveData<Result<NearbyPlacesResponse>> = liveData {
