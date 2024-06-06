@@ -23,6 +23,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.example.chickcheckapp.data.remote.response.DataItem
 import com.example.chickcheckapp.databinding.FragmentCameraxBinding
@@ -33,6 +35,8 @@ import com.example.chickcheckapp.utils.Utils.reduceFileSize
 import com.example.chickcheckapp.utils.Utils.rotateImage
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.io.File
 import java.util.concurrent.Future
 
@@ -43,7 +47,7 @@ class CameraXFragment : Fragment() {
     private val viewModel: CameraXViewModel by viewModels()
     private var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>? = null
     private var imageCapture: ImageCapture? = null
-    private var currentImage: Uri? = null
+    private var token: String? = null
     private var isBackCamera: Boolean = true
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,6 +60,11 @@ class CameraXFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        lifecycleScope.launch {
+            viewModel.getSession().flowWithLifecycle(lifecycle).collect { user ->
+                token = user.token
+            }
+        }
         if (checkPermission(Manifest.permission.CAMERA)) {
             startCamera()
 
@@ -76,12 +85,12 @@ class CameraXFragment : Fragment() {
             .build()
         val imageAnalyzer = ImageAnalysis.Builder()
             .setResolutionSelector(resolutionSelector)
-            .setTargetRotation(binding.pvCamera.display.rotation)
+//            .setTargetRotation(binding.pvCamera.display.rotation)
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
             .build()
         imageCapture = ImageCapture.Builder()
-            .setTargetRotation(binding.pvCamera.display.rotation)
+//            .setTargetRotation(binding.pvCamera.display.rotation)
             .build()
 
         cameraProvider?.bindToLifecycle(this, cameraSelector, preview, imageAnalyzer, imageCapture)
@@ -129,38 +138,39 @@ class CameraXFragment : Fragment() {
 
     private fun sendImage(uri: Uri) {
         val file = Utils.uriToFile(uri, requireContext()).reduceFileSize()
-        viewModel.getSession().observe(viewLifecycleOwner) {
-            viewModel.postDetection(file, it.token).observe(viewLifecycleOwner) { result ->
-                when (result) {
-                    is Result.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                        binding.loadingBackground.visibility = View.VISIBLE
-                        binding.tvScanLoadingText.visibility = View.VISIBLE
-                    }
 
-                    is Result.Error -> {
-                        binding.progressBar.visibility = View.GONE
-                        binding.loadingBackground.visibility = View.GONE
-                        binding.tvScanLoadingText.visibility = View.GONE
-                        showToast(result.error)
-                        Log.d(ResultFragment.TAG, "error: ${result.error}")
-                    }
+        viewModel.postDetection(file, token!!).observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.loadingBackground.visibility = View.VISIBLE
+                    binding.tvScanLoadingText.visibility = View.VISIBLE
+                }
 
-                    is Result.Success -> {
-                        binding.progressBar.visibility = View.GONE
-                        binding.loadingBackground.visibility = View.GONE
-                        binding.tvScanLoadingText.visibility = View.GONE
-                        val data: DataItem = result.data
-                        val action =
-                            CameraXFragmentDirections.actionCameraXFragmentToResultFragment(
-                                uri.toString(),
-                                data
-                            )
-                        view?.findNavController()?.navigate(action)
-                    }
+                is Result.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.loadingBackground.visibility = View.GONE
+                    binding.tvScanLoadingText.visibility = View.GONE
+                    showToast(result.error)
+                    Log.d(ResultFragment.TAG, "error: ${result.error}")
+                }
+
+                is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.loadingBackground.visibility = View.GONE
+                    binding.tvScanLoadingText.visibility = View.GONE
+                    val data: DataItem = result.data
+                    val action =
+                        CameraXFragmentDirections.actionCameraXFragmentToResultFragment(
+                            uri.toString(),
+                            data
+                        )
+                    view?.findNavController()?.navigate(action)
                 }
             }
         }
+
+
     }
 
     override fun onStart() {

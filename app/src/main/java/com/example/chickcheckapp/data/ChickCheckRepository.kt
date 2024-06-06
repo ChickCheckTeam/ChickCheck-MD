@@ -121,7 +121,8 @@ class ChickCheckRepository @Inject constructor(
             val response = remoteDataSource.login(username, password)
             emit(Result.Success(response))
         } catch (e: HttpException) {
-            val errorMessage = Utils.parseJsonToErrorMessage(e.response()?.errorBody()?.string())
+//            val errorMessage = Utils.parseJsonToErrorMessage(e.response()?.errorBody()?.string())
+            val errorMessage = e.message().toString()
             emit(Result.Error(errorMessage))
             Log.e(TAG, "Login: $errorMessage")
         }
