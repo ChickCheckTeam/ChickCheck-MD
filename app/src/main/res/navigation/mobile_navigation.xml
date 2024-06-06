@@ -49,10 +49,6 @@
             app:destination="@id/navigation_login" />
     </fragment>
 
-    <activity
-        android:id="@+id/navigation_scan"
-        android:name="com.example.chickcheckapp.presentation.CameraActivity"
-        android:label="CameraActivity" />
     <fragment
         android:id="@+id/resultFragment2"
         android:name="com.example.chickcheckapp.presentation.ui.result.ResultFragment"
