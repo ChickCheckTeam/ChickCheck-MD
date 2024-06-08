@@ -20,4 +20,5 @@
     <string name="title_article">Article</string>
     <string name="logo_image">Logo</string>
     <string name="title_profile">Profile</string>
+    <string name="button_logout">Button Logout</string>
 </resources>
