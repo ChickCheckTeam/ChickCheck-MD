@@ -18,19 +18,20 @@
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/top_rounded_corner"
+        android:backgroundTint="@color/primaryContainer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
             android:id="@+id/btn_capture"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="32dp"
             android:background="@drawable/baseline_camera_alt_24"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/onPrimaryContainer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,11 +39,11 @@
 
         <ImageButton
             android:id="@+id/btn_gallery"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginStart="32dp"
             android:background="@drawable/baseline_photo_library_24"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/onPrimaryContainer"
             app:layout_constraintBottom_toBottomOf="@+id/btn_capture"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/btn_capture" />
@@ -52,8 +53,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Gallery"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textColor="@color/onPrimaryContainer"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/btn_gallery"
             app:layout_constraintStart_toStartOf="@+id/btn_gallery"
             app:layout_constraintTop_toBottomOf="@+id/btn_gallery" />
@@ -65,7 +66,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/baseline_cameraswitch_24"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/onPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

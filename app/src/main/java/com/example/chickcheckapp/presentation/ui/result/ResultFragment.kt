@@ -12,10 +12,12 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chickcheckapp.R
 import com.example.chickcheckapp.data.remote.response.DataItem
@@ -24,6 +26,7 @@ import com.example.chickcheckapp.presentation.adapter.NearbyPlacesListAdapter
 import com.example.chickcheckapp.utils.Result
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,13 +50,24 @@ class ResultFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val uri = args.uriImage
         val data = args.data
+        Log.d(TAG,"$uri , ${uri.isEmpty()}")
         setContent(data, uri)
-        binding.fabBack.setOnClickListener {
-            findNavController().navigate(R.id.action_resultFragment_to_cameraXFragment)
+        binding.btnBack.setOnClickListener {
+            if(uri.isEmpty()){
+                findNavController().navigate(R.id.action_article_fragment_to_navigation_article)
+            }else{
+                findNavController().navigate(R.id.action_resultFragment_to_cameraXFragment)
+            }
         }
-        if(uri.isNotEmpty() || data.title.lowercase() != "healthy"){
+        binding.appBar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+            if (binding.collapsingToolbar.height + verticalOffset < 2 * ViewCompat.getMinimumHeight(binding.collapsingToolbar)) {
+                binding.tvToolbarTitle.visibility = View.VISIBLE
+            } else {
+                binding.tvToolbarTitle.visibility = View.GONE
+            }
+        })
+        if(uri.isNotEmpty() && data.title.lowercase() != "healthy"){
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
             if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
                 getMyLocation()
             } else {
@@ -64,8 +78,11 @@ class ResultFragment : Fragment() {
 
     private fun setNearbyPlaces(location: Location) {
         val adapter = NearbyPlacesListAdapter(location)
+        val layoutManager = LinearLayoutManager(requireContext())
+        val itemDecorations = DividerItemDecoration(activity, layoutManager.orientation)
+        binding.rvNearbyPlaces.addItemDecoration(itemDecorations)
+        binding.rvNearbyPlaces.layoutManager = layoutManager
         binding.rvNearbyPlaces.adapter = adapter
-        binding.rvNearbyPlaces.layoutManager = LinearLayoutManager(requireContext())
         viewModel.findNearbyPlaces(location).observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Result.Loading -> {
@@ -135,14 +152,15 @@ class ResultFragment : Fragment() {
         if (uri.isEmpty()) {
             binding.tvYourPhoto.visibility = View.GONE
             binding.tvYourPhoto.visibility = View.GONE
-            binding.fabBack.visibility = View.GONE
             binding.tvLocationTitle.visibility = View.GONE
             binding.rvNearbyPlaces.visibility = View.GONE
+            binding.tvLocationSubtitle.visibility = View.GONE
         } else {
             binding.ivYourPhoto.setImageURI(uri.toUri())
         }
         binding.ivHeroImage.setImageResource(R.drawable.salmonella)
         binding.tvDesiaseName.text = data.title
+        binding.tvToolbarTitle.text = data.title
         if (data.title.lowercase() == "healthy") {
             setHealthy(data)
         }
@@ -154,6 +172,7 @@ class ResultFragment : Fragment() {
         binding.tvMedicationTitle.text = "Sumber Nutrisi"
         binding.tvSymptomsTitle.text = "Kondisi kandang ayam sehat"
         binding.tvLocationTitle.visibility = View.GONE
+        binding.tvLocationSubtitle.visibility = View.GONE
         binding.rvNearbyPlaces.visibility = View.GONE
     }
 

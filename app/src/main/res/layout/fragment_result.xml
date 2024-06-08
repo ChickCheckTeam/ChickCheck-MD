@@ -2,39 +2,77 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_result"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/iv_hero_image"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            android:minHeight="270dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="270dp"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
+            android:fitsSystemWindows="true">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+                app:contentScrim="@color/primary"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_hero_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="270dp"
+                    android:scaleType="fitXY"
+                    app:layout_collapseMode="parallax"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@tools:sample/avatars" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    android:elevation="4dp"
+                    app:popupTheme="@style/Theme.AppCompat.DayNight"
+                    >
+                    <ImageButton
+                        android:id="@+id/btn_back"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/baseline_arrow_back_24"
+                        android:backgroundTint="@color/onPrimary"/>
+                    <TextView
+                        android:id="@+id/tv_toolbar_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/onPrimary"
+                        android:visibility="gone"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:src="@string/app_name"/>
+                </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:background="#FEFEFE"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintTop_toBottomOf="@+id/app_bar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="240dp"
-                android:background="@drawable/background_result"
                 android:paddingBottom="8dp">
 
                 <TextView
@@ -95,11 +133,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:text="General Information"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:layout_marginTop="16dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/iv_your_photo" />
 
@@ -107,8 +145,8 @@
                     android:id="@+id/tv_information_value"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
                     android:text="Devours an enemy unit, dealing a high amount of true damage. If the target is killed, Cho'Gath grows, gaining maximum Health."
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -132,8 +170,8 @@
                     android:id="@+id/tv_prevention_value"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
                     android:text="Devours an enemy unit, dealing a high amount of true damage. If the target is killed, Cho'Gath grows, gaining maximum Health."
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -157,8 +195,8 @@
                     android:id="@+id/tv_medication_value"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
                     android:text="Devours an enemy unit, dealing a high amount of true damage. If the target is killed, Cho'Gath grows, gaining maximum Health."
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -206,14 +244,25 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_symptoms_value" />
 
+                <TextView
+                    android:id="@+id/tv_location_subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="See nearby veterinarian places around you"
+                    android:textColor="@color/text_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/tv_location_title"
+                    app:layout_constraintTop_toBottomOf="@id/tv_location_title" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_nearby_places"
                     android:layout_width="0dp"
                     android:layout_height="480dp"
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="@+id/tv_symptoms_value"
-                    app:layout_constraintStart_toStartOf="@+id/tv_location_title"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_location_title"
+                    app:layout_constraintStart_toStartOf="@+id/tv_location_subtitle"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_location_subtitle"
                     tools:listitem="@layout/item_nearby_places_layout" />
 
                 <ProgressBar
@@ -228,16 +277,5 @@
                     tools:visibility="visible" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:src="@drawable/baseline_arrow_back_24"
-        app:layout_anchorGravity="top|start"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
+
 
     <TextView
         android:id="@+id/tv_display_name"
@@ -13,9 +15,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="Display Name"
+        android:textColor="@color/onPrimaryContainer"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,8 +29,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
-        android:textColor="@color/black"
         android:text="Pertokoan Nakula Plaza, Jl. Nakula Blok C, Legian, Kec. Kuta, Kabupaten Badung, Bali 80361, Indonesia"
+        android:textColor="@color/onPrimaryContainer"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tv_display_name"
@@ -41,19 +43,17 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
         android:text="100 km"
-        android:textSize="12sp"
         android:textColor="@color/onPrimaryContainer"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tv_address"
         app:layout_constraintTop_toBottomOf="@+id/tv_address" />
 
     <View
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/text_color"
+        android:background="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        tools:layout_editor_absoluteX="-16dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
