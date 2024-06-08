@@ -37,6 +37,10 @@ class SignUpFragment : Fragment() {
 
         formValidation()
         registerUser()
+
+        binding.tvLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_signup_to_navigation_login)
+        }
     }
 
     private fun registerUser() {

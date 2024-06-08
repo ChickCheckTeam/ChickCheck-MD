@@ -16,4 +16,9 @@
         android:icon="@drawable/outline_article_24"
         android:title="@string/title_article" />
 
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/outline_person_outline_24"
+        android:title="@string/title_profile" />
+
 </menu>

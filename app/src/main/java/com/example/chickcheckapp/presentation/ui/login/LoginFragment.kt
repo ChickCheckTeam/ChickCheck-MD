@@ -40,6 +40,10 @@ class LoginFragment : Fragment() {
         formValidation()
         login()
 
+        binding.tvSignup.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_login_to_navigation_signup)
+        }
+
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
