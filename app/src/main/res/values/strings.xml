@@ -19,4 +19,12 @@
     <string name="empty_scan_data">You haven’t scan image</string>
     <string name="title_article">Article</string>
     <string name="logo_image">Logo</string>
+
+    <integer-array name="icon_image">
+        <item>@drawable/information</item>
+        <item>@drawable/treatment</item>
+        <item>@drawable/prevention</item>
+        <item>@drawable/symptoms</item>
+        <item>@drawable/symptoms</item>
+    </integer-array>
 </resources>

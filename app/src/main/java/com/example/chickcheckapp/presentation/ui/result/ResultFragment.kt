@@ -1,6 +1,8 @@
 package com.example.chickcheckapp.presentation.ui.result
 
 import android.Manifest
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -19,15 +21,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.example.chickcheckapp.R
+import com.example.chickcheckapp.utils.Result
+import com.example.chickcheckapp.data.local.model.ArticleContent
 import com.example.chickcheckapp.data.remote.response.DataItem
 import com.example.chickcheckapp.databinding.FragmentResultBinding
+import com.example.chickcheckapp.presentation.adapter.ArticleContentListAdapter
 import com.example.chickcheckapp.presentation.adapter.NearbyPlacesListAdapter
-import com.example.chickcheckapp.utils.Result
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class ResultFragment : Fragment() {
@@ -35,6 +41,7 @@ class ResultFragment : Fragment() {
     private val binding get() = _binding!!
     private val args: ResultFragmentArgs by navArgs()
     private val viewModel: ResultViewModel by viewModels()
+    private var isPlacesExpanded = false
     private var fusedLocationClient: FusedLocationProviderClient? = null
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +64,32 @@ class ResultFragment : Fragment() {
                 findNavController().navigate(R.id.action_article_fragment_to_navigation_article)
             }else{
                 findNavController().navigate(R.id.action_resultFragment_to_cameraXFragment)
+            }
+        }
+        binding.ivDownArrow.setOnClickListener{
+            isPlacesExpanded = !isPlacesExpanded
+            binding.ivDownArrow.animate().rotation(if (isPlacesExpanded) 180f else 0f)
+                .setDuration(300).start()
+            if (isPlacesExpanded) {
+                binding.rvNearbyPlaces.apply {
+                    visibility = View.VISIBLE
+                    alpha = 0f
+                    animate()
+                        .alpha(1f)
+                        .setDuration(300)
+                        .setListener(null)
+                }
+            } else {
+                binding.rvNearbyPlaces.apply {
+                    animate()
+                        .alpha(0f)
+                        .setDuration(300)
+                        .setListener(object : AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator) {
+                                visibility = View.GONE
+                            }
+                        })
+                }
             }
         }
         binding.appBar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
@@ -142,8 +175,7 @@ class ResultFragment : Fragment() {
         if (isGranted) {
             getMyLocation()
         } else {
-            binding.rvNearbyPlaces.visibility = View.GONE
-            binding.tvLocationTitle.visibility = View.GONE
+            binding.layoutPlaces.visibility = View.GONE
         }
 
     }
@@ -152,28 +184,49 @@ class ResultFragment : Fragment() {
         if (uri.isEmpty()) {
             binding.tvYourPhoto.visibility = View.GONE
             binding.tvYourPhoto.visibility = View.GONE
-            binding.tvLocationTitle.visibility = View.GONE
-            binding.rvNearbyPlaces.visibility = View.GONE
-            binding.tvLocationSubtitle.visibility = View.GONE
+            binding.layoutPlaces.visibility = View.GONE
         } else {
             binding.ivYourPhoto.setImageURI(uri.toUri())
         }
         binding.ivHeroImage.setImageResource(R.drawable.salmonella)
         binding.tvDesiaseName.text = data.title
         binding.tvToolbarTitle.text = data.title
+        val listContent = listOf(
+            ArticleContent(
+                icon = R.drawable.information,
+                title = "General Information",
+                content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eleifend ipsum sapien. Duis vulputate ac nisl convallis dignissim. Sed et tincidunt nisi. Integer auctor egestas libero, eu euismod justo congue id. Donec porttitor porttitor leo, non iaculis diam viverra nec. Pellentesque ullamcorper nisi est, sit amet auctor nisl pulvinar eget."
+            ),
+            ArticleContent(
+                icon = R.drawable.treatment,
+                title = "Treatment",
+                content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eleifend ipsum sapien. Duis vulputate ac nisl convallis dignissim. Sed et tincidunt nisi. Integer auctor egestas libero, eu euismod justo congue id. Donec porttitor porttitor leo, non iaculis diam viverra nec. Pellentesque ullamcorper nisi est, sit amet auctor nisl pulvinar eget."
+            ),
+            ArticleContent(
+                icon = R.drawable.prevention,
+                title = "Prevention",
+                content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eleifend ipsum sapien. Duis vulputate ac nisl convallis dignissim. Sed et tincidunt nisi. Integer auctor egestas libero, eu euismod justo congue id. Donec porttitor porttitor leo, non iaculis diam viverra nec. Pellentesque ullamcorper nisi est, sit amet auctor nisl pulvinar eget."
+            ),
+            ArticleContent(
+                icon = R.drawable.symptoms,
+                title = "Symptoms",
+                content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eleifend ipsum sapien. Duis vulputate ac nisl convallis dignissim. Sed et tincidunt nisi. Integer auctor egestas libero, eu euismod justo congue id. Donec porttitor porttitor leo, non iaculis diam viverra nec. Pellentesque ullamcorper nisi est, sit amet auctor nisl pulvinar eget."
+            ))
+        binding.rvArticleContent.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvArticleContent.adapter = ArticleContentListAdapter(listContent)
         if (data.title.lowercase() == "healthy") {
             setHealthy(data)
         }
     }
 
     private fun setHealthy(data: DataItem) {
-        binding.tvInformationTitle.text = "Ciri-Ciri"
-        binding.tvPreventionTitle.text = "Strategi untuk peternakan ayam"
-        binding.tvMedicationTitle.text = "Sumber Nutrisi"
-        binding.tvSymptomsTitle.text = "Kondisi kandang ayam sehat"
-        binding.tvLocationTitle.visibility = View.GONE
-        binding.tvLocationSubtitle.visibility = View.GONE
-        binding.rvNearbyPlaces.visibility = View.GONE
+//        binding.tvInformationTitle.text = "Ciri-Ciri"
+//        binding.tvPreventionTitle.text = "Strategi untuk peternakan ayam"
+//        binding.tvMedicationTitle.text = "Sumber Nutrisi"
+//        binding.tvSymptomsTitle.text = "Kondisi kandang ayam sehat"
+//        binding.tvLocationTitle.visibility = View.GONE
+//        binding.tvLocationSubtitle.visibility = View.GONE
+//        binding.rvNearbyPlaces.visibility = View.GONE
     }
 
     companion object {
