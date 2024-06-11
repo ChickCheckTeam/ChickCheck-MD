@@ -12,6 +12,7 @@ import com.example.chickcheckapp.data.remote.RemoteDataSource
 import com.example.chickcheckapp.data.remote.response.Center
 import com.example.chickcheckapp.data.remote.response.Circle
 import com.example.chickcheckapp.data.remote.response.DataItem
+import com.example.chickcheckapp.data.remote.response.ErrorResponse
 import com.example.chickcheckapp.data.remote.response.LocationRestriction
 import com.example.chickcheckapp.data.remote.response.LoginResponse
 import com.example.chickcheckapp.data.remote.response.LogoutResponse
@@ -26,6 +27,7 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
 import java.io.File
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -106,9 +108,11 @@ class ChickCheckRepository @Inject constructor(
             val response = remoteDataSource.registerUser(name, username, email, password, confirmPassword)
             emit(Result.Success(response))
         } catch (e: HttpException) {
-            val errorMessage = Utils.parseJsonToErrorMessage(e.response()?.errorBody()?.string())
-            emit(Result.Error(errorMessage))
-            Log.e(TAG, "Register: $errorMessage")
+
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = errorBody?.let { Gson().fromJson(it, ErrorResponse::class.java) }
+            val errorResponseMessage = errorResponse?.message.toString()
+            emit(Result.Error(errorResponseMessage))
         }
     }
 
@@ -121,10 +125,10 @@ class ChickCheckRepository @Inject constructor(
             val response = remoteDataSource.login(username, password)
             emit(Result.Success(response))
         } catch (e: HttpException) {
-//            val errorMessage = Utils.parseJsonToErrorMessage(e.response()?.errorBody()?.string())
-            val errorMessage = e.message().toString()
-            emit(Result.Error(errorMessage))
-            Log.e(TAG, "Login: $errorMessage")
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = errorBody?.let { Gson().fromJson(it, ErrorResponse::class.java) }
+            val errorResponseMessage = errorResponse?.message.toString()
+            emit(Result.Error(errorResponseMessage))
         }
     }
 
@@ -143,8 +147,11 @@ class ChickCheckRepository @Inject constructor(
             Log.d(TAG,"logout: $token")
             val response = remoteDataSource.logout(token)
             emit(Result.Success(response))
-        } catch (e: Exception) {
-            emit(Result.Error(e.message.toString()))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = errorBody?.let { Gson().fromJson(it, ErrorResponse::class.java) }
+            val errorResponseMessage = errorResponse?.message.toString()
+            emit(Result.Error(errorResponseMessage))
         }
     }
     companion object {
