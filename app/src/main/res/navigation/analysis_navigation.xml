@@ -22,6 +22,17 @@
             app:destination="@id/cameraXFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/resultFragment"
-            app:popUpToInclusive="true" />"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_resultFragment_to_activity_home"
+            app:destination="@id/activity_home"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/activity_home"
+            app:popUpToInclusive="true" />
+        "
     </fragment>
+    <activity
+        android:id="@+id/activity_home"
+        android:name="com.example.chickcheckapp.presentation.MainActivity"
+        android:label="MainActivity" />
 </navigation>
