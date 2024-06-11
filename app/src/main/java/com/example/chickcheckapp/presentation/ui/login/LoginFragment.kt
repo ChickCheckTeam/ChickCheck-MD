@@ -40,6 +40,10 @@ class LoginFragment : Fragment() {
         formValidation()
         login()
 
+        binding.tvSignup.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_login_to_navigation_signup)
+        }
+
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
@@ -75,7 +79,12 @@ class LoginFragment : Fragment() {
                             }
                             is Result.Error -> {
                                 progressBar.visibility = View.GONE
-                                showSnackBar("Username or Password is Incorrect!")
+                                if (result.error.isNotEmpty()) {
+                                    showSnackBar(result.error)
+                                } else {
+                                    // Error on server (5xx, etc)
+                                    showSnackBar("Something went wrong. Please try again later.")
+                                }
                                 Log.e("LoginFragment", result.error)
                             }
                         }
