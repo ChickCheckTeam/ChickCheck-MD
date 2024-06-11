@@ -78,7 +78,12 @@ class HomeFragment : Fragment() {
                         }
                         is Result.Error -> {
                             binding.progressBar.visibility = View.GONE
-                            showSnackBar(result.error)
+                            if (result.error.isNotEmpty()) {
+                                showSnackBar(result.error)
+                            } else {
+                                // Error on server (5xx, etc)
+                                showSnackBar("Something went wrong. Please try again later.")
+                            }
                             Log.e("HomeFragment", result.error)
                         }
                     }
