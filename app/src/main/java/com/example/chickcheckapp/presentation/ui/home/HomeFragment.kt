@@ -5,10 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.chickcheckapp.R
 import com.example.chickcheckapp.databinding.FragmentHomeBinding
@@ -16,6 +17,8 @@ import com.example.chickcheckapp.utils.Result
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -30,17 +33,8 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        viewModel.getSession().observe(viewLifecycleOwner) { user ->
-            token = user.token
-            if (!user.isLogin) {
-                findNavController().navigate(R.id.action_navigation_home_to_navigation_login)
-            }
-        }
-
         return root
     }
 
@@ -50,6 +44,20 @@ class HomeFragment : Fragment() {
         binding.btnLogout.setOnClickListener {
             logout()
         }
+
+        lifecycleScope.launch {
+            viewModel.getSession().flowWithLifecycle(lifecycle).collectLatest { user ->
+                token = user.token
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    requireActivity().finish()
+                }
+            }
+        )
     }
 
     private fun logout() {
@@ -70,7 +78,12 @@ class HomeFragment : Fragment() {
                         }
                         is Result.Error -> {
                             binding.progressBar.visibility = View.GONE
-                            showSnackBar(result.error)
+                            if (result.error.isNotEmpty()) {
+                                showSnackBar(result.error)
+                            } else {
+                                // Error on server (5xx, etc)
+                                showSnackBar("Something went wrong. Please try again later.")
+                            }
                             Log.e("HomeFragment", result.error)
                         }
                     }

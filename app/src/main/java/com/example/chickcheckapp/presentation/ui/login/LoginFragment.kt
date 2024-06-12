@@ -1,17 +1,17 @@
 package com.example.chickcheckapp.presentation.ui.login
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.chickcheckapp.R
 import com.example.chickcheckapp.data.local.model.UserModel
-import com.example.chickcheckapp.databinding.FragmentHomeBinding
 import com.example.chickcheckapp.databinding.FragmentLoginBinding
 import com.example.chickcheckapp.utils.Result
 import com.google.android.material.snackbar.Snackbar
@@ -39,6 +39,18 @@ class LoginFragment : Fragment() {
 
         formValidation()
         login()
+
+        binding.tvSignup.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_login_to_navigation_signup)
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    requireActivity().finish()
+                }
+            }
+        )
     }
 
     private fun login() {
@@ -67,7 +79,13 @@ class LoginFragment : Fragment() {
                             }
                             is Result.Error -> {
                                 progressBar.visibility = View.GONE
-                                showSnackBar(result.error)
+                                if (result.error.isNotEmpty()) {
+                                    showSnackBar(result.error)
+                                } else {
+                                    // Error on server (5xx, etc)
+                                    showSnackBar("Something went wrong. Please try again later.")
+                                }
+                                Log.e("LoginFragment", result.error)
                             }
                         }
                     }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ChickCheckApp</string>
+    <string name="app_name">ChickCheck</string>
     <string name="title_home">Home</string>
     <string name="title_history">History</string>
     <string name="title_scan">Scan</string>
@@ -11,4 +11,12 @@
     <string name="location_not_found">No location found</string>
     <string name="title_login">Login</string>
     <string name="title_sign_up">Sign Up</string>
+    <string name="logout_button">Logout Button</string>
+    <string name="my_scan_title">My Scan</string>
+    <string name="your_scan_desc">Your history image scan</string>
+    <string name="empty_image">Empty Image</string>
+    <string name="scan_now">Scan Now</string>
+    <string name="empty_scan_data">You haven’t scan image</string>
+    <string name="title_article">Article</string>
+    <string name="logo_image">Logo</string>
 </resources>

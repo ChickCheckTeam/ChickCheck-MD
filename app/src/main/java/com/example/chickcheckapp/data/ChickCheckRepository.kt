@@ -7,9 +7,9 @@ import androidx.lifecycle.liveData
 import com.example.chickcheckapp.data.local.LocalDataSource
 import com.example.chickcheckapp.data.local.model.UserModel
 import com.example.chickcheckapp.data.remote.RemoteDataSource
-import com.example.chickcheckapp.data.remote.request.SignUpRequest
 import com.example.chickcheckapp.data.remote.response.Center
 import com.example.chickcheckapp.data.remote.response.Circle
+import com.example.chickcheckapp.data.remote.response.ErrorResponse
 import com.example.chickcheckapp.data.remote.response.LocationRestriction
 import com.example.chickcheckapp.data.remote.response.LoginResponse
 import com.example.chickcheckapp.data.remote.response.LogoutResponse
@@ -17,14 +17,17 @@ import com.example.chickcheckapp.data.remote.response.NearbyPlaceBodyResponse
 import com.example.chickcheckapp.data.remote.response.NearbyPlacesResponse
 import com.example.chickcheckapp.data.remote.response.SignupResponse
 import com.example.chickcheckapp.utils.Result
+import com.google.gson.Gson
+import kotlinx.coroutines.flow.Flow
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class ChickCheckRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
 ) {
-    fun getSession(): LiveData<UserModel> {
-        return localDataSource.getSession().asLiveData()
+    fun getSession(): Flow<UserModel> {
+        return localDataSource.getSession()
     }
 
     fun findNearbyPlaces(location:Location) : LiveData<Result<NearbyPlacesResponse>> = liveData {
@@ -57,8 +60,11 @@ class ChickCheckRepository @Inject constructor(
         try {
             val response = remoteDataSource.registerUser(name, username, email, password, confirmPassword)
             emit(Result.Success(response))
-        } catch (e: Exception) {
-            emit(Result.Error(e.message.toString()))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = errorBody?.let { Gson().fromJson(it, ErrorResponse::class.java) }
+            val errorResponseMessage = errorResponse?.message.toString()
+            emit(Result.Error(errorResponseMessage))
         }
     }
 
@@ -70,8 +76,11 @@ class ChickCheckRepository @Inject constructor(
         try {
             val response = remoteDataSource.login(username, password)
             emit(Result.Success(response))
-        } catch (e: Exception) {
-            emit(Result.Error(e.message.toString()))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = errorBody?.let { Gson().fromJson(it, ErrorResponse::class.java) }
+            val errorResponseMessage = errorResponse?.message.toString()
+            emit(Result.Error(errorResponseMessage))
         }
     }
 
@@ -88,8 +97,11 @@ class ChickCheckRepository @Inject constructor(
         try {
             val response = remoteDataSource.logout(token)
             emit(Result.Success(response))
-        } catch (e: Exception) {
-            emit(Result.Error(e.message.toString()))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = errorBody?.let { Gson().fromJson(it, ErrorResponse::class.java) }
+            val errorResponseMessage = errorResponse?.message.toString()
+            emit(Result.Error(errorResponseMessage))
         }
     }
 }
