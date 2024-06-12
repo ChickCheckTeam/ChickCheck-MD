@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.OrientationEventListener
 import android.view.Surface
@@ -21,30 +22,51 @@ import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import com.example.chickcheckapp.data.remote.response.ArticleData
+import com.example.chickcheckapp.data.remote.response.DataItem
+import com.example.chickcheckapp.data.remote.response.DetectionResultResponse
 import com.example.chickcheckapp.databinding.FragmentCameraxBinding
+import com.example.chickcheckapp.presentation.ui.result.ResultFragment
+import com.example.chickcheckapp.utils.Result
+import com.example.chickcheckapp.utils.Utils
+import com.example.chickcheckapp.utils.Utils.reduceFileSize
 import com.example.chickcheckapp.utils.Utils.rotateImage
 import com.google.common.util.concurrent.ListenableFuture
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.io.File
+import java.util.concurrent.Future
 
+@AndroidEntryPoint
 class CameraXFragment : Fragment() {
-    private var _binding : FragmentCameraxBinding? = null
+    private var _binding: FragmentCameraxBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: CameraXViewModel by viewModels()
     private var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>? = null
     private var imageCapture: ImageCapture? = null
-    private var currentImage: Uri? = null
+    private var token: String? = null
     private var isBackCamera: Boolean = true
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCameraxBinding.inflate(inflater,container,false)
+        _binding = FragmentCameraxBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        lifecycleScope.launch {
+            viewModel.getSession().flowWithLifecycle(lifecycle).collect { user ->
+                token = user.token
+            }
+        }
         if (checkPermission(Manifest.permission.CAMERA)) {
             startCamera()
 
@@ -52,11 +74,12 @@ class CameraXFragment : Fragment() {
             requestPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
     }
+
     private fun bindPreview(cameraProvider: ProcessCameraProvider?) {
         val preview: androidx.camera.core.Preview = androidx.camera.core.Preview.Builder().build()
         val cameraSelector: androidx.camera.core.CameraSelector =
             androidx.camera.core.CameraSelector.Builder()
-                .requireLensFacing(if(isBackCamera)androidx.camera.core.CameraSelector.LENS_FACING_BACK else androidx.camera.core.CameraSelector.LENS_FACING_FRONT)
+                .requireLensFacing(if (isBackCamera) androidx.camera.core.CameraSelector.LENS_FACING_BACK else androidx.camera.core.CameraSelector.LENS_FACING_FRONT)
                 .build()
         preview.setSurfaceProvider(binding.pvCamera.surfaceProvider)
         val resolutionSelector = ResolutionSelector.Builder()
@@ -76,11 +99,9 @@ class CameraXFragment : Fragment() {
     }
 
     private fun captureImage() {
-        val filename = "${System.currentTimeMillis()}"
-        val destination = File.createTempFile(
-            filename,".jpg",requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        )
+        val destination = Utils.createCustomTempFile(requireContext())
         val outputFileOptions = ImageCapture.OutputFileOptions.Builder(destination).build()
+        binding.progressBar.visibility = View.VISIBLE
         imageCapture?.takePicture(
             outputFileOptions,
             ContextCompat.getMainExecutor(requireContext()),
@@ -88,9 +109,7 @@ class CameraXFragment : Fragment() {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(destination)
                     rotateImage(savedUri.path!!, binding.pvCamera)
-                    currentImage = savedUri
-                    val action = CameraXFragmentDirections.actionCameraXFragmentToAnalysisFragment(currentImage.toString())
-                    view?.findNavController()?.navigate(action)
+                    sendImage(savedUri)
                 }
 
                 override fun onError(exception: ImageCaptureException) {
@@ -118,6 +137,44 @@ class CameraXFragment : Fragment() {
             }
         }
     }
+
+    private fun sendImage(uri: Uri) {
+        val file = Utils.uriToFile(uri, requireContext()).reduceFileSize()
+
+        viewModel.postDetection(file, token!!).observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.loadingBackground.visibility = View.VISIBLE
+                    binding.tvScanLoadingText.visibility = View.VISIBLE
+                }
+
+                is Result.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.loadingBackground.visibility = View.GONE
+                    binding.tvScanLoadingText.visibility = View.GONE
+                    showToast(result.error)
+                    Log.d(ResultFragment.TAG, "error: ${result.error}")
+                }
+
+                is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.loadingBackground.visibility = View.GONE
+                    binding.tvScanLoadingText.visibility = View.GONE
+                    val article : ArticleData = result.data.article
+                    val action =
+                        CameraXFragmentDirections.actionCameraXFragmentToResultFragment(
+                            uri.toString(),
+                            article
+                        )
+                    view?.findNavController()?.navigate(action)
+                }
+            }
+        }
+
+
+    }
+
     override fun onStart() {
         super.onStart()
         orientationEventListener.enable()
@@ -127,15 +184,20 @@ class CameraXFragment : Fragment() {
         super.onStop()
         orientationEventListener.disable()
     }
+
     private fun startCamera() {
         cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         binding.btnCapture.setOnClickListener {
             if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) && checkPermission(
-                    Manifest.permission.READ_EXTERNAL_STORAGE)
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
             ) {
                 captureImage()
-            }else{
-                val listOfPermissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+            } else {
+                val listOfPermissions = arrayOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
                 takePictureLauncher.launch(listOfPermissions)
 
             }
@@ -185,14 +247,14 @@ class CameraXFragment : Fragment() {
 
     private val launchGalleryIntent = registerForActivityResult(
         ActivityResultContracts.PickVisualMedia()
-    ){uri->
-        if(uri!= null){
-            val action = CameraXFragmentDirections.actionCameraXFragmentToAnalysisFragment(uri.toString())
-            view?.findNavController()?.navigate(action)
-        }else{
+    ) { uri ->
+        if (uri != null) {
+            sendImage(uri)
+        } else {
             showToast("No image selected")
         }
     }
+
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }

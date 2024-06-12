@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("androidx.navigation.safeargs.kotlin")
+    id("kotlin-parcelize")
     alias(libs.plugins.dagger.hilt)
     alias(libs.plugins.ksp)
 }
@@ -22,9 +23,9 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         val properties = Properties()
         properties.load(project.rootProject.file("local.properties").inputStream())
-        buildConfigField("String", "BASE_URL", "\"https://chickcheck-backend.et.r.appspot.com/api/\"")
+        buildConfigField("String", "BASE_URL", "\"https://chickcheck-api-srcvmjwrfa-et.a.run.app/api/\"")
         buildConfigField("String", "BASE_URL_PLACES", "\"https://places.googleapis.com/\"")
-        buildConfigField("String", "PLACES_API_KEY", "\"AIzaSyDBSa11gBY9VDYmnZcfqbSCK0YXbSZpKtk\"")
+        buildConfigField("String", "PLACES_API_KEY", "\"${properties.getProperty("apiKey")}\"")
     }
 
     buildTypes {
@@ -64,6 +65,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.play.services.location)
+    implementation(libs.androidx.datastore.core.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
