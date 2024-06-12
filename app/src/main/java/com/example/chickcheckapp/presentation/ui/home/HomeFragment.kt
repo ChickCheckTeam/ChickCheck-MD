@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -45,10 +46,16 @@ class HomeFragment : Fragment() {
             logout()
         }
 
-        lifecycleScope.launch {
-            viewModel.getSession().flowWithLifecycle(lifecycle).collectLatest { user ->
-                token = user.token
-            }
+//        lifecycleScope.launch {
+//            viewModel.getSession().flowWithLifecycle(lifecycle).collectLatest { user ->
+//                token = user.token
+//                getProfile()
+//            }
+//        }
+
+        viewModel.getSession().asLiveData().observe(viewLifecycleOwner) { user ->
+            token = user.token
+            getProfile()
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
@@ -58,6 +65,34 @@ class HomeFragment : Fragment() {
                 }
             }
         )
+    }
+
+    private fun getProfile() {
+        viewModel.getProfile(token).observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.containerHomeContent.alpha = 0f
+                }
+                is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.tvWelcome.text = getString(R.string.welcome_title,
+                        result.data.data?.username ?: "User"
+                    )
+                    binding.containerHomeContent.alpha = 1f
+                }
+                is Result.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.containerHomeContent.alpha = 1f
+                    if (result.error.isNotEmpty()) {
+                        showSnackBar(result.error)
+                    } else {
+                        // Error on server (5xx, etc)
+                        showSnackBar("Something went wrong. Please try again later.")
+                    }
+                }
+            }
+        }
     }
 
     private fun logout() {
@@ -78,7 +113,12 @@ class HomeFragment : Fragment() {
                         }
                         is Result.Error -> {
                             binding.progressBar.visibility = View.GONE
-                            showSnackBar(result.error)
+                            if (result.error.isNotEmpty()) {
+                                showSnackBar(result.error)
+                            } else {
+                                // Error on server (5xx, etc)
+                                showSnackBar("Something went wrong. Please try again later.")
+                            }
                             Log.e("HomeFragment", result.error)
                         }
                     }

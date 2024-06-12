@@ -21,4 +21,8 @@
     <string name="logo_image">Logo</string>
     <string name="title_profile">Profile</string>
     <string name="button_logout">Button Logout</string>
+
+    <string name="content_example">
+        Bullies come in all shapes and sizes. Nobody deserves to be bullied, but many of us deal with them over time, often as children. Either way, when you find yourself being bullied, there are many steps you can take to stop the behavior. Read on for a comprehensive list of tips on dealing with bullies, from standing up for yourself to walking away and improving your self-confidence.
+    </string>
 </resources>

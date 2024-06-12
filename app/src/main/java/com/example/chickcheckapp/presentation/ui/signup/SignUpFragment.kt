@@ -67,7 +67,12 @@ class SignUpFragment : Fragment() {
                             }
                             is Result.Error -> {
                                 progressBar.visibility = View.GONE
-                                showSnackBar(result.error)
+                                if (result.error.isNotEmpty()) {
+                                    showSnackBar(result.error)
+                                } else {
+                                    // Error on server (5xx, etc)
+                                    showSnackBar("Something went wrong. Please try again later.")
+                                }
                                 Log.e("SignUpFragment", result.error)
                             }
                         }
