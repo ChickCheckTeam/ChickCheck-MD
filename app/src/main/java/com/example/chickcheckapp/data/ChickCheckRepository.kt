@@ -13,6 +13,7 @@ import com.example.chickcheckapp.data.remote.response.ArticleData
 import com.example.chickcheckapp.data.remote.response.Center
 import com.example.chickcheckapp.data.remote.response.Circle
 import com.example.chickcheckapp.data.remote.response.DataItem
+import com.example.chickcheckapp.data.remote.response.DetectionResultResponse
 import com.example.chickcheckapp.data.remote.response.ErrorResponse
 import com.example.chickcheckapp.data.remote.response.LocationRestriction
 import com.example.chickcheckapp.data.remote.response.LoginResponse
@@ -60,7 +61,7 @@ class ChickCheckRepository @Inject constructor(
         }
     }
 
-    fun postDetection(file: File,token:String):LiveData<Result<DataItem>> = liveData{
+    fun postDetection(file: File,token:String):LiveData<Result<DetectionResultResponse>> = liveData{
         emit(Result.Loading)
         try {
             val requestImageFile = file.asRequestBody("image/jpg".toMediaType())
@@ -72,7 +73,7 @@ class ChickCheckRepository @Inject constructor(
             Log.d(TAG,token)
 
             val response = remoteDataSource.postDetection(multipartBody,token)
-            emit(Result.Success(response.data))
+            emit(Result.Success(response))
         } catch (e: HttpException) {
             val errorMessage = Utils.parseJsonToErrorMessage(e.response()?.errorBody()?.string())
             emit(Result.Error(errorMessage))

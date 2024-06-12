@@ -22,8 +22,7 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/shapeableImageView"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:minHeight="180dp"
+                android:layout_height="180dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/salmonella"
                 app:layout_constraintBottom_toBottomOf="parent"

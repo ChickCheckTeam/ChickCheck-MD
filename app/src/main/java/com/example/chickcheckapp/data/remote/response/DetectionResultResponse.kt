@@ -1,8 +1,6 @@
 package com.example.chickcheckapp.data.remote.response
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 
 data class DetectionResultResponse(
 
@@ -12,22 +10,23 @@ data class DetectionResultResponse(
 	@field:SerializedName("message")
 	val message: String,
 
+	@field:SerializedName("article")
+	val article: ArticleData,
+
 	@field:SerializedName("status")
 	val status: String
 )
 
-@Parcelize
 data class DataItem(
 
 	@field:SerializedName("createdAt")
 	val createdAt: String,
-
-	@field:SerializedName("suggestion")
-	val suggestion: String,
 
 	@field:SerializedName("title")
 	val title: String,
 
 	@field:SerializedName("results")
 	val results: String
-): Parcelable
+)
+
+

@@ -7,15 +7,22 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -23,14 +30,19 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chickcheckapp.R
+import com.example.chickcheckapp.data.remote.response.ArticleData
 import com.example.chickcheckapp.utils.Result
 import com.example.chickcheckapp.data.remote.response.DataItem
+import com.example.chickcheckapp.data.remote.response.DetectionResultResponse
 import com.example.chickcheckapp.databinding.FragmentResultBinding
 import com.example.chickcheckapp.presentation.adapter.NearbyPlacesListAdapter
+import com.example.chickcheckapp.utils.Disease
+import com.example.chickcheckapp.utils.Utils
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.internal.parseCookie
 
 
 @AndroidEntryPoint
@@ -55,13 +67,13 @@ class ResultFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val uri = args.uriImage
-        val data = args.data
-        setContent(data, uri)
+        val article = args.article
+        setContent(article, uri)
         binding.btnBack.setOnClickListener {
             if (uri.isEmpty()) {
                 findNavController().navigate(R.id.action_article_fragment_to_navigation_article)
             } else {
-               requireActivity().finish()
+                requireActivity().finish()
             }
         }
         binding.btnScanAgain.setOnClickListener {
@@ -83,7 +95,7 @@ class ResultFragment : Fragment(), View.OnClickListener {
                 binding.tvToolbarTitle.visibility = View.GONE
             }
         })
-        if (uri.isNotEmpty() && data.title.lowercase() != "healthy") {
+        if (uri.isNotEmpty() && article.title.lowercase() != "healthy") {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
             if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
                 getMyLocation()
@@ -164,7 +176,7 @@ class ResultFragment : Fragment(), View.OnClickListener {
 
     }
 
-    private fun setContent(data: DataItem, uri: String) {
+    private fun setContent(article: ArticleData, uri: String) {
         if (uri.isEmpty()) {
             binding.tvYourPhoto.visibility = View.GONE
             binding.tvYourPhoto.visibility = View.GONE
@@ -174,17 +186,36 @@ class ResultFragment : Fragment(), View.OnClickListener {
             binding.ivYourPhoto.setImageURI(uri.toUri())
         }
         binding.ivHeroImage.setImageResource(R.drawable.salmonella)
-        binding.tvDesiaseName.text = data.title
-        binding.tvToolbarTitle.text = data.title
-        binding.tvCause.text =  data.results
+        binding.tvDesiaseName.text = article.title
+        binding.tvToolbarTitle.text = article.title
+        val content = Utils.parseJsonToDisease(article.content)
+        setSubContent(content)
+        when (article.title.lowercase()) {
+            "healthy" -> {
+                setHealthy(article)
+            }
 
-        if (data.title.lowercase() == "healthy") {
-            setHealthy(data)
+            "new castle disease" -> {
+                binding.ivHeroImage.setImageResource(R.drawable.newcastle)
+
+            }
+
+            "salmonellosis" -> {
+                binding.ivHeroImage.setImageResource(R.drawable.salmonella)
+
+            }
+
+            "coccidiosis" -> {
+                binding.ivHeroImage.setImageResource(R.drawable.coccidiosis)
+            }
+
         }
     }
 
-    private fun setHealthy(data: DataItem) {
+    private fun setHealthy(data: ArticleData) {
+        binding.ivHeroImage.setImageResource(R.drawable.healthy)
         binding.tvGeneralTitle.text = "Ciri-Ciri"
+        binding.tvCause.visibility = View.GONE
         binding.tvPreventionTitle.text = "Strategi untuk peternakan ayam"
         binding.ivIconPrevention.setImageResource(R.drawable.strategy)
         binding.tvTreatmentTitle.text = "Sumber Nutrisi"
@@ -194,56 +225,145 @@ class ResultFragment : Fragment(), View.OnClickListener {
         hideNearbyPlaces()
     }
 
-    private fun hideNearbyPlaces(){
+    private fun setSubContent(content: Disease) {
+        binding.tvCause.text = content.alternativeTitle
+        binding.tvGeneralTitle.text = content.section[0].heading
+        binding.tvGeneralInformation.text = content.section[0].content
+        binding.tvPreventionTitle.text = content.section[2].heading
+        binding.tvPreventionInformation.text = content.section[2].content
+        binding.tvTreatmentTitle.text = content.section[3].heading
+        binding.tvTreatmentInformation.text = content.section[3].content
+        binding.tvSymptomsTitle.text = content.section[1].heading
+        binding.tvSymptomsInformation.text = content.section[1].content
+        addListContentToContainer(binding.listSymptomsContainer, content.section[1].listContent)
+        addListContentToContainer(binding.listGeneralContainer, content.section[0].listContent)
+        addListContentToContainer(binding.listPreventionContainer, content.section[2].listContent)
+        addListContentToContainer(binding.listTreatmentContainer, content.section[3].listContent)
+    }
+    private fun addListContentToContainer(container: LinearLayout, listContent: List<String>) {
+        if (listContent.isNotEmpty()) {
+            listContent.forEach {
+                val bullet = generateBullet()
+                val tvString = generateTextView(it)
+                val linearLayoutContainer = generateListLinearLayout(bullet, tvString)
+                container.addView(linearLayoutContainer)
+            }
+        }
+    }
+    private fun hideNearbyPlaces() {
         binding.tvLocationTitle.visibility = View.GONE
         binding.locationContent.visibility = View.GONE
         binding.ivIconPlaces.visibility = View.GONE
         binding.ivDownArrowPlaces.visibility = View.GONE
         binding.itemDividerPlace.visibility = View.GONE
     }
+
+    private fun generateListLinearLayout(bullet: ImageButton, textView: TextView): LinearLayout {
+        val linearLayout = LinearLayout(requireContext())
+        val linearLayoutParams = ViewGroup.MarginLayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        linearLayoutParams.setMargins(0, 8, 0, 0)
+        linearLayout.orientation = LinearLayout.HORIZONTAL
+        linearLayout.layoutParams = linearLayoutParams
+        linearLayout.gravity = Gravity.TOP
+        linearLayout.addView(bullet)
+        linearLayout.addView(textView)
+        return linearLayout
+    }
+
+    private fun generateTextView(string: String): TextView {
+        val textView = TextView(requireContext())
+        textView.text = string
+        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+        val layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        textView.layoutParams = layoutParams
+        return textView
+    }
+
+    private fun generateBullet(): ImageButton {
+        val bullet = ImageButton(requireContext())
+        bullet.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_bullet)
+        val imageLayoutParams = ViewGroup.MarginLayoutParams(
+            18,
+            18
+        )
+        imageLayoutParams.setMargins(0, 8, 8, 0)
+        bullet.layoutParams = imageLayoutParams
+        return bullet
+    }
+
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.iv_general_down_arrow -> {
-                isExpanded[0] = !isExpanded[0]
-                binding.ivGeneralDownArrow.animate().rotation(if (isExpanded[0]) 180f else 0f)
-                    .setDuration(300).start()
-                setSubContentVisible(0, binding.generalContent)
+                setSubContentVisible(0, binding.generalContent, binding.ivGeneralDownArrow)
+            }
+
+            R.id.tv_general_title -> {
+                setSubContentVisible(0, binding.generalContent, binding.ivGeneralDownArrow)
             }
 
             R.id.iv_icon_treatment_down_arrow -> {
-                isExpanded[1] = !isExpanded[1]
-                binding.ivIconTreatmentDownArrow.animate()
-                    .rotation(if (isExpanded[1]) 180f else 0f)
-                    .setDuration(300).start()
-                setSubContentVisible(1, binding.treatmentContent)
+                setSubContentVisible(1, binding.treatmentContent, binding.ivIconTreatmentDownArrow)
+            }
+
+            R.id.tv_treatment_title -> {
+                setSubContentVisible(1, binding.treatmentContent, binding.ivIconTreatmentDownArrow)
             }
 
             R.id.iv_icon_prevention_down_arrow -> {
-                isExpanded[2] = !isExpanded[2]
                 binding.ivIconPreventionDownArrow.animate()
                     .rotation(if (isExpanded[2]) 180f else 0f)
                     .setDuration(300).start()
-                setSubContentVisible(2, binding.preventionContent)
+                setSubContentVisible(
+                    2,
+                    binding.preventionContent,
+                    binding.ivIconPreventionDownArrow
+                )
+            }
+
+            R.id.tv_prevention_title -> {
+                setSubContentVisible(
+                    2,
+                    binding.preventionContent,
+                    binding.ivIconPreventionDownArrow
+                )
             }
 
             R.id.iv_icon_symptoms_down_arrow -> {
-                isExpanded[3] = !isExpanded[3]
                 binding.ivIconSymptomsDownArrow.animate()
                     .rotation(if (isExpanded[3]) 180f else 0f)
                     .setDuration(300).start()
-                setSubContentVisible(3, binding.symptomsContent)
+                setSubContentVisible(3, binding.symptomsContent, binding.ivIconSymptomsDownArrow)
+            }
+
+            R.id.tv_symptoms_title -> {
+                setSubContentVisible(3, binding.symptomsContent, binding.ivIconSymptomsDownArrow)
             }
 
             R.id.iv_down_arrow_places -> {
-                isExpanded[4] = !isExpanded[4]
-                binding.ivDownArrowPlaces.animate().rotation(if (isExpanded[4]) 180f else 0f)
-                    .setDuration(300).start()
-                setSubContentVisible(4, binding.locationContent)
+                setSubContentVisible(4, binding.locationContent, binding.ivDownArrowPlaces)
+            }
+
+            R.id.tv_location_title -> {
+                setSubContentVisible(4, binding.locationContent, binding.ivDownArrowPlaces)
             }
         }
     }
 
-    private fun setSubContentVisible(index: Int, view: ConstraintLayout) {
+    private fun rotateDownArrow(index: Int, arrow: ImageView) {
+        arrow.animate().rotation(if (isExpanded[index]) 180f else 0f)
+            .setDuration(300).start()
+    }
+
+    private fun setSubContentVisible(index: Int, view: ConstraintLayout, arrow: ImageView) {
+        isExpanded[index] = !isExpanded[index]
+        rotateDownArrow(index, arrow)
         if (isExpanded[index]) {
             view.apply {
                 visibility = View.VISIBLE

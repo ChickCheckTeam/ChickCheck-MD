@@ -162,7 +162,7 @@
 
             <TextView
                 android:id="@+id/tv_general_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="General Information"
@@ -170,6 +170,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_icon_general_information"
+                app:layout_constraintEnd_toStartOf="@+id/iv_general_down_arrow"
                 app:layout_constraintStart_toEndOf="@+id/iv_icon_general_information"
                 app:layout_constraintTop_toTopOf="@+id/iv_icon_general_information" />
 
@@ -193,6 +194,7 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:id="@+id/tv_general_information"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -202,6 +204,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+                <LinearLayout
+                    android:id="@+id/list_general_container"
+                    android:layout_width="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_general_information">
+
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <!--Treatment-->
             <View
@@ -226,7 +239,7 @@
 
             <TextView
                 android:id="@+id/tv_treatment_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="Treatment"
@@ -234,6 +247,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_icon_treatment"
+                app:layout_constraintEnd_toStartOf="@+id/iv_icon_treatment_down_arrow"
                 app:layout_constraintStart_toEndOf="@+id/iv_icon_treatment"
                 app:layout_constraintTop_toTopOf="@+id/iv_icon_treatment" />
 
@@ -257,6 +271,7 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:id="@+id/tv_treatment_information"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -266,6 +281,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+                <LinearLayout
+                    android:id="@+id/list_treatment_container"
+                    android:layout_width="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_treatment_information">
+
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!--Prevention-->
@@ -291,7 +317,7 @@
 
             <TextView
                 android:id="@+id/tv_prevention_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="Prevention"
@@ -299,6 +325,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_icon_prevention"
+                app:layout_constraintEnd_toStartOf="@+id/iv_icon_prevention_down_arrow"
                 app:layout_constraintStart_toEndOf="@+id/iv_icon_prevention"
                 app:layout_constraintTop_toTopOf="@+id/iv_icon_prevention" />
 
@@ -322,6 +349,7 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:id="@+id/tv_prevention_information"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -331,6 +359,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+                <LinearLayout
+                    android:id="@+id/list_prevention_container"
+                    android:layout_width="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_prevention_information">
+
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <!--Symptoms-->
             <View
@@ -355,7 +394,7 @@
 
             <TextView
                 android:id="@+id/tv_symptoms_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="Symptoms"
@@ -363,6 +402,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_icon_symptoms"
+                app:layout_constraintEnd_toStartOf="@+id/iv_icon_symptoms_down_arrow"
                 app:layout_constraintStart_toEndOf="@+id/iv_icon_symptoms"
                 app:layout_constraintTop_toTopOf="@+id/iv_icon_symptoms" />
 
@@ -386,6 +426,7 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:id="@+id/tv_symptoms_information"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -395,6 +436,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+                <LinearLayout
+                    android:id="@+id/list_symptoms_container"
+                    android:layout_width="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_symptoms_information">
+
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!--Veterenarian Places            -->
@@ -420,14 +472,15 @@
 
             <TextView
                 android:id="@+id/tv_location_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Veterinarian Places"
+                android:text="Toko hewan terdekat"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_icon_places"
+                app:layout_constraintEnd_toStartOf="@+id/iv_down_arrow_places"
                 app:layout_constraintStart_toEndOf="@+id/iv_icon_places"
                 app:layout_constraintTop_toTopOf="@+id/iv_icon_places" />
 
@@ -449,7 +502,18 @@
                 app:layout_constraintEnd_toEndOf="@+id/iv_general_down_arrow"
                 app:layout_constraintStart_toStartOf="@+id/iv_icon_places"
                 app:layout_constraintTop_toBottomOf="@id/tv_location_title">
-
+                <TextView
+                    android:id="@+id/tv_location_sub_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Cari toko hewan didekatmu"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="4dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_nearby_places"
                     android:layout_width="0dp"
@@ -457,7 +521,7 @@
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_location_sub_title"
                     tools:listitem="@layout/item_nearby_places_layout" />
 
                 <ProgressBar

@@ -54,8 +54,7 @@
         android:name="com.example.chickcheckapp.presentation.ui.result.ResultFragment"
         android:label="ResultFragment" >
         <argument android:name="uri_image" app:argType="string" android:defaultValue=""/>
-        <argument android:name="data" app:argType="com.example.chickcheckapp.data.remote.response.DataItem" />
-        <action
+        <argument android:name="article" app:argType="com.example.chickcheckapp.data.remote.response.ArticleData"  />        <action
             android:id="@+id/action_article_fragment_to_navigation_article"
             app:destination="@id/navigation_article"
             app:launchSingleTop="true"

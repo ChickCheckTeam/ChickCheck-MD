@@ -26,7 +26,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import com.example.chickcheckapp.data.remote.response.ArticleData
 import com.example.chickcheckapp.data.remote.response.DataItem
+import com.example.chickcheckapp.data.remote.response.DetectionResultResponse
 import com.example.chickcheckapp.databinding.FragmentCameraxBinding
 import com.example.chickcheckapp.presentation.ui.result.ResultFragment
 import com.example.chickcheckapp.utils.Result
@@ -159,11 +161,11 @@ class CameraXFragment : Fragment() {
                     binding.progressBar.visibility = View.GONE
                     binding.loadingBackground.visibility = View.GONE
                     binding.tvScanLoadingText.visibility = View.GONE
-                    val data: DataItem = result.data
+                    val article : ArticleData = result.data.article
                     val action =
                         CameraXFragmentDirections.actionCameraXFragmentToResultFragment(
                             uri.toString(),
-                            data
+                            article
                         )
                     view?.findNavController()?.navigate(action)
                 }
