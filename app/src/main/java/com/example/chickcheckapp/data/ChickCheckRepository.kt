@@ -9,6 +9,7 @@ import androidx.lifecycle.liveData
 import com.example.chickcheckapp.data.local.LocalDataSource
 import com.example.chickcheckapp.data.local.model.UserModel
 import com.example.chickcheckapp.data.remote.RemoteDataSource
+import com.example.chickcheckapp.data.remote.response.ArticleData
 import com.example.chickcheckapp.data.remote.response.Center
 import com.example.chickcheckapp.data.remote.response.Circle
 import com.example.chickcheckapp.data.remote.response.DataItem
@@ -62,33 +63,27 @@ class ChickCheckRepository @Inject constructor(
     fun postDetection(file: File,token:String):LiveData<Result<DataItem>> = liveData{
         emit(Result.Loading)
         try {
-//            val requestImageFile = file.asRequestBody("image/jpg".toMediaType())
-//            val multipartBody = MultipartBody.Part.createFormData(
-//                "image",
-//                file.name,
-//                requestImageFile
-//            )
+            val requestImageFile = file.asRequestBody("image/jpg".toMediaType())
+            val multipartBody = MultipartBody.Part.createFormData(
+                "image",
+                file.name,
+                requestImageFile
+            )
             Log.d(TAG,token)
 
-            val response = Utils.dummyData().random()
-            emit(Result.Success(response))
+            val response = remoteDataSource.postDetection(multipartBody,token)
+            emit(Result.Success(response.data))
         } catch (e: HttpException) {
             val errorMessage = Utils.parseJsonToErrorMessage(e.response()?.errorBody()?.string())
             emit(Result.Error(errorMessage))
             Log.e(TAG, "postDetection: $errorMessage")
         }
     }
-    fun getArticles():LiveData<Result<List<DataItem>>> = liveData{
+    fun getArticles(token: String):LiveData<Result<List<ArticleData>>> = liveData{
         emit(Result.Loading)
         try {
-//            val requestImageFile = file.asRequestBody("image/jpg".toMediaType())
-//            val multipartBody = MultipartBody.Part.createFormData(
-//                "image",
-//                file.name,
-//                requestImageFile
-//            )
-            val response = Utils.dummyData()
-            emit(Result.Success(response))
+            val response = remoteDataSource.getArticles(token)
+            emit(Result.Success(response.data))
         } catch (e: HttpException) {
             val errorMessage = Utils.parseJsonToErrorMessage(e.response()?.errorBody()?.string())
             emit(Result.Error(errorMessage))

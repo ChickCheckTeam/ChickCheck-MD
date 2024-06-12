@@ -7,5 +7,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ArticleViewModel @Inject constructor(private val repository: ChickCheckRepository) : ViewModel() {
-    fun getArticles() = repository.getArticles()
+    fun getArticles(token: String) = repository.getArticles(token)
+    fun getSession() = repository.getSession()
+
 }

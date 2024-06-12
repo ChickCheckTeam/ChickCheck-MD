@@ -176,6 +176,7 @@ class ResultFragment : Fragment(), View.OnClickListener {
         binding.ivHeroImage.setImageResource(R.drawable.salmonella)
         binding.tvDesiaseName.text = data.title
         binding.tvToolbarTitle.text = data.title
+        binding.tvCause.text =  data.results
 
         if (data.title.lowercase() == "healthy") {
             setHealthy(data)
