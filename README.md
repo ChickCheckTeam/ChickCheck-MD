@@ -1,6 +1,6 @@
 # ChickCheckApp: An Application For Detecting Chicken Diseases using Machine Learning
 <div align="center">
-      <h1> <img src="https://avatars.githubusercontent.com/u/93625293?v=4" width="80px"><br/>ChickCheck</h1>
+      <h1> <img src="https://github.com/ChickCheckTeam/ChickCheck-MD/assets/114111567/d0c1063a-26f8-4448-a236-e9d610ef7167" width="80px"><br/>ChickCheck</h1>
      </div>
 
 
