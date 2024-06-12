@@ -20,6 +20,7 @@ import com.example.chickcheckapp.data.remote.response.LoginResponse
 import com.example.chickcheckapp.data.remote.response.LogoutResponse
 import com.example.chickcheckapp.data.remote.response.NearbyPlaceBodyResponse
 import com.example.chickcheckapp.data.remote.response.NearbyPlacesResponse
+import com.example.chickcheckapp.data.remote.response.ProfileResponse
 import com.example.chickcheckapp.data.remote.response.SignupResponse
 import com.example.chickcheckapp.utils.Result
 import com.example.chickcheckapp.utils.Utils
@@ -150,6 +151,20 @@ class ChickCheckRepository @Inject constructor(
             emit(Result.Error(errorResponseMessage))
         }
     }
+
+    fun getProfile(token: String): LiveData<Result<ProfileResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = remoteDataSource.getProfile(token)
+            emit(Result.Success(response))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = errorBody?.let { Gson().fromJson(it, ErrorResponse::class.java) }
+            val errorResponseMessage = errorResponse?.message.toString()
+            emit(Result.Error(errorResponseMessage))
+        }
+    }
+
     companion object {
         const val TAG = "ChickCheckRepository"
     }
