@@ -16,8 +16,6 @@ import com.example.chickcheckapp.data.remote.response.DataItem
 import com.example.chickcheckapp.data.remote.response.ErrorResponse
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream

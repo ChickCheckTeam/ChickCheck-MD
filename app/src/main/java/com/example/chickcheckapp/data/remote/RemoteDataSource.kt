@@ -8,6 +8,7 @@ import com.example.chickcheckapp.data.remote.response.DetectionResultResponse
 import com.example.chickcheckapp.data.remote.response.LoginResponse
 import com.example.chickcheckapp.data.remote.response.LogoutResponse
 import com.example.chickcheckapp.data.remote.response.NearbyPlaceBodyResponse
+import com.example.chickcheckapp.data.remote.response.ProfileResponse
 import com.example.chickcheckapp.data.remote.response.SignupResponse
 import com.example.chickcheckapp.network.ApiService
 import com.example.chickcheckapp.network.ApiServicePlace
@@ -19,10 +20,12 @@ class RemoteDataSource @Inject constructor(
     private val apiServicePlace: ApiServicePlace
 ) {
     suspend fun findNearbyPlaces(bodyResponse: NearbyPlaceBodyResponse) = apiServicePlace.findNearbyPlaces(requestBody = bodyResponse)
-    suspend fun postDetection(image: MultipartBody.Part,token: String) : DetectionResultResponse
-        { val formatToken = "Bearer $token"
-            val sessionCookie = "session=$token"
-            return apiService.postDetection( image,formatToken,sessionCookie) }
+    suspend fun postDetection(image: MultipartBody.Part,token: String) : DetectionResultResponse {
+        val formatToken = "Bearer $token"
+        val sessionCookie = "session=$token"
+        return apiService.postDetection( image,formatToken,sessionCookie)
+    }
+
     suspend fun registerUser(
         name: String,
         username: String,
@@ -39,8 +42,9 @@ class RemoteDataSource @Inject constructor(
     ):ArticleResponse{
         val formatToken = "Bearer $token"
         val sessionCookie = "session=$token"
-        return apiService.getArticles(formatToken,sessionCookie)
+        return apiService.getArticles(formatToken, sessionCookie)
     }
+
     suspend fun login(
         email: String,
         password: String,
@@ -49,5 +53,15 @@ class RemoteDataSource @Inject constructor(
         return apiService.login(requestBody)
     }
 
-    suspend fun logout(token: String): LogoutResponse = apiService.logout(token)
+    suspend fun logout(token: String): LogoutResponse {
+        val formatToken = "Bearer $token"
+        val sessionCookie = "session=$token"
+        return apiService.logout(formatToken, sessionCookie)
+    }
+
+    suspend fun getProfile(token: String): ProfileResponse {
+        val formatToken = "Bearer $token"
+        val sessionCookie = "session=$token"
+        return apiService.getProfile(formatToken, sessionCookie)
+    }
 }
