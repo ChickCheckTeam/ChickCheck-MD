@@ -25,13 +25,7 @@ class NearbyPlacesListAdapter(private val location: Location) : ListAdapter<Plac
             binding.tvDisplayName.text = item.displayName.text
             val distance = location.distanceTo(Utils.turnIntoLocation( locationLatitude,locationLongitude))
             binding.tvDistance.text = Utils.convertDistance(distance)
-            if(item.photos != null){
-                val photoUrl = "${BuildConfig.BASE_URL_PLACES}v1/${item.photos[0].name}/media?key=${BuildConfig.PLACES_API_KEY}&maxHeightPx=400&maxWidthPx=400"
-                Glide.with(itemView)
-                    .load(photoUrl)
-                    .placeholder(R.drawable.baseline_photo_24)
-                .into(binding.ivPhoto)
-            }
+  
             itemView.setOnClickListener{
                 val title = "Open in Google Maps"
                 val message = "Are you sure you want to open this place in Google Maps?"

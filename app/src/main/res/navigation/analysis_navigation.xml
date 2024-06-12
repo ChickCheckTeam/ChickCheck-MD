@@ -8,18 +8,7 @@
         android:name="com.example.chickcheckapp.presentation.ui.camera.CameraXFragment"
         android:label="CameraXFragment" >
         <action
-            android:id="@+id/action_cameraXFragment_to_analysisFragment"
-            app:destination="@id/analysisFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/analysisFragment"
-        android:name="com.example.chickcheckapp.presentation.ui.analysis.AnalysisFragment"
-        android:label="AnalysisFragment" >
-        <argument
-            android:name="uri_image"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_analysisFragment_to_resultFragment"
+            android:id="@+id/action_cameraXFragment_to_resultFragment"
             app:destination="@id/resultFragment" />
     </fragment>
     <fragment
@@ -27,5 +16,23 @@
         android:name="com.example.chickcheckapp.presentation.ui.result.ResultFragment"
         android:label="ResultFragment" >
         <argument android:name="uri_image" app:argType="string" />
+        <argument android:name="article" app:argType="com.example.chickcheckapp.data.remote.response.ArticleData"/>
+        <action
+            android:id="@+id/action_resultFragment_to_cameraXFragment"
+            app:destination="@id/cameraXFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/resultFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_resultFragment_to_activity_home"
+            app:destination="@id/activity_home"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/activity_home"
+            app:popUpToInclusive="true" />
+        "
     </fragment>
+    <activity
+        android:id="@+id/activity_home"
+        android:name="com.example.chickcheckapp.presentation.MainActivity"
+        android:label="MainActivity" />
 </navigation>
