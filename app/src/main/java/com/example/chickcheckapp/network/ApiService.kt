@@ -8,6 +8,7 @@ import com.example.chickcheckapp.data.remote.response.ArticleResponse
 import com.example.chickcheckapp.data.remote.response.DetectionResultResponse
 import com.example.chickcheckapp.data.remote.response.LoginResponse
 import com.example.chickcheckapp.data.remote.response.LogoutResponse
+import com.example.chickcheckapp.data.remote.response.ProfileResponse
 import com.example.chickcheckapp.data.remote.response.SignupResponse
 import retrofit2.http.Body
 import retrofit2.http.Part
@@ -30,7 +31,6 @@ interface ApiService {
         @Body requestBody: LoginRequest
     ): LoginResponse
 
-
     @Multipart
     @POST("scan")
     suspend fun postDetection(
@@ -44,9 +44,18 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Header("Cookie") sessionCookie: String
     ): ArticleResponse
+
     @POST("logout")
     suspend fun logout(
-        @Header("Authorization") token: String
+        @Header("Authorization") token: String,
+        @Header("Cookie") sessionCookie: String
     ): LogoutResponse
+
+    @GET("profile")
+    suspend fun getProfile(
+        @Header("Authorization") token: String,
+        @Header("Cookie") sessionCookie: String
+    ): ProfileResponse
+
 
 }
