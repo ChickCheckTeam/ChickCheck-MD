@@ -192,7 +192,7 @@ class ResultFragment : Fragment(), View.OnClickListener {
         setSubContent(content)
         when (article.title.lowercase()) {
             "healthy" -> {
-                setHealthy(article)
+                setHealthy()
             }
 
             "new castle disease" -> {
@@ -212,7 +212,7 @@ class ResultFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun setHealthy(data: ArticleData) {
+    private fun setHealthy() {
         binding.ivHeroImage.setImageResource(R.drawable.healthy)
         binding.tvGeneralTitle.text = "Ciri-Ciri"
         binding.tvCause.visibility = View.GONE
