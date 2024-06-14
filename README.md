@@ -1,4 +1,4 @@
-![mobile_mockup_5 (1)](https://github.com/ChickCheckTeam/ChickCheck-MD/assets/114111567/bdc0c794-f1b9-4968-8920-9ff94acdd4d1)# ChickCheckApp: An Application For Detecting Chicken Diseases using Machine Learning
+# ChickCheckApp: An Application For Detecting Chicken Diseases using Machine Learning
 <div align="center">
       <h1> <img src="https://github.com/ChickCheckTeam/ChickCheck-MD/assets/114111567/d0c1063a-26f8-4448-a236-e9d610ef7167" width="80px"><br/>ChickCheck</h1>
      </div>
@@ -13,7 +13,7 @@ Key features of ChickCheckApp include:
 - **Disease Information**: Comprehensive information about various chicken diseases is available within the app, including symptoms, causes, and treatment options.
 
 # Screenshots
- ![mobile_mockup_5 (1)](https://github.com/ChickCheckTeam/ChickCheck-MD/assets/114111567/bdc0c794-f1b9-4968-8920-9ff94acdd4d1)
+<img src="https://github.com/ChickCheckTeam/ChickCheck-MD/assets/114111567/bdc0c794-f1b9-4968-8920-9ff94acdd4d1">
 
 
 # Tech Used
