@@ -1,7 +1,6 @@
 package com.example.chickcheckapp.utils
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Bitmap
@@ -12,7 +11,6 @@ import android.net.Uri
 import android.util.Log
 import android.view.Surface
 import androidx.camera.view.PreviewView
-import com.example.chickcheckapp.data.remote.response.DataItem
 import com.example.chickcheckapp.data.remote.response.ErrorResponse
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
@@ -38,7 +36,7 @@ object Utils {
             String.format("%.1f km", distance / 1000)
         }
     }
-    fun dialogAlertBuilder(context: Context,title:String, message: String, positive : ()->Unit): MaterialAlertDialogBuilder{
+    fun dialogAlertBuilder(context: Context,title:String, message: String, positive : ()->Unit,negative:()->Unit={}): MaterialAlertDialogBuilder{
         val builder =  MaterialAlertDialogBuilder(context)
         builder.setMessage(message)
         builder.setTitle(title)
@@ -47,6 +45,7 @@ object Utils {
             positive()
         }
         builder.setNegativeButton("No"){ dialog: DialogInterface?, which: Int->
+            negative()
             dialog?.cancel()
         }
         return builder
