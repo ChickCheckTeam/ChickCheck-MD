@@ -1,4 +1,4 @@
-# ChickCheckApp: An Application For Detecting Chicken Diseases using Machine Learning
+![mobile_mockup_5 (1)](https://github.com/ChickCheckTeam/ChickCheck-MD/assets/114111567/bdc0c794-f1b9-4968-8920-9ff94acdd4d1)# ChickCheckApp: An Application For Detecting Chicken Diseases using Machine Learning
 <div align="center">
       <h1> <img src="https://github.com/ChickCheckTeam/ChickCheck-MD/assets/114111567/d0c1063a-26f8-4448-a236-e9d610ef7167" width="80px"><br/>ChickCheck</h1>
      </div>
@@ -13,7 +13,9 @@ Key features of ChickCheckApp include:
 - **Disease Information**: Comprehensive information about various chicken diseases is available within the app, including symptoms, causes, and treatment options.
 
 # Screenshots
- <img src="https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/55e7e901b1f69d72804665cfbeb1f4f59c8fa877-496x560.jpg?auto=format&fit=fill&q=80&w=405"> <img src="https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/abbd173df157f943496abb0638add119f753e3b2-496x560.jpg?auto=format&fit=fill&q=80&w=405">
+ ![mobile_mockup_5 (1)](https://github.com/ChickCheckTeam/ChickCheck-MD/assets/114111567/bdc0c794-f1b9-4968-8920-9ff94acdd4d1)
+
+
 # Tech Used
  ![Kotlin](https://img.shields.io/badge/kotlin-%230095D5.svg?style=for-the-badge&logo=kotlin&logoColor=white) ![Google Cloud](https://img.shields.io/badge/Google%20Cloud-%234285F4.svg?style=for-the-badge&logo=google-cloud&logoColor=white)
 
