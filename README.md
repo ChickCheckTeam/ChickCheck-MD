@@ -4,7 +4,7 @@
      </div>
 
 
-# Description
+# About
 ChickCheckApp is an innovative mobile application designed to assist poultry farmers and enthusiasts in maintaining the health of their chickens. Leveraging advanced machine learning algorithms, ChickCheckApp can accurately detect various diseases affecting chickens by analyzing images of the birds. This app aims to provide a quick and reliable diagnostic tool, reducing the need for immediate veterinary consultation and enabling early intervention, which can be crucial for preventing the spread of diseases within a flock.
 
 Key features of ChickCheckApp include:
