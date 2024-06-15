@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_signup -> navView.visibility = View.GONE
                 R.id.navigation_splash -> navView.visibility = View.GONE
                 R.id.article_fragment -> navView.visibility = View.GONE
+                R.id.resultFragment -> navView.visibility = View.GONE
                 else -> navView.visibility = View.VISIBLE
             }
         }

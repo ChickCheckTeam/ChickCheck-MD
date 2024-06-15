@@ -12,5 +12,7 @@ class ProfileViewModel @Inject constructor(
 
     fun getSession() = repository.getSession()
 
+    fun getArticle(token: String) = repository.getArticles(token)
+
     fun getProfile(token: String) = repository.getProfile(token)
 }

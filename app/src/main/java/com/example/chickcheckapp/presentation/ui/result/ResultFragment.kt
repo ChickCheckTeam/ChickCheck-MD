@@ -29,6 +29,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.chickcheckapp.R
 import com.example.chickcheckapp.data.remote.response.ArticleData
 import com.example.chickcheckapp.utils.Result
@@ -177,13 +178,18 @@ class ResultFragment : Fragment(), View.OnClickListener {
     }
 
     private fun setContent(article: ArticleData, uri: String) {
+        Log.d(TAG, "setContent: $uri")
         if (uri.isEmpty()) {
             binding.tvYourPhoto.visibility = View.GONE
             binding.tvYourPhoto.visibility = View.GONE
             binding.btnScanAgain.visibility = View.GONE
+            showToast("TEs")
             hideNearbyPlaces()
         } else {
-            binding.ivYourPhoto.setImageURI(uri.toUri())
+            Glide.with(this)
+                .load(uri)
+                .centerCrop()
+                .into(binding.ivYourPhoto)
         }
         binding.ivHeroImage.setImageResource(R.drawable.salmonella)
         binding.tvDesiaseName.text = article.title

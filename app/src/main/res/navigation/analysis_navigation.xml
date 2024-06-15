@@ -29,7 +29,6 @@
             app:launchSingleTop="true"
             app:popUpTo="@id/activity_home"
             app:popUpToInclusive="true" />
-        "
     </fragment>
     <activity
         android:id="@+id/activity_home"

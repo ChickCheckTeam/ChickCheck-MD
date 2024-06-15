@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_navigation_login"
             app:destination="@id/navigation_login" />
+        <action
+            android:id="@+id/action_navigation_home_to_resultFragment"
+            app:destination="@id/resultFragment" />
     </fragment>
 
     <fragment
@@ -81,6 +84,29 @@
         android:id="@+id/navigation_profile"
         android:name="com.example.chickcheckapp.presentation.ui.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_profile_to_resultFragment"
+            app:destination="@id/resultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.example.chickcheckapp.presentation.ui.result.ResultFragment"
+        android:label="ResultFragment" >
+        <argument android:name="uri_image" app:argType="string" />
+        <argument android:name="article" app:argType="com.example.chickcheckapp.data.remote.response.ArticleData"/>
+        <action
+            android:id="@+id/action_resultFragment_to_cameraXFragment"
+            app:destination="@id/cameraXFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/resultFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_resultFragment_to_activity_home"
+            app:destination="@id/activity_home"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/activity_home"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 </navigation>

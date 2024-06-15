@@ -80,15 +80,14 @@
             app:layout_constraintTop_toBottomOf="@+id/tvMyScanTitle"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvHistory"
+            android:id="@+id/rvScanHistory"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:padding="20dp"
-            android:layout_marginVertical="20dp"
-            android:visibility="gone"
+            android:paddingTop="20dp"
             app:layout_constraintTop_toBottomOf="@+id/tvMyScanDesc"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <LinearLayout
             android:id="@+id/containerEmptyScan"
@@ -97,6 +96,7 @@
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:orientation="vertical"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvMyScanDesc">
@@ -111,7 +111,7 @@
                 android:src="@drawable/empty_image"/>
 
             <TextView
-                android:id="@+id/tvEmptyScanData"
+                android:id="@+id/tvNoDataHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="8dp"
