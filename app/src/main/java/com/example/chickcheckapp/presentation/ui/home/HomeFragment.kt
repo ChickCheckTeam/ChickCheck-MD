@@ -95,10 +95,12 @@ class HomeFragment : Fragment(), OnHistoryItemClickListener {
                         result.data.data.username
                     )
                     binding.containerHomeContent.alpha = 1f
-                    if (result.data.data.scanHistory?.size == 0) {
+                    if (result.data.data.scanHistory.isEmpty()) {
                         binding.containerEmptyScan.visibility = View.VISIBLE
                     } else {
-                        result.data.data.scanHistory?.let { setHistoryData(it) }
+                        binding.containerEmptyScan.visibility = View.GONE
+                        setHistoryData(result.data.data.scanHistory)
+
                     }
                 }
 

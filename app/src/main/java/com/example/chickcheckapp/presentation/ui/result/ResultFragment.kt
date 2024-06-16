@@ -80,7 +80,7 @@ class ResultFragment : Fragment(), View.OnClickListener {
             if (uri.isEmpty()) {
                 findNavController().navigate(R.id.action_article_fragment_to_navigation_article)
             } else {
-                requireActivity().finish()
+                findNavController().navigate(R.id.action_resultFragment_to_homeFragment)
             }
         }
         binding.btnScanAgain.setOnClickListener {
@@ -250,7 +250,7 @@ class ResultFragment : Fragment(), View.OnClickListener {
     private fun setContent(article: ArticleData, uri: String) {
         Log.d(TAG, "setContent: $uri")
         if (uri.isEmpty()) {
-            binding.tvYourPhoto.visibility = View.GONE
+            binding.ivYourPhoto.visibility = View.GONE
             binding.tvYourPhoto.visibility = View.GONE
             binding.btnScanAgain.visibility = View.GONE
             showToast("TEs")
