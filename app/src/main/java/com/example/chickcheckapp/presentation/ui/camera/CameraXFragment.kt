@@ -148,6 +148,7 @@ class CameraXFragment : Fragment() {
                     binding.loadingBackground.visibility = View.VISIBLE
                     binding.tvScanLoadingText.visibility = View.VISIBLE
                     binding.tvGuidance.visibility = View.GONE
+                    binding.backgroundGuidance.visibility = View.GONE
                 }
 
                 is Result.Error -> {

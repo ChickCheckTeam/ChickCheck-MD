@@ -2,6 +2,7 @@ package com.example.chickcheckapp.presentation.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -18,10 +19,8 @@ class ArticleListAdapter(private val items: List<ArticleData>) : RecyclerView.Ad
     class ViewHolder(private val binding: ItemLayoutArticleBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item:ArticleData){
            binding.tvDesiaseName.text = item.title
+            binding.tvCause.text = Utils.parseJsonToDisease(item.content).alternativeTitle
             when(item.title.lowercase()){
-                "healthy" -> {
-                    binding.shapeableImageView.setImageResource(R.drawable.healthy)
-                }
                 "new castle disease" ->{
                     binding.shapeableImageView.setImageResource(R.drawable.newcastle)
                 }

@@ -85,7 +85,8 @@ class ChickCheckRepository @Inject constructor(
         emit(Result.Loading)
         try {
             val response = remoteDataSource.getArticles(token)
-            emit(Result.Success(response.data))
+            val filteredResponse = response.data.filter {it.title.lowercase() != "healthy"}
+            emit(Result.Success(filteredResponse))
         } catch (e: HttpException) {
             val errorMessage = Utils.parseJsonToErrorMessage(e.response()?.errorBody()?.string())
             emit(Result.Error(errorMessage))
