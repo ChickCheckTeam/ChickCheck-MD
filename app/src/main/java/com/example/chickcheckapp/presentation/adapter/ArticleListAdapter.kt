@@ -33,7 +33,7 @@ class ArticleListAdapter(private val items: List<ArticleData>) :
             }
             itemView.setOnClickListener {
                 val action =
-                    ArticleFragmentDirections.actionNavigationArticleToResultFragment2(
+                    ArticleFragmentDirections.actionNavigationArticleToResultFragment(
                         article = item
                     )
                 it.findNavController().navigate(action)

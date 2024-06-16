@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
@@ -23,6 +24,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -71,6 +73,7 @@ class ResultFragment : Fragment(), View.OnClickListener {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val uri = args.uriImage
@@ -78,14 +81,14 @@ class ResultFragment : Fragment(), View.OnClickListener {
         setContent(article, uri)
         binding.btnBack.setOnClickListener {
             if (uri.isEmpty()) {
-                findNavController().navigate(R.id.action_article_fragment_to_navigation_article)
+                findNavController().navigate(R.id.action_resultFragment_to_navigation_article)
             } else {
-                findNavController().navigate(R.id.action_resultFragment_to_homeFragment)
+                findNavController().navigate(R.id.action_resultFragment_to_navigation_home)
             }
         }
         binding.btnScanAgain.setOnClickListener {
             binding.locationContent.visibility = View.GONE
-            findNavController().navigate(R.id.action_resultFragment_to_cameraXFragment)
+            findNavController().navigate(R.id.action_resultFragment_to_navigation_scan)
         }
         binding.ivDownArrowPlaces.setOnClickListener(this)
         binding.ivGeneralDownArrow.setOnClickListener(this)
@@ -247,13 +250,14 @@ class ResultFragment : Fragment(), View.OnClickListener {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setContent(article: ArticleData, uri: String) {
         Log.d(TAG, "setContent: $uri")
         if (uri.isEmpty()) {
-            binding.ivYourPhoto.visibility = View.GONE
             binding.tvYourPhoto.visibility = View.GONE
+            binding.ivYourPhoto.visibility = View.GONE
             binding.btnScanAgain.visibility = View.GONE
-            showToast("TEs")
+            binding.tvTakenAt.visibility = View.GONE
             hideNearbyPlaces()
         } else {
             Glide.with(this)
@@ -264,6 +268,7 @@ class ResultFragment : Fragment(), View.OnClickListener {
         binding.ivHeroImage.setImageResource(R.drawable.salmonella)
         binding.tvDesiaseName.text = article.title
         binding.tvToolbarTitle.text = article.title
+        binding.tvTakenAt.text = Utils.formatDate(article.createdAt)
         val content = Utils.parseJsonToDisease(article.content)
         setSubContent(content)
         when (article.title.lowercase()) {

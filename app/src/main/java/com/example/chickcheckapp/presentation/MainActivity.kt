@@ -1,6 +1,5 @@
 package com.example.chickcheckapp.presentation
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -33,16 +32,13 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_login -> navView.visibility = View.GONE
                 R.id.navigation_signup -> navView.visibility = View.GONE
                 R.id.navigation_splash -> navView.visibility = View.GONE
-                R.id.article_fragment -> navView.visibility = View.GONE
+                R.id.resultFragment -> navView.visibility = View.GONE
+                R.id.navigation_scan -> navView.visibility = View.GONE
                 R.id.resultFragment -> navView.visibility = View.GONE
                 R.id.navigation_profile -> navView.visibility = View.GONE
                 else -> navView.visibility = View.VISIBLE
             }
         }
-        navView.menu.findItem(R.id.navigation_scan).setOnMenuItemClickListener {
-            val intent = Intent(this, CameraActivity::class.java)
-            startActivity(intent)
-            true
-        }
+
     }
 }
