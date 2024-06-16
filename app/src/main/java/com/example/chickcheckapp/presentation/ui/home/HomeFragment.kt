@@ -51,7 +51,7 @@ class HomeFragment : Fragment(), OnHistoryItemClickListener {
         }
 
         binding.btnScan.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_resultFragment)
+            findNavController().navigate(R.id.action_navigation_home_to_navigation_scan)
         }
 
         viewModel.getSession().asLiveData().observe(viewLifecycleOwner) { user ->
