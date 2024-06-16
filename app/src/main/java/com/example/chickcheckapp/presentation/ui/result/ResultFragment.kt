@@ -3,9 +3,15 @@ package com.example.chickcheckapp.presentation.ui.result
 import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
+import android.os.Looper
+import android.provider.Settings
 import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
@@ -18,31 +24,34 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
-import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.chickcheckapp.R
 import com.example.chickcheckapp.data.remote.response.ArticleData
-import com.example.chickcheckapp.utils.Result
-import com.example.chickcheckapp.data.remote.response.DataItem
-import com.example.chickcheckapp.data.remote.response.DetectionResultResponse
 import com.example.chickcheckapp.databinding.FragmentResultBinding
 import com.example.chickcheckapp.presentation.adapter.NearbyPlacesListAdapter
 import com.example.chickcheckapp.utils.Disease
+import com.example.chickcheckapp.utils.Result
 import com.example.chickcheckapp.utils.Utils
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.internal.parseCookie
 
 
 @AndroidEntryPoint
@@ -64,6 +73,7 @@ class ResultFragment : Fragment(), View.OnClickListener {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val uri = args.uriImage
@@ -71,19 +81,25 @@ class ResultFragment : Fragment(), View.OnClickListener {
         setContent(article, uri)
         binding.btnBack.setOnClickListener {
             if (uri.isEmpty()) {
-                findNavController().navigate(R.id.action_article_fragment_to_navigation_article)
+                findNavController().navigate(R.id.action_resultFragment_to_navigation_article)
             } else {
-                requireActivity().finish()
+                findNavController().navigate(R.id.action_resultFragment_to_navigation_home)
             }
         }
         binding.btnScanAgain.setOnClickListener {
-            findNavController().navigate(R.id.action_resultFragment_to_cameraXFragment)
+            binding.locationContent.visibility = View.GONE
+            findNavController().navigate(R.id.action_resultFragment_to_navigation_scan)
         }
         binding.ivDownArrowPlaces.setOnClickListener(this)
         binding.ivGeneralDownArrow.setOnClickListener(this)
         binding.ivIconTreatmentDownArrow.setOnClickListener(this)
         binding.ivIconPreventionDownArrow.setOnClickListener(this)
         binding.ivIconSymptomsDownArrow.setOnClickListener(this)
+        binding.tvGeneralTitle.setOnClickListener(this)
+        binding.tvLocationTitle.setOnClickListener(this)
+        binding.tvTreatmentTitle.setOnClickListener(this)
+        binding.tvPreventionTitle.setOnClickListener(this)
+        binding.tvSymptomsTitle.setOnClickListener(this)
 
         binding.appBar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
             if (binding.collapsingToolbar.height + verticalOffset < 2 * ViewCompat.getMinimumHeight(
@@ -98,18 +114,29 @@ class ResultFragment : Fragment(), View.OnClickListener {
         if (uri.isNotEmpty() && article.title.lowercase() != "healthy") {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
             if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                getMyLocation()
+                if (isLocationEnabled()) {
+                    getMyLocation()
+                } else {
+                    Utils.dialogAlertBuilder(
+                        requireContext(),
+                        "Turn on the location",
+                        "Would you like to turn on the location to see nearby veterinarian?",
+                     {
+                        promptEnableLocation()
+                    },{
+                        hideNearbyPlaces()
+                    }).create().show()
+                }
             } else {
                 requestLocationPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
         }
     }
 
+
     private fun setNearbyPlaces(location: Location) {
         val adapter = NearbyPlacesListAdapter(location)
         val layoutManager = LinearLayoutManager(requireContext())
-        val itemDecorations = DividerItemDecoration(activity, layoutManager.orientation)
-        binding.rvNearbyPlaces.addItemDecoration(itemDecorations)
         binding.rvNearbyPlaces.layoutManager = layoutManager
         binding.rvNearbyPlaces.adapter = adapter
         viewModel.findNearbyPlaces(location).observe(viewLifecycleOwner) { result ->
@@ -143,6 +170,55 @@ class ResultFragment : Fragment(), View.OnClickListener {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
+    private fun requestNewLocationData() {
+        val locationRequest = LocationRequest.create().apply {
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            interval = 10000
+            fastestInterval = 5000
+            numUpdates = 1
+        }
+        binding.progressBar.visibility = View.VISIBLE
+        if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            fusedLocationClient?.requestLocationUpdates(
+                locationRequest,
+                object : LocationCallback() {
+                    override fun onLocationResult(locationResult: LocationResult) {
+                        val location: Location? = locationResult.lastLocation
+                        if (location != null) {
+                            Log.d(
+                                TAG,
+                                "requestNewLocationData: ${location.latitude}, ${location.longitude}"
+                            )
+                            setNearbyPlaces(location)
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                getString(R.string.location_not_found),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                },
+                Looper.myLooper()!!
+            )
+        }
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        val locationManager =
+            requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
+
+    private fun promptEnableLocation() {
+        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+        getMyLocation()
+        startActivity(intent)
+
+    }
+
     private fun getMyLocation() {
         if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
             fusedLocationClient?.lastLocation?.addOnSuccessListener { location: Location? ->
@@ -150,12 +226,10 @@ class ResultFragment : Fragment(), View.OnClickListener {
                     Log.d(TAG, "getMyLocation: ${location.latitude}, ${location.longitude}")
                     setNearbyPlaces(location)
                 } else {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.location_not_found),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    requestNewLocationData()
                 }
+            }?.addOnFailureListener { e ->
+                Log.e(TAG, "Error getting location: ${e.localizedMessage}")
             }
         } else {
             requestLocationPermission.launch(
@@ -176,23 +250,30 @@ class ResultFragment : Fragment(), View.OnClickListener {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setContent(article: ArticleData, uri: String) {
+        Log.d(TAG, "setContent: $uri")
         if (uri.isEmpty()) {
             binding.tvYourPhoto.visibility = View.GONE
-            binding.tvYourPhoto.visibility = View.GONE
+            binding.ivYourPhoto.visibility = View.GONE
             binding.btnScanAgain.visibility = View.GONE
+            binding.tvTakenAt.visibility = View.GONE
             hideNearbyPlaces()
         } else {
-            binding.ivYourPhoto.setImageURI(uri.toUri())
+            Glide.with(this)
+                .load(uri)
+                .centerCrop()
+                .into(binding.ivYourPhoto)
         }
         binding.ivHeroImage.setImageResource(R.drawable.salmonella)
         binding.tvDesiaseName.text = article.title
         binding.tvToolbarTitle.text = article.title
+        binding.tvTakenAt.text = Utils.formatDate(article.createdAt)
         val content = Utils.parseJsonToDisease(article.content)
         setSubContent(content)
         when (article.title.lowercase()) {
             "healthy" -> {
-                setHealthy(article)
+                setHealthy()
             }
 
             "new castle disease" -> {
@@ -212,7 +293,7 @@ class ResultFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun setHealthy(data: ArticleData) {
+    private fun setHealthy() {
         binding.ivHeroImage.setImageResource(R.drawable.healthy)
         binding.tvGeneralTitle.text = "Ciri-Ciri"
         binding.tvCause.visibility = View.GONE
@@ -240,6 +321,7 @@ class ResultFragment : Fragment(), View.OnClickListener {
         addListContentToContainer(binding.listPreventionContainer, content.section[2].listContent)
         addListContentToContainer(binding.listTreatmentContainer, content.section[3].listContent)
     }
+
     private fun addListContentToContainer(container: LinearLayout, listContent: List<String>) {
         if (listContent.isNotEmpty()) {
             listContent.forEach {
@@ -250,6 +332,7 @@ class ResultFragment : Fragment(), View.OnClickListener {
             }
         }
     }
+
     private fun hideNearbyPlaces() {
         binding.tvLocationTitle.visibility = View.GONE
         binding.locationContent.visibility = View.GONE

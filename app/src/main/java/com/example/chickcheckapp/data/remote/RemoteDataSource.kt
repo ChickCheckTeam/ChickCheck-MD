@@ -1,6 +1,5 @@
 package com.example.chickcheckapp.data.remote
 
-import android.util.Log
 import com.example.chickcheckapp.data.remote.request.LoginRequest
 import com.example.chickcheckapp.data.remote.request.SignUpRequest
 import com.example.chickcheckapp.data.remote.response.ArticleResponse
@@ -19,11 +18,13 @@ class RemoteDataSource @Inject constructor(
     private val apiService: ApiService,
     private val apiServicePlace: ApiServicePlace
 ) {
-    suspend fun findNearbyPlaces(bodyResponse: NearbyPlaceBodyResponse) = apiServicePlace.findNearbyPlaces(requestBody = bodyResponse)
-    suspend fun postDetection(image: MultipartBody.Part,token: String) : DetectionResultResponse {
+    suspend fun findNearbyPlaces(bodyResponse: NearbyPlaceBodyResponse) =
+        apiServicePlace.findNearbyPlaces(requestBody = bodyResponse)
+
+    suspend fun postDetection(image: MultipartBody.Part, token: String): DetectionResultResponse {
         val formatToken = "Bearer $token"
         val sessionCookie = "session=$token"
-        return apiService.postDetection( image,formatToken,sessionCookie)
+        return apiService.postDetection(image, formatToken, sessionCookie)
     }
 
     suspend fun registerUser(
@@ -39,7 +40,7 @@ class RemoteDataSource @Inject constructor(
 
     suspend fun getArticles(
         token: String
-    ):ArticleResponse{
+    ): ArticleResponse {
         val formatToken = "Bearer $token"
         val sessionCookie = "session=$token"
         return apiService.getArticles(formatToken, sessionCookie)

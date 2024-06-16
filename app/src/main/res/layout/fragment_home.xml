@@ -25,13 +25,13 @@
                 android:id="@+id/tvWelcome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/welcome_title"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:textColor="?attr/colorOnPrimary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Hello, MyBro!" />
+
             <TextView
                 android:id="@+id/tvWelcomeDesc"
                 android:layout_width="wrap_content"
@@ -42,16 +42,16 @@
                 android:textColor="?attr/colorOnPrimary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvWelcome"
-                tools:text="Let's check your chicken today!"/>
+                tools:text="Let's check your chicken today!" />
 
             <ImageButton
-                android:id="@+id/btnLogout"
+                android:id="@+id/btnProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/logout_button"
-                android:src="@drawable/baseline_logout_24"
+                android:src="@drawable/user_icon"
                 app:tint="?attr/colorOnPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -77,18 +77,17 @@
             android:textSize="16sp"
             android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvMyScanTitle"/>
+            app:layout_constraintTop_toBottomOf="@+id/tvMyScanTitle" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvHistory"
+            android:id="@+id/rvScanHistory"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:padding="20dp"
-            android:layout_marginVertical="20dp"
-            android:visibility="gone"
+            android:paddingTop="20dp"
             app:layout_constraintTop_toBottomOf="@+id/tvMyScanDesc"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <LinearLayout
             android:id="@+id/containerEmptyScan"
@@ -97,6 +96,7 @@
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:orientation="vertical"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvMyScanDesc">
@@ -108,22 +108,22 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginHorizontal="16dp"
                 android:contentDescription="@string/empty_image"
-                android:src="@drawable/empty_image"/>
+                android:src="@drawable/empty_image" />
 
             <TextView
-                android:id="@+id/tvEmptyScanData"
+                android:id="@+id/tvNoDataHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="8dp"
                 android:text="@string/empty_scan_data"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/btnScan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:text="@string/scan_now"/>
+                android:text="@string/scan_now" />
 
         </LinearLayout>
 
@@ -137,6 +137,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

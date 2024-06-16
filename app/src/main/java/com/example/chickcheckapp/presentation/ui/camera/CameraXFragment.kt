@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.OrientationEventListener
@@ -12,6 +11,7 @@ import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ImageAnalysis
@@ -26,9 +26,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.example.chickcheckapp.R
 import com.example.chickcheckapp.data.remote.response.ArticleData
-import com.example.chickcheckapp.data.remote.response.DataItem
-import com.example.chickcheckapp.data.remote.response.DetectionResultResponse
 import com.example.chickcheckapp.databinding.FragmentCameraxBinding
 import com.example.chickcheckapp.presentation.ui.result.ResultFragment
 import com.example.chickcheckapp.utils.Result
@@ -37,10 +37,7 @@ import com.example.chickcheckapp.utils.Utils.reduceFileSize
 import com.example.chickcheckapp.utils.Utils.rotateImage
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.io.File
-import java.util.concurrent.Future
 
 @AndroidEntryPoint
 class CameraXFragment : Fragment() {
@@ -147,12 +144,15 @@ class CameraXFragment : Fragment() {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.loadingBackground.visibility = View.VISIBLE
                     binding.tvScanLoadingText.visibility = View.VISIBLE
+                    binding.tvGuidance.visibility = View.GONE
+                    binding.backgroundGuidance.visibility = View.GONE
                 }
 
                 is Result.Error -> {
                     binding.progressBar.visibility = View.GONE
                     binding.loadingBackground.visibility = View.GONE
                     binding.tvScanLoadingText.visibility = View.GONE
+                    binding.tvGuidance.visibility = View.VISIBLE
                     showToast(result.error)
                     Log.d(ResultFragment.TAG, "error: ${result.error}")
                 }
@@ -161,12 +161,9 @@ class CameraXFragment : Fragment() {
                     binding.progressBar.visibility = View.GONE
                     binding.loadingBackground.visibility = View.GONE
                     binding.tvScanLoadingText.visibility = View.GONE
-                    val article : ArticleData = result.data.article
+                    val article: ArticleData = result.data.article
                     val action =
-                        CameraXFragmentDirections.actionCameraXFragmentToResultFragment(
-                            uri.toString(),
-                            article
-                        )
+                        CameraXFragmentDirections.actionNavigationScanToResultFragment(article,uri.toString())
                     view?.findNavController()?.navigate(action)
                 }
             }

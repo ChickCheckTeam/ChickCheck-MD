@@ -1,20 +1,14 @@
 package com.example.chickcheckapp.presentation
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.chickcheckapp.R
 import com.example.chickcheckapp.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -31,21 +25,19 @@ class MainActivity : AppCompatActivity() {
     private fun setupView() {
         val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-
         navView.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.navigation_login -> navView.visibility = View.GONE
                 R.id.navigation_signup -> navView.visibility = View.GONE
                 R.id.navigation_splash -> navView.visibility = View.GONE
-                R.id.article_fragment -> navView.visibility = View.GONE
+                R.id.resultFragment -> navView.visibility = View.GONE
+                R.id.navigation_scan -> navView.visibility = View.GONE
+                R.id.resultFragment -> navView.visibility = View.GONE
+                R.id.navigation_profile -> navView.visibility = View.GONE
                 else -> navView.visibility = View.VISIBLE
             }
         }
-        navView.menu.findItem(R.id.navigation_scan).setOnMenuItemClickListener {
-            val intent = Intent(this, CameraActivity::class.java)
-            startActivity(intent)
-            true
-        }
+
     }
 }

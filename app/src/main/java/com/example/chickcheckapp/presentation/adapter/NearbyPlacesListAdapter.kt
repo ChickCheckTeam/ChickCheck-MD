@@ -8,28 +8,30 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.chickcheckapp.BuildConfig
-import com.example.chickcheckapp.R
 import com.example.chickcheckapp.data.remote.response.PlacesItem
 import com.example.chickcheckapp.databinding.ItemNearbyPlacesLayoutBinding
 import com.example.chickcheckapp.utils.Utils
 import com.example.chickcheckapp.utils.Utils.dialogAlertBuilder
 
-class NearbyPlacesListAdapter(private val location: Location) : ListAdapter<PlacesItem, NearbyPlacesListAdapter.NearbyPlacesViewHolder>(DIFF_CALLBACK) {
-    class NearbyPlacesViewHolder(private val binding : ItemNearbyPlacesLayoutBinding,private val location: Location) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item : PlacesItem){
+class NearbyPlacesListAdapter(private val location: Location) :
+    ListAdapter<PlacesItem, NearbyPlacesListAdapter.NearbyPlacesViewHolder>(DIFF_CALLBACK) {
+    class NearbyPlacesViewHolder(
+        private val binding: ItemNearbyPlacesLayoutBinding,
+        private val location: Location
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: PlacesItem) {
             val locationLatitude = item.location.latitude as Double
             val locationLongitude = item.location.longitude as Double
             binding.tvAddress.text = item.formattedAddress
             binding.tvDisplayName.text = item.displayName.text
-            val distance = location.distanceTo(Utils.turnIntoLocation( locationLatitude,locationLongitude))
+            val distance =
+                location.distanceTo(Utils.turnIntoLocation(locationLatitude, locationLongitude))
             binding.tvDistance.text = Utils.convertDistance(distance)
-  
-            itemView.setOnClickListener{
+
+            itemView.setOnClickListener {
                 val title = "Open in Google Maps"
                 val message = "Are you sure you want to open this place in Google Maps?"
-                val dialog = dialogAlertBuilder(itemView.context,title,message) {
+                val dialog = dialogAlertBuilder(itemView.context,title,message, {
                     val gmmIntentUri = Uri.parse(item.googleMapsUri)
                     val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {
                         setPackage("com.google.android.apps.maps")
@@ -42,7 +44,7 @@ class NearbyPlacesListAdapter(private val location: Location) : ListAdapter<Plac
                         }
                         itemView.context.startActivity(webIntent)
                     }
-                }.create()
+                }).create()
                 dialog.show()
             }
         }
@@ -50,16 +52,21 @@ class NearbyPlacesListAdapter(private val location: Location) : ListAdapter<Plac
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NearbyPlacesViewHolder {
-        val binding = ItemNearbyPlacesLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return NearbyPlacesViewHolder(binding,location)
+        val binding = ItemNearbyPlacesLayoutBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return NearbyPlacesViewHolder(binding, location)
     }
 
     override fun onBindViewHolder(holder: NearbyPlacesViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
     }
-    companion object  {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PlacesItem>(){
+
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PlacesItem>() {
             override fun areItemsTheSame(oldItem: PlacesItem, newItem: PlacesItem): Boolean {
                 return oldItem == newItem
             }

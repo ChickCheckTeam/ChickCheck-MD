@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.ui.article.ArticleFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/containerTopBar"
         android:layout_width="match_parent"
@@ -19,14 +20,13 @@
             android:id="@+id/tv_article_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Article"
+            android:text="@string/artikel"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvWelcomeDesc"
@@ -34,13 +34,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:paddingBottom="16dp"
-            android:text="Learn more about chicken diseases"
+            android:text="@string/learn_more_about_chicken_diseases"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_article_title"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/tv_article_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -55,8 +54,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/containerTopBar"
-        tools:listitem="@layout/item_layout_article"
-        />
+        tools:listitem="@layout/item_layout_article" />
 
     <ProgressBar
         android:id="@+id/progressBar"

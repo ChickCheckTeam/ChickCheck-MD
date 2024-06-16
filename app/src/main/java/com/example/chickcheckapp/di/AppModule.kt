@@ -17,8 +17,11 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideRemoteDataSource(apiService: ApiService, apiServicePlace: ApiServicePlace): RemoteDataSource {
-        return RemoteDataSource(apiService,apiServicePlace)
+    fun provideRemoteDataSource(
+        apiService: ApiService,
+        apiServicePlace: ApiServicePlace
+    ): RemoteDataSource {
+        return RemoteDataSource(apiService, apiServicePlace)
     }
 
     @Provides
@@ -29,7 +32,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRepository(remoteDataSource: RemoteDataSource, localDataSource: LocalDataSource): ChickCheckRepository {
+    fun provideRepository(
+        remoteDataSource: RemoteDataSource,
+        localDataSource: LocalDataSource
+    ): ChickCheckRepository {
         return ChickCheckRepository(remoteDataSource, localDataSource)
     }
 

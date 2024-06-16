@@ -10,6 +10,6 @@ import javax.inject.Inject
 class CameraXViewModel @Inject constructor(
     private val repository: ChickCheckRepository
 ) : ViewModel() {
-    fun postDetection(file: File,token:String) = repository.postDetection(file,token)
+    fun postDetection(file: File, token: String) = repository.postDetection(file, token)
     fun getSession() = repository.getSession()
 }

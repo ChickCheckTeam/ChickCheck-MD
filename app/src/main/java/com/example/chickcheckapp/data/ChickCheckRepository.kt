@@ -1,10 +1,8 @@
 package com.example.chickcheckapp.data
 
 import android.location.Location
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import com.example.chickcheckapp.data.local.LocalDataSource
 import com.example.chickcheckapp.data.local.model.UserModel
@@ -12,7 +10,6 @@ import com.example.chickcheckapp.data.remote.RemoteDataSource
 import com.example.chickcheckapp.data.remote.response.ArticleData
 import com.example.chickcheckapp.data.remote.response.Center
 import com.example.chickcheckapp.data.remote.response.Circle
-import com.example.chickcheckapp.data.remote.response.DataItem
 import com.example.chickcheckapp.data.remote.response.DetectionResultResponse
 import com.example.chickcheckapp.data.remote.response.ErrorResponse
 import com.example.chickcheckapp.data.remote.response.LocationRestriction
@@ -24,14 +21,13 @@ import com.example.chickcheckapp.data.remote.response.ProfileResponse
 import com.example.chickcheckapp.data.remote.response.SignupResponse
 import com.example.chickcheckapp.utils.Result
 import com.example.chickcheckapp.utils.Utils
+import com.google.gson.Gson
+import kotlinx.coroutines.flow.Flow
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
 import java.io.File
-import com.google.gson.Gson
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class ChickCheckRepository @Inject constructor(
@@ -42,12 +38,12 @@ class ChickCheckRepository @Inject constructor(
         return localDataSource.getSession()
     }
 
-    fun findNearbyPlaces(location:Location) : LiveData<Result<NearbyPlacesResponse>> = liveData {
+    fun findNearbyPlaces(location: Location): LiveData<Result<NearbyPlacesResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val center = Center(location.latitude,location.longitude)
+            val center = Center(location.latitude, location.longitude)
             val radius = 5000
-            val circle = Circle(center,radius)
+            val circle = Circle(center, radius)
             val body = NearbyPlaceBodyResponse(
                 includedTypes = listOf("veterinary_care"),
                 locationRestriction = LocationRestriction(circle),
@@ -62,30 +58,34 @@ class ChickCheckRepository @Inject constructor(
         }
     }
 
-    fun postDetection(file: File,token:String):LiveData<Result<DetectionResultResponse>> = liveData{
-        emit(Result.Loading)
-        try {
-            val requestImageFile = file.asRequestBody("image/jpg".toMediaType())
-            val multipartBody = MultipartBody.Part.createFormData(
-                "image",
-                file.name,
-                requestImageFile
-            )
-            Log.d(TAG,token)
+    fun postDetection(file: File, token: String): LiveData<Result<DetectionResultResponse>> =
+        liveData {
+            emit(Result.Loading)
+            try {
+                val requestImageFile = file.asRequestBody("image/jpg".toMediaType())
+                val multipartBody = MultipartBody.Part.createFormData(
+                    "image",
+                    file.name,
+                    requestImageFile
+                )
+                Log.d(TAG, token)
 
-            val response = remoteDataSource.postDetection(multipartBody,token)
-            emit(Result.Success(response))
-        } catch (e: HttpException) {
-            val errorMessage = Utils.parseJsonToErrorMessage(e.response()?.errorBody()?.string())
-            emit(Result.Error(errorMessage))
-            Log.e(TAG, "postDetection: $errorMessage")
+                val response = remoteDataSource.postDetection(multipartBody, token)
+                emit(Result.Success(response))
+            } catch (e: HttpException) {
+                val errorMessage =
+                    Utils.parseJsonToErrorMessage(e.response()?.errorBody()?.string())
+                emit(Result.Error(errorMessage))
+                Log.e(TAG, "postDetection: $errorMessage")
+            }
         }
-    }
-    fun getArticles(token: String):LiveData<Result<List<ArticleData>>> = liveData{
+
+    fun getArticles(token: String): LiveData<Result<List<ArticleData>>> = liveData {
         emit(Result.Loading)
         try {
             val response = remoteDataSource.getArticles(token)
-            emit(Result.Success(response.data))
+            val filteredResponse = response.data.filter {it.title.lowercase() != "healthy"}
+            emit(Result.Success(filteredResponse))
         } catch (e: HttpException) {
             val errorMessage = Utils.parseJsonToErrorMessage(e.response()?.errorBody()?.string())
             emit(Result.Error(errorMessage))
@@ -102,7 +102,8 @@ class ChickCheckRepository @Inject constructor(
     ): LiveData<Result<SignupResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = remoteDataSource.registerUser(name, username, email, password, confirmPassword)
+            val response =
+                remoteDataSource.registerUser(name, username, email, password, confirmPassword)
             emit(Result.Success(response))
         } catch (e: HttpException) {
 
@@ -141,7 +142,7 @@ class ChickCheckRepository @Inject constructor(
     fun logoutFromApi(token: String): LiveData<Result<LogoutResponse>> = liveData {
         emit(Result.Loading)
         try {
-            Log.d(TAG,"logout: $token")
+            Log.d(TAG, "logout: $token")
             val response = remoteDataSource.logout(token)
             emit(Result.Success(response))
         } catch (e: HttpException) {

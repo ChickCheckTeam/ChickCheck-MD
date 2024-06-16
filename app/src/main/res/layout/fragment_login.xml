@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    
+
     <ImageView
         android:id="@+id/ivLogin"
         android:layout_width="250dp"
@@ -12,7 +12,7 @@
         android:layout_marginTop="40dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/tvLoginTitle"
@@ -21,10 +21,10 @@
         android:layout_marginTop="16dp"
         android:layout_marginStart="32dp"
         android:textSize="28sp"
-        android:text="Login"
+        android:text="@string/title_login"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivLogin"/>
+        app:layout_constraintTop_toBottomOf="@+id/ivLogin" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edEmailLayout"
@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ems="10"
-            android:hint="Email Address"
+            android:hint="@string/email_address"
             android:inputType="textEmailAddress"
             android:paddingStart="50dp"
             android:paddingEnd="10dp" />
@@ -70,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:paddingStart="50dp"
             android:paddingEnd="10dp" />
@@ -82,10 +82,10 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="8dp"
-        android:text="Login"
+        android:text="@string/title_login"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edPasswordLayout"/>
+        app:layout_constraintTop_toBottomOf="@id/edPasswordLayout" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -99,16 +99,16 @@
             android:id="@+id/tvMoveToSignup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Don't have any account?" />
+            android:text="@string/desc_dont_have_any_account" />
 
         <TextView
             android:id="@+id/tvSignup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
-            android:text="Sign Up"
+            android:text="@string/title_sign_up"
             android:textColor="?attr/colorPrimary"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -120,6 +120,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-    
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryContainer"
+    android:background="@color/primary"
     tools:context=".presentation.ui.splash.SplashFragment">
 
     <ImageView
@@ -11,7 +11,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:contentDescription="@string/logo_image"
-        android:src="@drawable/logo"
-        android:layout_gravity="center"/>
+        android:src="@drawable/logo_white"
+        android:layout_gravity="center" />
 
 </FrameLayout>

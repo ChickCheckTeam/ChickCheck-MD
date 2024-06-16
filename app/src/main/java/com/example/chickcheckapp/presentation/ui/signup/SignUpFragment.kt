@@ -28,23 +28,20 @@ class SignUpFragment : Fragment() {
     ): View {
         _binding = FragmentSignUpBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         formValidation()
         registerUser()
-
         binding.tvLogin.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_signup_to_navigation_login)
         }
     }
 
     private fun registerUser() {
-        with (binding) {
+        with(binding) {
             btnSignUp.setOnClickListener {
                 if (isFormValid()) {
                     val name = edSignUpName.text.toString()
@@ -53,18 +50,21 @@ class SignUpFragment : Fragment() {
                     val password = edSignUpPassword.text.toString()
                     val confirmPassword = edSignUpConfirmPassword.text.toString()
 
-                    val register = viewModel.registerUser(name, username, email, password, confirmPassword)
+                    val register =
+                        viewModel.registerUser(name, username, email, password, confirmPassword)
 
                     register.observe(viewLifecycleOwner) { result ->
                         when (result) {
                             is Result.Loading -> {
                                 progressBar.visibility = View.VISIBLE
                             }
+
                             is Result.Success -> {
                                 progressBar.visibility = View.GONE
                                 showSnackBar("Account Created Successfully!")
                                 findNavController().navigate(R.id.action_navigation_signup_to_navigation_login)
                             }
+
                             is Result.Error -> {
                                 progressBar.visibility = View.GONE
                                 if (result.error.isNotEmpty()) {
@@ -85,7 +85,7 @@ class SignUpFragment : Fragment() {
     }
 
     private fun showErrorForm() {
-        with (binding) {
+        with(binding) {
             edSignUpNameLayout.helperText = validName()
             edSignUpUsernameLayout.helperText = validUsername()
             edSignUpEmailLayout.helperText = validEmail()
@@ -99,19 +99,17 @@ class SignUpFragment : Fragment() {
     }
 
     private fun isFormValid(): Boolean {
-        with (binding) {
-            val nameError = validName()
-            val usernameError = validUsername()
-            val emailError = validEmail()
-            val passwordError = validPassword()
-            val confirmPasswordError = validConfirmPassword()
+        val nameError = validName()
+        val usernameError = validUsername()
+        val emailError = validEmail()
+        val passwordError = validPassword()
+        val confirmPasswordError = validConfirmPassword()
 
-            return nameError == null && usernameError == null && emailError == null && passwordError == null && confirmPasswordError == null
-        }
+        return nameError == null && usernameError == null && emailError == null && passwordError == null && confirmPasswordError == null
     }
 
     private fun formValidation() {
-        with (binding) {
+        with(binding) {
             edSignUpName.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
                     edSignUpNameLayout.helperText = validName()

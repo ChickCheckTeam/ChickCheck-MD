@@ -9,28 +9,39 @@
         android:id="@+id/navigation_home"
         android:name="com.example.chickcheckapp.presentation.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_navigation_home_to_navigation_login"
             app:destination="@id/navigation_login" />
+        <action
+            android:id="@+id/action_navigation_home_to_resultFragment"
+            app:destination="@id/resultFragment"/>
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_scan"
+            app:destination="@id/navigation_scan" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_article"
         android:name="com.example.chickcheckapp.presentation.ui.article.ArticleFragment"
         android:label="@string/title_article"
-        tools:layout="@layout/fragment_article" >
-
+        tools:layout="@layout/fragment_article">
         <action
-            android:id="@+id/action_navigation_article_to_resultFragment2"
-            app:destination="@id/article_fragment" />
+            android:id="@+id/action_navigation_article_to_resultFragment"
+            app:destination="@id/resultFragment" />
+        <action
+            android:id="@+id/action_navigation_article_to_navigation_home"
+            app:destination="@id/navigation_home" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_login"
         android:name="com.example.chickcheckapp.presentation.ui.login.LoginFragment"
         android:label="@string/title_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_navigation_login_to_navigation_signup"
             app:destination="@id/navigation_signup" />
@@ -43,32 +54,23 @@
         android:id="@+id/navigation_signup"
         android:name="com.example.chickcheckapp.presentation.ui.signup.SignUpFragment"
         android:label="@string/title_sign_up"
-        tools:layout="@layout/fragment_sign_up" >
+        tools:layout="@layout/fragment_sign_up">
         <action
             android:id="@+id/action_navigation_signup_to_navigation_login"
             app:destination="@id/navigation_login" />
     </fragment>
 
     <fragment
-        android:id="@+id/article_fragment"
-        android:name="com.example.chickcheckapp.presentation.ui.result.ResultFragment"
-        android:label="ResultFragment" >
-        <argument android:name="uri_image" app:argType="string" android:defaultValue=""/>
-        <argument android:name="article" app:argType="com.example.chickcheckapp.data.remote.response.ArticleData"  />        <action
-            android:id="@+id/action_article_fragment_to_navigation_article"
-            app:destination="@id/navigation_article"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/navigation_article"
-            app:popUpToInclusive="true" />
-    </fragment>
-    <fragment
         android:id="@+id/navigation_splash"
         android:name="com.example.chickcheckapp.presentation.ui.splash.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
+
         <action
             android:id="@+id/action_navigation_splash_to_navigation_home"
             app:destination="@id/navigation_home"
+            app:popUpTo="@+id/navigation_splash"
+            app:popUpToInclusive="true"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out" />
         <action
@@ -76,6 +78,56 @@
             app:destination="@id/navigation_login"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.chickcheckapp.presentation.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_navigation_profile_to_resultFragment"
+            app:destination="@id/resultFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_login"
+            app:destination="@id/navigation_login" />
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_scan"
+            app:destination="@id/navigation_scan" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.example.chickcheckapp.presentation.ui.result.ResultFragment"
+        android:label="ResultFragment">
+        <argument
+            android:name="uri_image"
+            app:argType="string"
+            android:defaultValue=""
+            />
+        <argument
+            android:name="article"
+            app:argType="com.example.chickcheckapp.data.remote.response.ArticleData" />
+        <action
+            android:id="@+id/action_resultFragment_to_navigation_article"
+            app:destination="@id/navigation_article"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navigation_article" />
+        <action
+            android:id="@+id/action_resultFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_resultFragment_to_navigation_scan"
+            app:destination="@id/navigation_scan" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_scan"
+        android:name="com.example.chickcheckapp.presentation.ui.camera.CameraXFragment"
+        android:label="CameraXFragment" >
+        <action
+            android:id="@+id/action_navigation_scan_to_resultFragment"
+            app:destination="@id/resultFragment" />
     </fragment>
 
 </navigation>
