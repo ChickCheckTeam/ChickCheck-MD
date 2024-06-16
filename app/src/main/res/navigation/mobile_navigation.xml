@@ -15,7 +15,7 @@
             app:destination="@id/navigation_login" />
         <action
             android:id="@+id/action_navigation_home_to_resultFragment"
-            app:destination="@id/resultFragment" />
+            app:destination="@id/resultFragment"/>
         <action
             android:id="@+id/action_navigation_home_to_navigation_profile"
             app:destination="@id/navigation_profile" />
@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_navigation_article_to_resultFragment"
             app:destination="@id/resultFragment" />
+        <action
+            android:id="@+id/action_navigation_article_to_navigation_home"
+            app:destination="@id/navigation_home" />
     </fragment>
 
     <fragment
@@ -59,9 +62,12 @@
         android:name="com.example.chickcheckapp.presentation.ui.splash.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash">
+
         <action
             android:id="@+id/action_navigation_splash_to_navigation_home"
             app:destination="@id/navigation_home"
+            app:popUpTo="@+id/navigation_splash"
+            app:popUpToInclusive="true"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out" />
         <action
@@ -84,6 +90,9 @@
         <action
             android:id="@+id/action_navigation_profile_to_navigation_login"
             app:destination="@id/navigation_login" />
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_scan"
+            app:destination="@id/navigation_scan" />
     </fragment>
     <fragment
         android:id="@+id/resultFragment"

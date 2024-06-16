@@ -58,7 +58,7 @@ class ProfileFragment : Fragment(), OnHistoryItemClickListener {
         }
 
         binding.btnScanNow.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_resultFragment)
+            findNavController().navigate(R.id.action_navigation_profile_to_navigation_scan)
         }
     }
 
@@ -87,6 +87,8 @@ class ProfileFragment : Fragment(), OnHistoryItemClickListener {
                         tvProfileUsername.text = result.data.data.username
                         if (result.data.data.scanHistory.isEmpty()) {
                             tvNoDataHistory.visibility = View.VISIBLE
+                            btnScanNow.visibility = View.VISIBLE
+                            tvTotalHistory.text = getString(R.string.total_histories, "0" )
                         } else {
                             setHistoryData(result.data.data.scanHistory)
                             tvTotalHistory.text = getString(R.string.total_histories, result.data.data.scanHistory.size.toString())
