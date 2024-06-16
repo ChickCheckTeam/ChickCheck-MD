@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:minHeight="270dp"
                 android:scaleType="fitXY"
+                android:contentDescription="@string/disease_picture"
                 app:layout_collapseMode="parallax"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -45,6 +46,7 @@
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_margin="8dp"
+                    android:contentDescription="@string/button_back_to_home"
                     android:background="@drawable/baseline_arrow_back_24"
                     android:backgroundTint="@color/onPrimary" />
 
@@ -83,7 +85,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="Nama penyakit"
+                tools:text="Nama penyakit"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -95,7 +97,7 @@
                 android:id="@+id/tv_cause"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Nama virus/bakteri"
+                tools:text="Nama virus/bakteri"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="@+id/tv_desiase_name"
                 app:layout_constraintStart_toStartOf="@+id/tv_desiase_name"
@@ -105,7 +107,7 @@
                 android:id="@+id/tv_taken_at"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Taken at 31/12/2024"
+                tools:text="Taken at 31/12/2024"
                 android:textStyle="italic"
                 android:textSize="12sp"
                 android:visibility="gone"
@@ -117,7 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Your photo"
+                android:text="@string/title_result_photo"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -132,7 +134,7 @@
                 android:layout_marginTop="8dp"
                 android:adjustViewBounds="true"
                 android:background="@drawable/full_rounded_corners"
-                android:contentDescription="Analysis"
+                android:contentDescription="@string/result_photo_description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
@@ -157,6 +159,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:src="@drawable/information"
+                android:contentDescription="@string/icon_information"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_divider_information" />
 
@@ -165,7 +168,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="General Information"
+                tools:text="General Information"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -180,6 +183,7 @@
                 android:layout_height="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
+                android:contentDescription="@string/expand_information"
                 android:src="@drawable/baseline_keyboard_arrow_down_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_divider_information" />
@@ -200,7 +204,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/black"
-                    android:text="@string/content_example"
+                    tools:text="@string/content_example"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -223,7 +227,7 @@
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_marginTop="16dp"
-                android:background="#D3D3D3"
+                android:background="@color/divider_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/general_content" />
@@ -235,6 +239,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:src="@drawable/treatment"
+                android:contentDescription="@string/icon_treatment"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_divider_treatment" />
 
@@ -243,7 +248,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Treatment"
+                tools:text="Treatment"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -258,6 +263,7 @@
                 android:layout_height="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
+                android:contentDescription="@string/expand_treatment"
                 android:src="@drawable/baseline_keyboard_arrow_down_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_divider_treatment" />
@@ -278,7 +284,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/black"
-                    android:text="@string/content_example"
+                    tools:text="@string/content_example"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -302,7 +308,7 @@
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_marginTop="16dp"
-                android:background="#D3D3D3"
+                android:background="@color/divider_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/treatment_content" />
@@ -314,6 +320,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:src="@drawable/prevention"
+                android:contentDescription="@string/icon_prevention"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_divider_prevention" />
 
@@ -322,7 +329,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Prevention"
+                tools:text="Prevention"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -337,6 +344,7 @@
                 android:layout_height="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
+                android:contentDescription="@string/expand_prevention"
                 android:src="@drawable/baseline_keyboard_arrow_down_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_divider_prevention" />
@@ -357,7 +365,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/black"
-                    android:text="@string/content_example"
+                    tools:text="@string/content_example"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -380,7 +388,7 @@
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_marginTop="16dp"
-                android:background="#D3D3D3"
+                android:background="@color/divider_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/prevention_content" />
@@ -392,6 +400,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:src="@drawable/symptoms"
+                android:contentDescription="@string/icon_symptoms"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_divider_symptoms" />
 
@@ -400,7 +409,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Symptoms"
+                tools:text="Symptoms"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -415,6 +424,7 @@
                 android:layout_height="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
+                android:contentDescription="@string/expand_symptoms"
                 android:src="@drawable/baseline_keyboard_arrow_down_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_divider_symptoms" />
@@ -435,7 +445,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/black"
-                    android:text="@string/content_example"
+                    tools:text="@string/content_example"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -458,7 +468,7 @@
                 android:id="@+id/item_divider_place"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="#D3D3D3"
+                android:background="@color/divider_color"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -471,6 +481,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:src="@drawable/place"
+                android:contentDescription="@string/icon_nearby_place"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_divider_place" />
 
@@ -479,7 +490,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Toko hewan terdekat"
+                android:text="@string/veterinarian_title"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -494,6 +505,7 @@
                 android:layout_height="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
+                android:contentDescription="@string/expand_nearby_location"
                 android:src="@drawable/baseline_keyboard_arrow_down_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_divider_place" />
@@ -511,10 +523,10 @@
                     android:id="@+id/tv_location_sub_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Cari toko hewan didekatmu"
+                    android:text="@string/veterinarian_subtitle"
                     android:textColor="@color/black"
                     android:layout_marginTop="8dp"
-                    android:layout_marginLeft="4dp"
+                    android:layout_marginStart="4dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -556,7 +568,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Scan Again"
+                android:text="@string/scan_again"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/end_divider" />

@@ -30,6 +30,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="32dp"
+            android:contentDescription="@string/capture_image"
             android:background="@drawable/baseline_camera_alt_24"
             android:backgroundTint="@color/onPrimaryContainer"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -42,6 +43,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="32dp"
+            android:contentDescription="@string/button_gallery"
             android:background="@drawable/baseline_photo_library_24"
             android:backgroundTint="@color/onPrimaryContainer"
             app:layout_constraintBottom_toBottomOf="@+id/btn_capture"
@@ -52,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Gallery"
+            android:text="@string/galeri"
             android:textColor="@color/onPrimaryContainer"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/btn_gallery"
@@ -62,12 +64,14 @@
 
     <ImageButton
         android:id="@+id/btn_switch_camera"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/baseline_cameraswitch_24"
         android:backgroundTint="@color/onPrimary"
+        android:contentDescription="@string/switch_camera"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -98,8 +102,34 @@
         android:layout_marginTop="8dp"
         android:textColor="@color/white"
         android:visibility="gone"
-        android:text="Scanning..."
+        android:text="@string/scanning"
         app:layout_constraintEnd_toEndOf="@+id/progress_bar"
         app:layout_constraintStart_toStartOf="@+id/progress_bar"
         app:layout_constraintTop_toBottomOf="@id/progress_bar" />
+    <View
+        android:id="@+id/background_guidance"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/rounded_rectangle"
+        android:backgroundTint="@color/black"
+        android:alpha="0.5"
+        app:layout_constraintStart_toStartOf="@id/tv_guidance"
+        app:layout_constraintEnd_toEndOf="@id/tv_guidance"
+        app:layout_constraintTop_toTopOf="@id/tv_guidance"
+        app:layout_constraintBottom_toBottomOf="@id/tv_guidance"
+        />
+    <TextView
+        android:id="@+id/tv_guidance"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="@string/arahkan_pada_kotoran_ayam_dan_ambil_gambar"
+        android:textColor="@color/divider_color"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_switch_camera" />
 </androidx.constraintlayout.widget.ConstraintLayout>

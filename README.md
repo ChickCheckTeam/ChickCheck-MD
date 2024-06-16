@@ -4,37 +4,37 @@
      </div>
 
 
-# Description
-An app about disease detection for chicken health
+# About
+ChickCheckApp is an innovative mobile application designed to assist poultry farmers and enthusiasts in maintaining the health of their chickens. Leveraging advanced machine learning algorithms, ChickCheckApp can accurately detect various diseases affecting chickens by analyzing images of the birds. This app aims to provide a quick and reliable diagnostic tool, reducing the need for immediate veterinary consultation and enabling early intervention, which can be crucial for preventing the spread of diseases within a flock.
 
-# Features
-- Chicken disease detection 
-- Show nearest veterinarian place
-- Information about the disease
+Key features of ChickCheckApp include:
+- **Chicken Disease Detection**: Users can take or upload photos of their chickens, and the app will analyze the images to identify potential diseases.
+- **Nearest Veterinarian Locator**: The app provides information on the nearest veterinary clinics, making it easier for users to seek professional help when needed.
+- **Disease Information**: Comprehensive information about various chicken diseases is available within the app, including symptoms, causes, and treatment options.
 
 # Screenshots
- <img src="https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/55e7e901b1f69d72804665cfbeb1f4f59c8fa877-496x560.jpg?auto=format&fit=fill&q=80&w=405"> <img src="https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/abbd173df157f943496abb0638add119f753e3b2-496x560.jpg?auto=format&fit=fill&q=80&w=405">
+<img src="https://github.com/ChickCheckTeam/ChickCheck-MD/assets/114111567/bdc0c794-f1b9-4968-8920-9ff94acdd4d1">
+
+
 # Tech Used
  ![Kotlin](https://img.shields.io/badge/kotlin-%230095D5.svg?style=for-the-badge&logo=kotlin&logoColor=white) ![Google Cloud](https://img.shields.io/badge/Google%20Cloud-%234285F4.svg?style=for-the-badge&logo=google-cloud&logoColor=white)
-      
-# Add More Details:
-Anything else that you want to add for users? You can write it here in markdown and see preview in real time. You can add anything that you want, for example
 
-### You can add How to Setup:
-- Step 1: this is step 1
-- Step 2: do this, do that
+# Usage
+1. Open the app.
+2. Capture or upload an image of the chicken.
+3. Wait for the machine learning model to analyze the image.
+4. View the results and suggested veterinarian locations.
 
-### You can add API references
-| Syntax | Description |
-| ----------- | ----------- |
-| AndroidX | Refactored versions of the Android APIs that are not bundled with the operating system. |
-| AndroidX Test | Includes APIs for testing your Android app, including Espresso, JUnit Runner, JUnit4 rules, and UI Automator. |
+### Setup:
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/ChickCheckTeam/ChickCheck-MD.git
+    ```
+2. Open the project in Android Studio.
+3. Sync the project with Gradle files.
+4. Set up Google Cloud API keys (refer to the API setup section).
+5. Run the app on an emulator or physical device.
 
-### You can add 
-[Links](https://itsvg.in)
- 
-![](https://img.shields.io/badge/IMAGES-4298B8.svg?style=for-the-badge&logoColor=white)
-# If you don't want to add this section, just clear all the text written here.
 
       
 <!-- </> with 💛 by readMD (https://readmd.itsvg.in) -->

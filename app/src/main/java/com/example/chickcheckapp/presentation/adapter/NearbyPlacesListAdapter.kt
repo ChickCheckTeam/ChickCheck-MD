@@ -31,7 +31,7 @@ class NearbyPlacesListAdapter(private val location: Location) :
             itemView.setOnClickListener {
                 val title = "Open in Google Maps"
                 val message = "Are you sure you want to open this place in Google Maps?"
-                val dialog = dialogAlertBuilder(itemView.context, title, message) {
+                val dialog = dialogAlertBuilder(itemView.context,title,message, {
                     val gmmIntentUri = Uri.parse(item.googleMapsUri)
                     val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {
                         setPackage("com.google.android.apps.maps")
@@ -44,7 +44,7 @@ class NearbyPlacesListAdapter(private val location: Location) :
                         }
                         itemView.context.startActivity(webIntent)
                     }
-                }.create()
+                }).create()
                 dialog.show()
             }
         }

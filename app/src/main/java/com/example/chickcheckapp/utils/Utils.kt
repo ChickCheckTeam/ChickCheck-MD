@@ -38,20 +38,16 @@ object Utils {
         }
     }
 
-    fun dialogAlertBuilder(
-        context: Context,
-        title: String,
-        message: String,
-        positive: () -> Unit
-    ): MaterialAlertDialogBuilder {
-        val builder = MaterialAlertDialogBuilder(context)
+    fun dialogAlertBuilder(context: Context,title:String, message: String, positive : ()->Unit,negative:()->Unit={}): MaterialAlertDialogBuilder{
+        val builder =  MaterialAlertDialogBuilder(context)
         builder.setMessage(message)
         builder.setTitle(title)
         builder.setCancelable(true)
         builder.setPositiveButton("Yes") { _, _ ->
             positive()
         }
-        builder.setNegativeButton("No") { dialog: DialogInterface?, which: Int ->
+        builder.setNegativeButton("No"){ dialog: DialogInterface?, which: Int->
+            negative()
             dialog?.cancel()
         }
         return builder
