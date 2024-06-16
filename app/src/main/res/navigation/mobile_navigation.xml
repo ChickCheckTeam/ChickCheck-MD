@@ -9,7 +9,7 @@
         android:id="@+id/navigation_home"
         android:name="com.example.chickcheckapp.presentation.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_navigation_home_to_navigation_login"
             app:destination="@id/navigation_login" />
@@ -25,7 +25,7 @@
         android:id="@+id/navigation_article"
         android:name="com.example.chickcheckapp.presentation.ui.article.ArticleFragment"
         android:label="@string/title_article"
-        tools:layout="@layout/fragment_article" >
+        tools:layout="@layout/fragment_article">
 
         <action
             android:id="@+id/action_navigation_article_to_resultFragment2"
@@ -36,7 +36,7 @@
         android:id="@+id/navigation_login"
         android:name="com.example.chickcheckapp.presentation.ui.login.LoginFragment"
         android:label="@string/title_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_navigation_login_to_navigation_signup"
             app:destination="@id/navigation_signup" />
@@ -49,7 +49,7 @@
         android:id="@+id/navigation_signup"
         android:name="com.example.chickcheckapp.presentation.ui.signup.SignUpFragment"
         android:label="@string/title_sign_up"
-        tools:layout="@layout/fragment_sign_up" >
+        tools:layout="@layout/fragment_sign_up">
         <action
             android:id="@+id/action_navigation_signup_to_navigation_login"
             app:destination="@id/navigation_login" />
@@ -58,9 +58,15 @@
     <fragment
         android:id="@+id/article_fragment"
         android:name="com.example.chickcheckapp.presentation.ui.result.ResultFragment"
-        android:label="ResultFragment" >
-        <argument android:name="uri_image" app:argType="string" android:defaultValue=""/>
-        <argument android:name="article" app:argType="com.example.chickcheckapp.data.remote.response.ArticleData"  />        <action
+        android:label="ResultFragment">
+        <argument
+            android:name="uri_image"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
+            android:name="article"
+            app:argType="com.example.chickcheckapp.data.remote.response.ArticleData" />
+        <action
             android:id="@+id/action_article_fragment_to_navigation_article"
             app:destination="@id/navigation_article"
             app:launchSingleTop="true"
@@ -71,7 +77,7 @@
         android:id="@+id/navigation_splash"
         android:name="com.example.chickcheckapp.presentation.ui.splash.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_navigation_splash_to_navigation_home"
             app:destination="@id/navigation_home"
@@ -87,7 +93,7 @@
         android:id="@+id/navigation_profile"
         android:name="com.example.chickcheckapp.presentation.ui.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_navigation_profile_to_resultFragment"
             app:destination="@id/resultFragment" />
@@ -101,9 +107,13 @@
     <fragment
         android:id="@+id/resultFragment"
         android:name="com.example.chickcheckapp.presentation.ui.result.ResultFragment"
-        android:label="ResultFragment" >
-        <argument android:name="uri_image" app:argType="string" />
-        <argument android:name="article" app:argType="com.example.chickcheckapp.data.remote.response.ArticleData"/>
+        android:label="ResultFragment">
+        <argument
+            android:name="uri_image"
+            app:argType="string" />
+        <argument
+            android:name="article"
+            app:argType="com.example.chickcheckapp.data.remote.response.ArticleData" />
         <action
             android:id="@+id/action_resultFragment_to_cameraXFragment"
             app:destination="@id/cameraXFragment"

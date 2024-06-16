@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.asLiveData
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,23 +12,18 @@ import com.bumptech.glide.Glide
 import com.example.chickcheckapp.data.ChickCheckRepository
 import com.example.chickcheckapp.data.remote.response.ScanHistoryItem
 import com.example.chickcheckapp.databinding.ItemScanHistoryLayoutBinding
-import com.example.chickcheckapp.presentation.MainActivity
 import com.example.chickcheckapp.utils.OnHistoryItemClickListener
-import com.example.chickcheckapp.utils.Result
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 class HistoryAdapter(
     private val listener: OnHistoryItemClickListener
-): ListAdapter<ScanHistoryItem, HistoryAdapter.MyViewHolder>(DIFF_CALLBACK) {
+) : ListAdapter<ScanHistoryItem, HistoryAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding = ItemScanHistoryLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemScanHistoryLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding, listener)
     }
 
@@ -52,7 +45,7 @@ class HistoryAdapter(
 
             val diseaseName = item.title
             val date = item.createdAt
-            with (binding) {
+            with(binding) {
                 tvDiseaseName.text = diseaseName
                 tvDate.text = formatDate(date)
                 Glide.with(itemView.context)
@@ -63,17 +56,21 @@ class HistoryAdapter(
                     "healthy" -> {
                         tvCauseName.visibility = View.GONE
                     }
+
                     "salmonellosis" -> {
                         tvCauseName.text = "Sallmonella sp"
                     }
+
                     "new castle disease" -> {
                         tvCauseName.text = "Avian Paramyxovirus"
                     }
+
                     "coccidiosis" -> {
-                        tvCauseName.text = "Eimeria acervulina, E. maxima, E. mitis, E. tenella, E. necatrix dan E. brunetti"
+                        tvCauseName.text =
+                            "Eimeria acervulina, E. maxima, E. mitis, E. tenella, E. necatrix dan E. brunetti"
                     }
                 }
-                itemView.setOnClickListener{
+                itemView.setOnClickListener {
                     listener.onHistoryItemClick(diseaseName, item.imageUrl)
                 }
             }

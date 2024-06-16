@@ -10,8 +10,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,14 +18,10 @@ import com.example.chickcheckapp.data.remote.response.ScanHistoryItem
 import com.example.chickcheckapp.databinding.FragmentHomeBinding
 import com.example.chickcheckapp.presentation.CameraActivity
 import com.example.chickcheckapp.presentation.adapter.HistoryAdapter
-import com.example.chickcheckapp.presentation.ui.camera.CameraXFragmentDirections
 import com.example.chickcheckapp.utils.OnHistoryItemClickListener
 import com.example.chickcheckapp.utils.Result
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), OnHistoryItemClickListener {
@@ -55,6 +49,11 @@ class HomeFragment : Fragment(), OnHistoryItemClickListener {
 
         binding.btnProfile.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_home_to_navigation_profile)
+        }
+
+        binding.btnScan.setOnClickListener {
+            val intent = Intent(context, CameraActivity::class.java)
+            startActivity(intent)
         }
 
         viewModel.getSession().asLiveData().observe(viewLifecycleOwner) { user ->
@@ -93,13 +92,13 @@ class HomeFragment : Fragment(), OnHistoryItemClickListener {
                     binding.progressBar.visibility = View.GONE
                     binding.tvWelcome.text = getString(
                         R.string.welcome_title,
-                        result.data.data?.username ?: "User"
+                        result.data.data.username
                     )
                     binding.containerHomeContent.alpha = 1f
-                    if (result.data.data?.scanHistory?.size == 0) {
+                    if (result.data.data.scanHistory?.size == 0) {
                         binding.containerEmptyScan.visibility = View.VISIBLE
                     } else {
-                        result.data.data?.scanHistory?.let { setHistoryData(it) }
+                        result.data.data.scanHistory?.let { setHistoryData(it) }
                     }
                 }
 
@@ -143,10 +142,11 @@ class HomeFragment : Fragment(), OnHistoryItemClickListener {
                     binding.progressBar.visibility = View.GONE
                     result.data.forEach { articleData ->
                         if (articleData.title == diseaseName) {
-                            val action = HomeFragmentDirections.actionNavigationHomeToResultFragment(
-                                imageUrl,
-                                articleData
-                            )
+                            val action =
+                                HomeFragmentDirections.actionNavigationHomeToResultFragment(
+                                    imageUrl,
+                                    articleData
+                                )
                             findNavController().navigate(action)
                         }
                     }

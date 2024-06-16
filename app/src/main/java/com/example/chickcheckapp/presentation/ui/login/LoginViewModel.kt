@@ -18,5 +18,6 @@ class LoginViewModel @Inject constructor(
             repository.saveSession(user)
         }
     }
+
     fun login(email: String, password: String) = repository.login(email, password)
 }

@@ -20,9 +20,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
-import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -32,18 +30,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.chickcheckapp.R
 import com.example.chickcheckapp.data.remote.response.ArticleData
-import com.example.chickcheckapp.utils.Result
-import com.example.chickcheckapp.data.remote.response.DataItem
-import com.example.chickcheckapp.data.remote.response.DetectionResultResponse
 import com.example.chickcheckapp.databinding.FragmentResultBinding
 import com.example.chickcheckapp.presentation.adapter.NearbyPlacesListAdapter
 import com.example.chickcheckapp.utils.Disease
+import com.example.chickcheckapp.utils.Result
 import com.example.chickcheckapp.utils.Utils
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.internal.parseCookie
 
 
 @AndroidEntryPoint
@@ -246,6 +241,7 @@ class ResultFragment : Fragment(), View.OnClickListener {
         addListContentToContainer(binding.listPreventionContainer, content.section[2].listContent)
         addListContentToContainer(binding.listTreatmentContainer, content.section[3].listContent)
     }
+
     private fun addListContentToContainer(container: LinearLayout, listContent: List<String>) {
         if (listContent.isNotEmpty()) {
             listContent.forEach {
@@ -256,6 +252,7 @@ class ResultFragment : Fragment(), View.OnClickListener {
             }
         }
     }
+
     private fun hideNearbyPlaces() {
         binding.tvLocationTitle.visibility = View.GONE
         binding.locationContent.visibility = View.GONE

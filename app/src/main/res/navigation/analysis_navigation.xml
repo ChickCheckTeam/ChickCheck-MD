@@ -6,7 +6,7 @@
     <fragment
         android:id="@+id/cameraXFragment"
         android:name="com.example.chickcheckapp.presentation.ui.camera.CameraXFragment"
-        android:label="CameraXFragment" >
+        android:label="CameraXFragment">
         <action
             android:id="@+id/action_cameraXFragment_to_resultFragment"
             app:destination="@id/resultFragment" />
@@ -14,9 +14,13 @@
     <fragment
         android:id="@+id/resultFragment"
         android:name="com.example.chickcheckapp.presentation.ui.result.ResultFragment"
-        android:label="ResultFragment" >
-        <argument android:name="uri_image" app:argType="string" />
-        <argument android:name="article" app:argType="com.example.chickcheckapp.data.remote.response.ArticleData"/>
+        android:label="ResultFragment">
+        <argument
+            android:name="uri_image"
+            app:argType="string" />
+        <argument
+            android:name="article"
+            app:argType="com.example.chickcheckapp.data.remote.response.ArticleData" />
         <action
             android:id="@+id/action_resultFragment_to_cameraXFragment"
             app:destination="@id/cameraXFragment"

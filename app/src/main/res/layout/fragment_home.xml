@@ -32,6 +32,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Hello, MyBro!" />
+
             <TextView
                 android:id="@+id/tvWelcomeDesc"
                 android:layout_width="wrap_content"
@@ -42,7 +43,7 @@
                 android:textColor="?attr/colorOnPrimary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvWelcome"
-                tools:text="Let's check your chicken today!"/>
+                tools:text="Let's check your chicken today!" />
 
             <ImageButton
                 android:id="@+id/btnProfile"
@@ -77,7 +78,7 @@
             android:textSize="16sp"
             android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvMyScanTitle"/>
+            app:layout_constraintTop_toBottomOf="@+id/tvMyScanTitle" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvScanHistory"
@@ -87,7 +88,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvMyScanDesc"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <LinearLayout
             android:id="@+id/containerEmptyScan"
@@ -108,7 +109,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginHorizontal="16dp"
                 android:contentDescription="@string/empty_image"
-                android:src="@drawable/empty_image"/>
+                android:src="@drawable/empty_image" />
 
             <TextView
                 android:id="@+id/tvNoDataHistory"
@@ -116,14 +117,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="8dp"
                 android:text="@string/empty_scan_data"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/btnScan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:text="@string/scan_now"/>
+                android:text="@string/scan_now" />
 
         </LinearLayout>
 
@@ -137,6 +138,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

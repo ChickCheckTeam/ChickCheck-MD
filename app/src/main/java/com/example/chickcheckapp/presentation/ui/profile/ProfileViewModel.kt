@@ -27,5 +27,6 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun logoutFromApi(token: String): LiveData<Result<LogoutResponse>> = repository.logoutFromApi(token)
+    fun logoutFromApi(token: String): LiveData<Result<LogoutResponse>> =
+        repository.logoutFromApi(token)
 }

@@ -1,12 +1,13 @@
 package com.example.chickcheckapp.presentation.ui.profile
 
-import androidx.fragment.app.viewModels
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -14,8 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chickcheckapp.R
 import com.example.chickcheckapp.data.remote.response.ScanHistoryItem
 import com.example.chickcheckapp.databinding.FragmentProfileBinding
+import com.example.chickcheckapp.presentation.CameraActivity
 import com.example.chickcheckapp.presentation.adapter.HistoryAdapter
-import com.example.chickcheckapp.presentation.ui.home.HomeFragmentDirections
 import com.example.chickcheckapp.utils.OnHistoryItemClickListener
 import com.example.chickcheckapp.utils.Result
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -56,6 +57,11 @@ class ProfileFragment : Fragment(), OnHistoryItemClickListener {
         binding.btnLogout.setOnClickListener {
             logout()
         }
+
+        binding.btnScanNow.setOnClickListener {
+            val intent = Intent(context, CameraActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun setupRecyclerView() {
@@ -67,25 +73,28 @@ class ProfileFragment : Fragment(), OnHistoryItemClickListener {
     }
 
     private fun getProfile() {
-        with (binding) {
+        with(binding) {
             viewModel.getProfile(token).observe(viewLifecycleOwner) { result ->
                 when (result) {
                     is Result.Loading -> {
                         progressBar.visibility = View.VISIBLE
                         containerProfileContent.alpha = 0f
                     }
+
                     is Result.Success -> {
                         progressBar.visibility = View.GONE
                         containerProfileContent.alpha = 1f
-                        tvProfileName.text = result.data.data.name ?: "User"
-                        tvProfileEmail.text = result.data.data.email ?: "useremail@gmail.com"
-                        tvProfileUsername.text = result.data.data.username ?: "username"
+                        tvProfileName.text = result.data.data.name
+                        tvProfileEmail.text = result.data.data.email
+                        tvProfileUsername.text = result.data.data.username
                         if (result.data.data.scanHistory.isEmpty()) {
                             tvNoDataHistory.visibility = View.VISIBLE
                         } else {
                             setHistoryData(result.data.data.scanHistory)
+                            tvTotalHistory.text = getString(R.string.total_histories, result.data.data.scanHistory.size.toString())
                         }
                     }
+
                     is Result.Error -> {
                         progressBar.visibility = View.GONE
                         containerProfileContent.alpha = 1f
@@ -164,10 +173,11 @@ class ProfileFragment : Fragment(), OnHistoryItemClickListener {
                     binding.progressBar.visibility = View.GONE
                     result.data.forEach { articleData ->
                         if (articleData.title == diseaseName) {
-                            val action = ProfileFragmentDirections.actionNavigationProfileToResultFragment(
-                                imageUrl,
-                                articleData
-                            )
+                            val action =
+                                ProfileFragmentDirections.actionNavigationProfileToResultFragment(
+                                    imageUrl,
+                                    articleData
+                                )
                             findNavController().navigate(action)
                         }
                     }

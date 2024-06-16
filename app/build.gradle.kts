@@ -23,7 +23,11 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         val properties = Properties()
         properties.load(project.rootProject.file("local.properties").inputStream())
-        buildConfigField("String", "BASE_URL", "\"https://chickcheck-api-srcvmjwrfa-et.a.run.app/api/\"")
+        buildConfigField(
+            "String",
+            "BASE_URL",
+            "\"https://chickcheck-api-srcvmjwrfa-et.a.run.app/api/\""
+        )
         buildConfigField("String", "BASE_URL_PLACES", "\"https://places.googleapis.com/\"")
         buildConfigField("String", "PLACES_API_KEY", "\"${properties.getProperty("apiKey")}\"")
     }
@@ -69,7 +73,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation (libs.glide)
+    implementation(libs.glide)
     implementation(libs.flexbox)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

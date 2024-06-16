@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.OrientationEventListener
@@ -27,8 +26,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.example.chickcheckapp.data.remote.response.ArticleData
-import com.example.chickcheckapp.data.remote.response.DataItem
-import com.example.chickcheckapp.data.remote.response.DetectionResultResponse
 import com.example.chickcheckapp.databinding.FragmentCameraxBinding
 import com.example.chickcheckapp.presentation.ui.result.ResultFragment
 import com.example.chickcheckapp.utils.Result
@@ -37,10 +34,7 @@ import com.example.chickcheckapp.utils.Utils.reduceFileSize
 import com.example.chickcheckapp.utils.Utils.rotateImage
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.io.File
-import java.util.concurrent.Future
 
 @AndroidEntryPoint
 class CameraXFragment : Fragment() {
@@ -161,7 +155,7 @@ class CameraXFragment : Fragment() {
                     binding.progressBar.visibility = View.GONE
                     binding.loadingBackground.visibility = View.GONE
                     binding.tvScanLoadingText.visibility = View.GONE
-                    val article : ArticleData = result.data.article
+                    val article: ArticleData = result.data.article
                     val action =
                         CameraXFragmentDirections.actionCameraXFragmentToResultFragment(
                             uri.toString(),

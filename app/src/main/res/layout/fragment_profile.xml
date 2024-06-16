@@ -82,17 +82,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="28sp"
-                    tools:text="First User"/>
+                    tools:text="First User" />
+
                 <TextView
                     android:id="@+id/tvProfileUsername"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="firstusername"/>
+                    tools:text="firstusername" />
+
                 <TextView
                     android:id="@+id/tvProfileEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="first@gmail.com"/>
+                    tools:text="first@gmail.com" />
 
             </LinearLayout>
 
@@ -109,15 +111,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Scan History"
+                    android:text="@string/title_scan_history"
                     android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
+
                 <TextView
+                    android:id="@+id/tvTotalHistory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total Histories: 100"
+                    android:text="@string/total_histories"
                     android:textStyle="italic"
-                    android:textColor="@color/grey"/>
+                    android:textColor="@color/grey" />
 
             </LinearLayout>
 
@@ -129,18 +133,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/containerHistory"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent" />
 
             <TextView
                 android:id="@+id/tvNoDataHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="You don't have any history"
+                android:text="@string/you_don_t_have_any_history"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/containerHistory"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <Button
+                android:id="@+id/btnScanNow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/scan_now"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvNoDataHistory"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -153,6 +166,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,20 +18,5 @@ class CameraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val navController = findNavController(R.id.nav_host_fragment_activity_camerax)
-
-        val articleData = intent.getParcelableExtra<ArticleData>("ARTICLE_DATA")
-        val imageUrl = intent.getStringExtra("IMAGE_URL")
-
-        if (articleData != null && imageUrl != null) {
-            // Navigate to result fragment with article data and image URL
-            val action = CameraXFragmentDirections.actionCameraXFragmentToResultFragment(
-                imageUrl,
-                articleData
-            )
-            navController.navigate(action)
-        }
-
     }
 }

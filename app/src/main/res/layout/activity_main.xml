@@ -31,6 +31,6 @@
         app:menu="@menu/bottom_nav_menu"
         app:itemIconTint="@drawable/navigation_bar"
         app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
-        app:itemTextColor="@drawable/navigation_bar"/>
+        app:itemTextColor="@drawable/navigation_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -59,6 +59,7 @@
             app:layout_constraintStart_toStartOf="@+id/btn_gallery"
             app:layout_constraintTop_toBottomOf="@+id/btn_gallery" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <ImageButton
         android:id="@+id/btn_switch_camera"
         android:layout_width="48dp"
@@ -77,8 +78,7 @@
         android:background="@color/black"
         android:alpha="0.5"
         android:visibility="gone"
-        tools:visibility="visible"
-        />
+        tools:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/progress_bar"

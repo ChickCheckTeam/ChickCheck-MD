@@ -1,10 +1,10 @@
 <resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.ChickCheckApp" parent="Theme.Material3.DayNight.NoActionBar">
-         <item name="colorPrimary">@color/primary</item>
-         <item name="colorOnPrimary">@color/onPrimary</item>
-         <item name="colorPrimaryContainer">@color/primaryContainer</item>
-         <item name="colorOnPrimaryContainer">@color/onPrimaryContainer</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/onPrimary</item>
+        <item name="colorPrimaryContainer">@color/primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/onPrimaryContainer</item>
     </style>
 
     <style name="Theme.ChickCheckApp" parent="Base.Theme.ChickCheckApp" />

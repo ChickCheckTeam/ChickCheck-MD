@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ResultViewModel @Inject constructor(private val chickCheckRepository: ChickCheckRepository) : ViewModel() {
+class ResultViewModel @Inject constructor(private val chickCheckRepository: ChickCheckRepository) :
+    ViewModel() {
     fun findNearbyPlaces(location: Location) = chickCheckRepository.findNearbyPlaces(location)
 }
