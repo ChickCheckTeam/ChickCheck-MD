@@ -53,8 +53,8 @@ class HomeFragment : Fragment(), OnHistoryItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnLogout.setOnClickListener {
-            logout()
+        binding.btnProfile.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_navigation_profile)
         }
 
         viewModel.getSession().asLiveData().observe(viewLifecycleOwner) { user ->
@@ -116,45 +116,6 @@ class HomeFragment : Fragment(), OnHistoryItemClickListener {
 
                 else -> {}
             }
-        }
-    }
-
-    private fun logout() {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle("Logout")
-            setMessage("Are you sure want to logout?")
-            setPositiveButton("OK") { _, _ ->
-                viewModel.logoutFromApi(token).observe(viewLifecycleOwner) { result ->
-                    when (result) {
-                        is Result.Loading -> {
-                            binding.progressBar.visibility = View.VISIBLE
-                        }
-
-                        is Result.Success -> {
-                            binding.progressBar.visibility = View.GONE
-                            viewModel.logout()
-                            showSnackBar("Logout Success!")
-                            findNavController().navigate(R.id.action_navigation_home_to_navigation_login)
-                        }
-
-                        is Result.Error -> {
-                            binding.progressBar.visibility = View.GONE
-                            if (result.error.isNotEmpty()) {
-                                showSnackBar(result.error)
-                            } else {
-                                // Error on server (5xx, etc)
-                                showSnackBar("Something went wrong. Please try again later.")
-                            }
-                            Log.e("HomeFragment", result.error)
-                        }
-
-                        else -> {}
-                    }
-                }
-            }
-            setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }.show()
         }
     }
 

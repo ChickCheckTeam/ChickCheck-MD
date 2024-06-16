@@ -18,6 +18,7 @@ import com.example.chickcheckapp.presentation.adapter.HistoryAdapter
 import com.example.chickcheckapp.presentation.ui.home.HomeFragmentDirections
 import com.example.chickcheckapp.utils.OnHistoryItemClickListener
 import com.example.chickcheckapp.utils.Result
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -47,6 +48,14 @@ class ProfileFragment : Fragment(), OnHistoryItemClickListener {
             getProfile()
             setupRecyclerView()
         }
+
+        binding.btnBack.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_profile_to_navigation_home)
+        }
+
+        binding.btnLogout.setOnClickListener {
+            logout()
+        }
     }
 
     private fun setupRecyclerView() {
@@ -68,13 +77,13 @@ class ProfileFragment : Fragment(), OnHistoryItemClickListener {
                     is Result.Success -> {
                         progressBar.visibility = View.GONE
                         containerProfileContent.alpha = 1f
-                        tvProfileName.text = result.data.data?.name ?: "User"
-                        tvProfileEmail.text = result.data.data?.email ?: "useremail@gmail.com"
-                        tvProfileUsername.text = result.data.data?.username ?: "username"
-                        if (result.data.data?.scanHistory?.size == 0) {
+                        tvProfileName.text = result.data.data.name ?: "User"
+                        tvProfileEmail.text = result.data.data.email ?: "useremail@gmail.com"
+                        tvProfileUsername.text = result.data.data.username ?: "username"
+                        if (result.data.data.scanHistory.isEmpty()) {
                             tvNoDataHistory.visibility = View.VISIBLE
                         } else {
-                            result.data.data?.scanHistory?.let { setHistoryData(it) }
+                            setHistoryData(result.data.data.scanHistory)
                         }
                     }
                     is Result.Error -> {
@@ -98,6 +107,45 @@ class ProfileFragment : Fragment(), OnHistoryItemClickListener {
 
     private fun showSnackBar(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun logout() {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle("Logout")
+            setMessage("Are you sure want to logout?")
+            setPositiveButton("OK") { _, _ ->
+                viewModel.logoutFromApi(token).observe(viewLifecycleOwner) { result ->
+                    when (result) {
+                        is Result.Loading -> {
+                            binding.progressBar.visibility = View.VISIBLE
+                        }
+
+                        is Result.Success -> {
+                            viewModel.logout()
+                            binding.progressBar.visibility = View.GONE
+                            showSnackBar("Logout Success!")
+                            findNavController().navigate(R.id.action_navigation_profile_to_navigation_login)
+                        }
+
+                        is Result.Error -> {
+                            binding.progressBar.visibility = View.GONE
+                            if (result.error.isNotEmpty()) {
+                                showSnackBar(result.error)
+                            } else {
+                                // Error on server (5xx, etc)
+                                showSnackBar("Something went wrong. Please try again later.")
+                            }
+                            Log.e("HomeFragment", result.error)
+                        }
+
+                        else -> {}
+                    }
+                }
+            }
+            setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }.show()
+        }
     }
 
     override fun onDestroy() {

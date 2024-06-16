@@ -17,15 +17,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
     fun getSession() = repository.getSession()
 
-    fun logout() {
-        viewModelScope.launch {
-            repository.logout()
-        }
-    }
-
     fun getArticle(token: String) = repository.getArticles(token)
-
-    fun logoutFromApi(token: String): LiveData<Result<LogoutResponse>> = repository.logoutFromApi(token)
 
     fun getProfile(token: String) = repository.getProfile(token)
 }
