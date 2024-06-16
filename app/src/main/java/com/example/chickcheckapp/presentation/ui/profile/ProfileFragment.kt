@@ -88,7 +88,7 @@ class ProfileFragment : Fragment(), OnHistoryItemClickListener {
                         if (result.data.data.scanHistory.isEmpty()) {
                             tvNoDataHistory.visibility = View.VISIBLE
                             btnScanNow.visibility = View.VISIBLE
-                            tvTotalHistory.text = getString(R.string.total_histories, )
+                            tvTotalHistory.text = getString(R.string.total_histories, "0" )
                         } else {
                             setHistoryData(result.data.data.scanHistory)
                             tvTotalHistory.text = getString(R.string.total_histories, result.data.data.scanHistory.size.toString())
