@@ -84,6 +84,9 @@
         <action
             android:id="@+id/action_navigation_profile_to_navigation_login"
             app:destination="@id/navigation_login" />
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_scan"
+            app:destination="@id/navigation_scan" />
     </fragment>
     <fragment
         android:id="@+id/resultFragment"

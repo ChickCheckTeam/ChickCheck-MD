@@ -28,16 +28,13 @@ class SignUpFragment : Fragment() {
     ): View {
         _binding = FragmentSignUpBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         formValidation()
         registerUser()
-
         binding.tvLogin.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_signup_to_navigation_login)
         }

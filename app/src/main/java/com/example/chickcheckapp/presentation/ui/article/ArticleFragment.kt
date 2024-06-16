@@ -44,12 +44,10 @@ class ArticleFragment : Fragment() {
                     when (result) {
                         is Result.Loading -> {
                             binding.progressBar.visibility = View.VISIBLE
-
                         }
 
                         is Result.Error -> {
                             binding.progressBar.visibility = View.GONE
-
                             showToast(result.error)
                             Log.d(ResultFragment.TAG, "error: ${result.error}")
                         }
