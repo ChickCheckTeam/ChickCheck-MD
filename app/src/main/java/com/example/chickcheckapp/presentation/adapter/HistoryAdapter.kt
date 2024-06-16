@@ -38,9 +38,6 @@ class HistoryAdapter(
         private val binding: ItemScanHistoryLayoutBinding,
         private val listener: OnHistoryItemClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
-        @Inject
-        lateinit var repository: ChickCheckRepository
-
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(item: ScanHistoryItem) {
 
@@ -58,11 +55,11 @@ class HistoryAdapter(
                         tvCauseName.visibility = View.GONE
                     }
 
-                    "salmonellosis" -> {
+                    "salmonella" -> {
                         tvCauseName.text = "Sallmonella sp"
                     }
 
-                    "new castle disease" -> {
+                    "newcastle disease" -> {
                         tvCauseName.text = "Avian Paramyxovirus"
                     }
 
