@@ -107,12 +107,12 @@
                 android:id="@+id/tv_taken_at"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Taken at 31/12/2024"
-                android:textStyle="italic"
                 android:textSize="12sp"
-                android:visibility="gone"
+                android:textStyle="italic"
+                android:visibility="visible"
                 app:layout_constraintStart_toStartOf="@+id/tv_cause"
-                app:layout_constraintTop_toBottomOf="@+id/tv_cause" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_cause"
+                tools:text="Taken at 31/12/2024" />
 
             <TextView
                 android:id="@+id/tv_your_photo"
@@ -125,12 +125,12 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/tv_cause"
                 app:layout_constraintStart_toStartOf="@+id/tv_cause"
-                app:layout_constraintTop_toBottomOf="@id/tv_cause" />
+                app:layout_constraintTop_toBottomOf="@id/tv_taken_at" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_your_photo"
                 android:layout_width="250dp"
-                android:layout_height="wrap_content"
+                android:layout_height="250dp"
                 android:layout_marginTop="8dp"
                 android:adjustViewBounds="true"
                 android:background="@drawable/full_rounded_corners"
@@ -208,6 +208,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
                 <LinearLayout
                     android:id="@+id/list_general_container"
                     android:layout_width="0dp"
@@ -287,6 +288,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
                 <LinearLayout
                     android:id="@+id/list_treatment_container"
                     android:layout_width="0dp"
@@ -367,6 +369,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
                 <LinearLayout
                     android:id="@+id/list_prevention_container"
                     android:layout_width="0dp"
@@ -446,6 +449,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
                 <LinearLayout
                     android:id="@+id/list_symptoms_container"
                     android:layout_width="0dp"
@@ -514,6 +518,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/iv_general_down_arrow"
                 app:layout_constraintStart_toStartOf="@+id/iv_icon_places"
                 app:layout_constraintTop_toBottomOf="@id/tv_location_title">
+
                 <TextView
                     android:id="@+id/tv_location_sub_title"
                     android:layout_width="0dp"
@@ -524,8 +529,8 @@
                     android:layout_marginStart="4dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
+                    app:layout_constraintStart_toStartOf="parent" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_nearby_places"
                     android:layout_width="0dp"
@@ -547,6 +552,7 @@
                     app:layout_constraintTop_toTopOf="@+id/rv_nearby_places"
                     tools:visibility="visible" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <View
                 android:id="@+id/end_divider"
                 android:layout_width="0dp"

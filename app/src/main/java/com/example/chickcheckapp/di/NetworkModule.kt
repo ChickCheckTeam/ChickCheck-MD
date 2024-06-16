@@ -7,7 +7,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -57,6 +56,7 @@ object NetworkModule {
             .client(client)
             .build()
     }
+
     @Provides
     @Singleton
     @Named("retrofitPlaces")
@@ -73,8 +73,11 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideApiServiceApp(@Named("retrofitApp")retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+    fun provideApiServiceApp(@Named("retrofitApp") retrofit: Retrofit): ApiService =
+        retrofit.create(ApiService::class.java)
+
     @Provides
     @Singleton
-    fun provideApiServiceGMaps(@Named("retrofitPlaces")retrofit: Retrofit): ApiServicePlace = retrofit.create(ApiServicePlace::class.java)
+    fun provideApiServiceGMaps(@Named("retrofitPlaces") retrofit: Retrofit): ApiServicePlace =
+        retrofit.create(ApiServicePlace::class.java)
 }

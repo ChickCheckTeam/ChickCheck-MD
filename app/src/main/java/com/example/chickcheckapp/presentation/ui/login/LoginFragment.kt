@@ -54,7 +54,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun login() {
-        with (binding) {
+        with(binding) {
             btnLogin.setOnClickListener {
                 if (isFormValid()) {
                     val email = edLoginEmail.text.toString()
@@ -66,6 +66,7 @@ class LoginFragment : Fragment() {
                             is Result.Loading -> {
                                 progressBar.visibility = View.VISIBLE
                             }
+
                             is Result.Success -> {
                                 val user = UserModel(
                                     email,
@@ -77,6 +78,7 @@ class LoginFragment : Fragment() {
                                 showSnackBar("Login Success!")
                                 findNavController().navigate(R.id.action_navigation_login_to_navigation_home)
                             }
+
                             is Result.Error -> {
                                 progressBar.visibility = View.GONE
                                 if (result.error.isNotEmpty()) {
@@ -97,7 +99,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun showErrorForm() {
-        with (binding) {
+        with(binding) {
             edEmailLayout.helperText = validEmail()
             edPasswordLayout.helperText = validPassword()
         }
@@ -108,16 +110,14 @@ class LoginFragment : Fragment() {
     }
 
     private fun isFormValid(): Boolean {
-        with (binding) {
-            val emailError = validEmail()
-            val passwordError = validPassword()
+        val emailError = validEmail()
+        val passwordError = validPassword()
 
-            return emailError == null && passwordError == null
-        }
+        return emailError == null && passwordError == null
     }
 
     private fun formValidation() {
-        with (binding) {
+        with(binding) {
             edLoginEmail.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
                     edEmailLayout.helperText = validEmail()

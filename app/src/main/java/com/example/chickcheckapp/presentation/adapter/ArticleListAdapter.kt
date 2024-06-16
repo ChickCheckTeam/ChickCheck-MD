@@ -1,6 +1,5 @@
 package com.example.chickcheckapp.presentation.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,14 +7,12 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chickcheckapp.R
 import com.example.chickcheckapp.data.remote.response.ArticleData
-import com.example.chickcheckapp.data.remote.response.DataItem
 import com.example.chickcheckapp.databinding.ItemLayoutArticleBinding
 import com.example.chickcheckapp.presentation.ui.article.ArticleFragmentDirections
-import com.example.chickcheckapp.presentation.ui.result.ResultFragment
 import com.example.chickcheckapp.utils.Utils
 
-class ArticleListAdapter(private val items: List<ArticleData>) : RecyclerView.Adapter<ArticleListAdapter.ViewHolder>() {
-
+class ArticleListAdapter(private val items: List<ArticleData>) :
+    RecyclerView.Adapter<ArticleListAdapter.ViewHolder>() {
     class ViewHolder(private val binding: ItemLayoutArticleBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item:ArticleData){
            binding.tvDesiaseName.text = item.title
@@ -24,17 +21,19 @@ class ArticleListAdapter(private val items: List<ArticleData>) : RecyclerView.Ad
                 "new castle disease" ->{
                     binding.shapeableImageView.setImageResource(R.drawable.newcastle)
                 }
-                "salmonellosis" ->{
-                   binding.shapeableImageView.setImageResource(R.drawable.salmonella)
+
+                "salmonellosis" -> {
+                    binding.shapeableImageView.setImageResource(R.drawable.salmonella)
                 }
-                "coccidiosis" ->{
+
+                "coccidiosis" -> {
                     binding.shapeableImageView.setImageResource(R.drawable.coccidiosis)
                 }
 
             }
             itemView.setOnClickListener {
                 val action =
-                    ArticleFragmentDirections.actionNavigationArticleToResultFragment2(
+                    ArticleFragmentDirections.actionNavigationArticleToResultFragment(
                         article = item
                     )
                 it.findNavController().navigate(action)
@@ -43,7 +42,8 @@ class ArticleListAdapter(private val items: List<ArticleData>) : RecyclerView.Ad
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemLayoutArticleBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding =
+            ItemLayoutArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -52,12 +52,13 @@ class ArticleListAdapter(private val items: List<ArticleData>) : RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item= items[position]
+        val item = items[position]
         holder.bind(item)
 
 
     }
-    companion object{
-        const val  TAG = "ArticleListAdapter"
+
+    companion object {
+        const val TAG = "ArticleListAdapter"
     }
 }

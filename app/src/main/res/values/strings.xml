@@ -19,10 +19,22 @@
     <string name="empty_scan_data">You haven’t scan image</string>
     <string name="title_article">Article</string>
     <string name="logo_image">Logo</string>
+    <string name="title_profile">Profile</string>
+    <string name="button_logout">Button Logout</string>
 
     <string name="content_example">
         Bullies come in all shapes and sizes. Nobody deserves to be bullied, but many of us deal with them over time, often as children. Either way, when you find yourself being bullied, there are many steps you can take to stop the behavior. Read on for a comprehensive list of tips on dealing with bullies, from standing up for yourself to walking away and improving your self-confidence.
     </string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="desc_dont_have_any_account">Don’t have any account?</string>
+    <string name="title_scan_history">Scan History</string>
+    <string name="total_histories">Total Histories: %s</string>
+    <string name="you_don_t_have_any_history">You don’t have any history</string>
+    <string name="name">Name</string>
+    <string name="username">Username</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="already_have_an_account">Already have an account?</string>
     <string name="address_example">Pertokoan Nakula Plaza, Jl. Nakula Blok C, Legian, Kec. Kuta, Kabupaten Badung, Bali 80361, Indonesia</string>
     <string name="distance_example">100 km</string>
     <string name="cause_example">Nama virus/bakteri</string>

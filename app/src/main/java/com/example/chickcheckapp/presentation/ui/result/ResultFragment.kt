@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
@@ -23,27 +24,26 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
-import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.chickcheckapp.R
 import com.example.chickcheckapp.data.remote.response.ArticleData
-import com.example.chickcheckapp.utils.Result
-import com.example.chickcheckapp.data.remote.response.DataItem
-import com.example.chickcheckapp.data.remote.response.DetectionResultResponse
 import com.example.chickcheckapp.databinding.FragmentResultBinding
 import com.example.chickcheckapp.presentation.adapter.NearbyPlacesListAdapter
 import com.example.chickcheckapp.utils.Disease
+import com.example.chickcheckapp.utils.Result
 import com.example.chickcheckapp.utils.Utils
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -52,7 +52,6 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.internal.parseCookie
 
 
 @AndroidEntryPoint
@@ -74,6 +73,7 @@ class ResultFragment : Fragment(), View.OnClickListener {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val uri = args.uriImage
@@ -81,14 +81,14 @@ class ResultFragment : Fragment(), View.OnClickListener {
         setContent(article, uri)
         binding.btnBack.setOnClickListener {
             if (uri.isEmpty()) {
-                findNavController().navigate(R.id.action_article_fragment_to_navigation_article)
+                findNavController().navigate(R.id.action_resultFragment_to_navigation_article)
             } else {
-                requireActivity().finish()
+                findNavController().navigate(R.id.action_resultFragment_to_navigation_home)
             }
         }
         binding.btnScanAgain.setOnClickListener {
             binding.locationContent.visibility = View.GONE
-            findNavController().navigate(R.id.action_resultFragment_to_cameraXFragment)
+            findNavController().navigate(R.id.action_resultFragment_to_navigation_scan)
         }
         binding.ivDownArrowPlaces.setOnClickListener(this)
         binding.ivGeneralDownArrow.setOnClickListener(this)
@@ -250,18 +250,25 @@ class ResultFragment : Fragment(), View.OnClickListener {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setContent(article: ArticleData, uri: String) {
+        Log.d(TAG, "setContent: $uri")
         if (uri.isEmpty()) {
             binding.tvYourPhoto.visibility = View.GONE
-            binding.tvYourPhoto.visibility = View.GONE
+            binding.ivYourPhoto.visibility = View.GONE
             binding.btnScanAgain.visibility = View.GONE
+            binding.tvTakenAt.visibility = View.GONE
             hideNearbyPlaces()
         } else {
-            binding.ivYourPhoto.setImageURI(uri.toUri())
+            Glide.with(this)
+                .load(uri)
+                .centerCrop()
+                .into(binding.ivYourPhoto)
         }
         binding.ivHeroImage.setImageResource(R.drawable.salmonella)
         binding.tvDesiaseName.text = article.title
         binding.tvToolbarTitle.text = article.title
+        binding.tvTakenAt.text = Utils.formatDate(article.createdAt)
         val content = Utils.parseJsonToDisease(article.content)
         setSubContent(content)
         when (article.title.lowercase()) {

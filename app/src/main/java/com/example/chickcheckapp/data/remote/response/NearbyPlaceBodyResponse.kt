@@ -4,39 +4,39 @@ import com.google.gson.annotations.SerializedName
 
 data class NearbyPlaceBodyResponse(
 
-	@field:SerializedName("includedTypes")
-	val includedTypes: List<String>,
+    @field:SerializedName("includedTypes")
+    val includedTypes: List<String>,
 
-	@field:SerializedName("rankPreference")
-	val rankPreference: String,
+    @field:SerializedName("rankPreference")
+    val rankPreference: String,
 
-	@field:SerializedName("locationRestriction")
-	val locationRestriction: LocationRestriction,
+    @field:SerializedName("locationRestriction")
+    val locationRestriction: LocationRestriction,
 
-	@field:SerializedName("maxResultCount")
-	val maxResultCount: Int
+    @field:SerializedName("maxResultCount")
+    val maxResultCount: Int
 )
 
 data class Circle(
 
-	@field:SerializedName("center")
-	val center: Center,
+    @field:SerializedName("center")
+    val center: Center,
 
-	@field:SerializedName("radius")
-	val radius: Any
+    @field:SerializedName("radius")
+    val radius: Any
 )
 
 data class LocationRestriction(
 
-	@field:SerializedName("circle")
-	val circle: Circle
+    @field:SerializedName("circle")
+    val circle: Circle
 )
 
 data class Center(
 
-	@field:SerializedName("latitude")
-	val latitude: Any,
+    @field:SerializedName("latitude")
+    val latitude: Any,
 
-	@field:SerializedName("longitude")
-	val longitude: Any
+    @field:SerializedName("longitude")
+    val longitude: Any
 )
