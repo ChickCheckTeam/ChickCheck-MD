@@ -147,12 +147,15 @@ class CameraXFragment : Fragment() {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.loadingBackground.visibility = View.VISIBLE
                     binding.tvScanLoadingText.visibility = View.VISIBLE
+                    binding.tvGuidance.visibility = View.GONE
+                    binding.backgroundGuidance.visibility = View.GONE
                 }
 
                 is Result.Error -> {
                     binding.progressBar.visibility = View.GONE
                     binding.loadingBackground.visibility = View.GONE
                     binding.tvScanLoadingText.visibility = View.GONE
+                    binding.tvGuidance.visibility = View.VISIBLE
                     showToast(result.error)
                     Log.d(ResultFragment.TAG, "error: ${result.error}")
                 }
