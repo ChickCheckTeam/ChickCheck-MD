@@ -8,8 +8,10 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.location.Location
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.view.Surface
+import androidx.annotation.RequiresApi
 import androidx.camera.view.PreviewView
 import com.example.chickcheckapp.data.remote.response.ErrorResponse
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -18,6 +20,8 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 object Utils {
     const val TAG = "Utils"
@@ -52,7 +56,19 @@ object Utils {
         }
         return builder
     }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun formatDate(date: String): String? {
+        val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        val outputFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
+        // Parse the input date string
+        val dateTime = LocalDateTime.parse(date, inputFormat)
+
+        // Format the date to the desired output format
+        val formattedDate = dateTime.format(outputFormat)
+
+        return formattedDate
+    }
     fun rotateImage(filePath: String, viewFinder: PreviewView) {
         try {
             val bitmap = BitmapFactory.decodeFile(filePath)

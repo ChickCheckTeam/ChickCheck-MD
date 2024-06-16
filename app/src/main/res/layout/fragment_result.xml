@@ -107,12 +107,12 @@
                 android:id="@+id/tv_taken_at"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Taken at 31/12/2024"
-                android:textStyle="italic"
                 android:textSize="12sp"
-                android:visibility="gone"
+                android:textStyle="italic"
+                android:visibility="visible"
                 app:layout_constraintStart_toStartOf="@+id/tv_cause"
-                app:layout_constraintTop_toBottomOf="@+id/tv_cause" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_cause"
+                tools:text="Taken at 31/12/2024" />
 
             <TextView
                 android:id="@+id/tv_your_photo"
@@ -125,7 +125,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/tv_cause"
                 app:layout_constraintStart_toStartOf="@+id/tv_cause"
-                app:layout_constraintTop_toBottomOf="@id/tv_cause" />
+                app:layout_constraintTop_toBottomOf="@id/tv_taken_at" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_your_photo"

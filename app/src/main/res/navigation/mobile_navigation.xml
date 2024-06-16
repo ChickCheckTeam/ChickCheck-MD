@@ -26,10 +26,9 @@
         android:name="com.example.chickcheckapp.presentation.ui.article.ArticleFragment"
         android:label="@string/title_article"
         tools:layout="@layout/fragment_article">
-
         <action
-            android:id="@+id/action_navigation_article_to_resultFragment2"
-            app:destination="@id/article_fragment" />
+            android:id="@+id/action_navigation_article_to_resultFragment"
+            app:destination="@id/resultFragment" />
     </fragment>
 
     <fragment
@@ -55,24 +54,6 @@
             app:destination="@id/navigation_login" />
     </fragment>
 
-    <fragment
-        android:id="@+id/article_fragment"
-        android:name="com.example.chickcheckapp.presentation.ui.result.ResultFragment"
-        android:label="ResultFragment">
-        <argument
-            android:name="uri_image"
-            app:argType="string"
-            android:defaultValue="" />
-        <argument
-            android:name="article"
-            app:argType="com.example.chickcheckapp.data.remote.response.ArticleData" />
-        <action
-            android:id="@+id/action_article_fragment_to_navigation_article"
-            app:destination="@id/navigation_article"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/navigation_article"
-            app:popUpToInclusive="true" />
-    </fragment>
     <fragment
         android:id="@+id/navigation_splash"
         android:name="com.example.chickcheckapp.presentation.ui.splash.SplashFragment"
@@ -110,22 +91,31 @@
         android:label="ResultFragment">
         <argument
             android:name="uri_image"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue=""
+            />
         <argument
             android:name="article"
             app:argType="com.example.chickcheckapp.data.remote.response.ArticleData" />
         <action
-            android:id="@+id/action_resultFragment_to_cameraXFragment"
-            app:destination="@id/cameraXFragment"
+            android:id="@+id/action_resultFragment_to_navigation_article"
+            app:destination="@id/navigation_article"
             app:launchSingleTop="true"
-            app:popUpTo="@id/resultFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/navigation_article" />
         <action
-            android:id="@+id/action_resultFragment_to_activity_home"
-            app:destination="@id/activity_home"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/activity_home"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_resultFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_resultFragment_to_navigation_scan"
+            app:destination="@id/navigation_scan" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_scan"
+        android:name="com.example.chickcheckapp.presentation.ui.camera.CameraXFragment"
+        android:label="CameraXFragment" >
+        <action
+            android:id="@+id/action_navigation_scan_to_resultFragment"
+            app:destination="@id/resultFragment" />
     </fragment>
 
 </navigation>

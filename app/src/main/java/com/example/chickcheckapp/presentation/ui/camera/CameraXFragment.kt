@@ -160,10 +160,7 @@ class CameraXFragment : Fragment() {
                     binding.tvScanLoadingText.visibility = View.GONE
                     val article: ArticleData = result.data.article
                     val action =
-                        CameraXFragmentDirections.actionCameraXFragmentToResultFragment(
-                            uri.toString(),
-                            article
-                        )
+                        CameraXFragmentDirections.actionNavigationScanToResultFragment(article,uri.toString())
                     view?.findNavController()?.navigate(action)
                 }
             }

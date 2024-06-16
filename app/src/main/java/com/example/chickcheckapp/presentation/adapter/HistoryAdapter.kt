@@ -13,6 +13,7 @@ import com.example.chickcheckapp.data.ChickCheckRepository
 import com.example.chickcheckapp.data.remote.response.ScanHistoryItem
 import com.example.chickcheckapp.databinding.ItemScanHistoryLayoutBinding
 import com.example.chickcheckapp.utils.OnHistoryItemClickListener
+import com.example.chickcheckapp.utils.Utils
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -47,7 +48,7 @@ class HistoryAdapter(
             val date = item.createdAt
             with(binding) {
                 tvDiseaseName.text = diseaseName
-                tvDate.text = formatDate(date)
+                tvDate.text = Utils.formatDate(date)
                 Glide.with(itemView.context)
                     .load(item.imageUrl)
                     .centerCrop()
@@ -76,19 +77,7 @@ class HistoryAdapter(
             }
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
-        private fun formatDate(date: String): String? {
-            val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-            val outputFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
-            // Parse the input date string
-            val dateTime = LocalDateTime.parse(date, inputFormat)
-
-            // Format the date to the desired output format
-            val formattedDate = dateTime.format(outputFormat)
-
-            return formattedDate
-        }
     }
 
     companion object {

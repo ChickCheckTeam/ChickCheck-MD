@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chickcheckapp.R
 import com.example.chickcheckapp.data.remote.response.ScanHistoryItem
 import com.example.chickcheckapp.databinding.FragmentHomeBinding
-import com.example.chickcheckapp.presentation.CameraActivity
 import com.example.chickcheckapp.presentation.adapter.HistoryAdapter
 import com.example.chickcheckapp.utils.OnHistoryItemClickListener
 import com.example.chickcheckapp.utils.Result
@@ -52,8 +51,7 @@ class HomeFragment : Fragment(), OnHistoryItemClickListener {
         }
 
         binding.btnScan.setOnClickListener {
-            val intent = Intent(context, CameraActivity::class.java)
-            startActivity(intent)
+            findNavController().navigate(R.id.action_navigation_home_to_resultFragment)
         }
 
         viewModel.getSession().asLiveData().observe(viewLifecycleOwner) { user ->
@@ -144,8 +142,8 @@ class HomeFragment : Fragment(), OnHistoryItemClickListener {
                         if (articleData.title == diseaseName) {
                             val action =
                                 HomeFragmentDirections.actionNavigationHomeToResultFragment(
-                                    imageUrl,
-                                    articleData
+                                    articleData,
+                                    imageUrl
                                 )
                             findNavController().navigate(action)
                         }
