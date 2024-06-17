@@ -30,6 +30,7 @@ android {
         )
         buildConfigField("String", "BASE_URL_PLACES", "\"https://places.googleapis.com/\"")
         buildConfigField("String", "PLACES_API_KEY", "\"${properties.getProperty("apiKey")}\"")
+        buildConfigField("String", "CERT", "\"${properties.getProperty("cert")}\"")
     }
 
     buildTypes {

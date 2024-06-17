@@ -7,6 +7,8 @@ import com.example.chickcheckapp.data.remote.response.DetectionResultResponse
 import com.example.chickcheckapp.data.remote.response.LoginResponse
 import com.example.chickcheckapp.data.remote.response.LogoutResponse
 import com.example.chickcheckapp.data.remote.response.ProfileResponse
+import com.example.chickcheckapp.data.remote.response.RecentHistoryResponse
+import com.example.chickcheckapp.data.remote.response.ScanHistoryItem
 import com.example.chickcheckapp.data.remote.response.SignupResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
@@ -53,6 +55,12 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Header("Cookie") sessionCookie: String
     ): ProfileResponse
+
+    @GET("scan/recent")
+    suspend fun getRecentHistory(
+        @Header("Authorization") token: String,
+        @Header("Cookie") sessionCookie: String
+    ): RecentHistoryResponse
 
 
 }

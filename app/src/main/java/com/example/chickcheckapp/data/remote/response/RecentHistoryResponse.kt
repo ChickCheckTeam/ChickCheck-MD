@@ -2,34 +2,16 @@ package com.example.chickcheckapp.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class ProfileResponse(
+data class RecentHistoryResponse(
 
 	@field:SerializedName("data")
-	val data: UserData,
+	val data: List<ScanDataItem>,
 
-	@field:SerializedName("status")
-	val status: String
+	@field:SerializedName("message")
+	val message: String
 )
 
-data class UserData(
-
-	@field:SerializedName("name")
-	val name: String,
-
-	@field:SerializedName("id")
-	val id: String,
-
-	@field:SerializedName("scanHistory")
-	val scanHistory: List<ScanHistoryItem>,
-
-	@field:SerializedName("email")
-	val email: String,
-
-	@field:SerializedName("username")
-	val username: String
-)
-
-data class Article(
+data class ArticleDataItem(
 
 	@field:SerializedName("createdAt")
 	val createdAt: String,
@@ -38,7 +20,7 @@ data class Article(
 	val sources: List<String>,
 
 	@field:SerializedName("author")
-	val author: Author,
+	val author: AuthorHistory,
 
 	@field:SerializedName("id")
 	val id: String,
@@ -49,14 +31,14 @@ data class Article(
 	@field:SerializedName("content")
 	val content: String,
 
-	@field:SerializedName("tags")
-	val tags: List<String>,
-
 	@field:SerializedName("updatedAt")
-	val updatedAt: String
+	val updatedAt: String,
+
+	@field:SerializedName("tags")
+	val tags: List<String>
 )
 
-data class ScanHistoryItem(
+data class ScanDataItem(
 
 	@field:SerializedName("createdAt")
 	val createdAt: String,
@@ -75,4 +57,13 @@ data class ScanHistoryItem(
 
 	@field:SerializedName("article")
 	val article: Article
+)
+
+data class AuthorHistory(
+
+	@field:SerializedName("name")
+	val name: String,
+
+	@field:SerializedName("id")
+	val id: String
 )

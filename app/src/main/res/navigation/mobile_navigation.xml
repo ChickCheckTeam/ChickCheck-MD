@@ -15,7 +15,7 @@
             app:destination="@id/navigation_login" />
         <action
             android:id="@+id/action_navigation_home_to_resultFragment"
-            app:destination="@id/resultFragment"/>
+            app:destination="@id/resultFragment" />
         <action
             android:id="@+id/action_navigation_home_to_navigation_profile"
             app:destination="@id/navigation_profile" />
@@ -116,7 +116,8 @@
             app:popUpTo="@id/navigation_article" />
         <action
             android:id="@+id/action_resultFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
+            app:destination="@id/navigation_home"
+            app:enterAnim="@android:anim/slide_in_left" />
         <action
             android:id="@+id/action_resultFragment_to_navigation_scan"
             app:destination="@id/navigation_scan"

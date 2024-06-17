@@ -13,9 +13,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chickcheckapp.R
+import com.example.chickcheckapp.data.remote.response.ArticleData
+import com.example.chickcheckapp.data.remote.response.RecentHistoryResponse
+import com.example.chickcheckapp.data.remote.response.ScanDataItem
 import com.example.chickcheckapp.data.remote.response.ScanHistoryItem
 import com.example.chickcheckapp.databinding.FragmentHomeBinding
 import com.example.chickcheckapp.presentation.adapter.HistoryAdapter
+import com.example.chickcheckapp.presentation.adapter.RecentHistoryAdapter
 import com.example.chickcheckapp.utils.OnHistoryItemClickListener
 import com.example.chickcheckapp.utils.Result
 import com.google.android.material.snackbar.Snackbar
@@ -28,8 +32,8 @@ class HomeFragment : Fragment(), OnHistoryItemClickListener {
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
     private var token: String = ""
-    private val historyAdapter: HistoryAdapter by lazy {
-        HistoryAdapter(this)
+    private val historyAdapter: RecentHistoryAdapter by lazy {
+        RecentHistoryAdapter(this)
     }
 
     override fun onCreateView(
@@ -56,6 +60,7 @@ class HomeFragment : Fragment(), OnHistoryItemClickListener {
         viewModel.getSession().asLiveData().observe(viewLifecycleOwner) { user ->
             token = user.token
             getProfile()
+            getRecentHistory()
         }
 
         setupRecyclerView()
@@ -96,8 +101,6 @@ class HomeFragment : Fragment(), OnHistoryItemClickListener {
                         binding.containerEmptyScan.visibility = View.VISIBLE
                     } else {
                         binding.containerEmptyScan.visibility = View.GONE
-                        setHistoryData(result.data.data.scanHistory)
-
                     }
                 }
 
@@ -117,8 +120,34 @@ class HomeFragment : Fragment(), OnHistoryItemClickListener {
         }
     }
 
-    private fun setHistoryData(history: List<ScanHistoryItem>) {
+    private fun setRecentHistoryData(history: List<ScanDataItem>) {
         historyAdapter.submitList(history)
+    }
+
+    private fun getRecentHistory() {
+        viewModel.getRecentHistory(token).observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    val response = result.data
+                    setRecentHistoryData(response.data)
+                    Log.d("TAG", "getRecentHistory: ${result.data}")
+                }
+                is Result.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    if (result.error.isNotEmpty()) {
+                        showSnackBar(result.error)
+                    } else {
+                        // Error on server (5xx, etc)
+                        showSnackBar("Something went wrong. Please try again later.")
+                }
+                    }
+                else -> {}
+            }
+        }
     }
 
     private fun showSnackBar(message: String) {
@@ -130,40 +159,11 @@ class HomeFragment : Fragment(), OnHistoryItemClickListener {
         _binding = null
     }
 
-    override fun onHistoryItemClick(diseaseName: String, imageUrl: String) {
-        viewModel.getArticle(token).observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is Result.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                }
-
-                is Result.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    result.data.forEach { articleData ->
-                        if (articleData.title == diseaseName) {
-                            val action =
-                                HomeFragmentDirections.actionNavigationHomeToResultFragment(
-                                    articleData,
-                                    imageUrl
-                                )
-                            findNavController().navigate(action)
-                        }
-                    }
-                }
-
-                is Result.Error -> {
-                    binding.progressBar.visibility = View.GONE
-                    Log.e("HomeFragment", result.error)
-                    if (result.error.isNotEmpty()) {
-                        showSnackBar(result.error)
-                    } else {
-                        // Error on server (5xx, etc)
-                        showSnackBar("Something went wrong. Please try again later.")
-                    }
-                }
-
-                else -> {}
-            }
-        }
+    override fun onHistoryItemClick(article: ArticleData, imageUrl: String) {
+        val action = HomeFragmentDirections.actionNavigationHomeToResultFragment(
+            article,
+            imageUrl
+        )
+        findNavController().navigate(action)
     }
 }

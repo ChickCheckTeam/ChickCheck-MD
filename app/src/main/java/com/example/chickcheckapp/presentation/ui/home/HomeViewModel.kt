@@ -11,7 +11,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
     fun getSession() = repository.getSession()
 
-    fun getArticle(token: String) = repository.getArticles(token)
+    fun getRecentHistory(token: String) = repository.getRecentHistory(token)
 
     fun getProfile(token: String) = repository.getProfile(token)
 }

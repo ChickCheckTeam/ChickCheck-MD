@@ -108,9 +108,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
+                android:layout_marginStart="16dp"
                 android:textStyle="italic"
                 android:visibility="visible"
-                app:layout_constraintStart_toStartOf="@+id/tv_cause"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_cause"
                 tools:text="Taken at 31/12/2024" />
 

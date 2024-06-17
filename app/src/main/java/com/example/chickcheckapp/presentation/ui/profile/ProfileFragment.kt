@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chickcheckapp.R
+import com.example.chickcheckapp.data.remote.response.ArticleData
 import com.example.chickcheckapp.data.remote.response.ScanHistoryItem
 import com.example.chickcheckapp.databinding.FragmentProfileBinding
 import com.example.chickcheckapp.presentation.adapter.HistoryAdapter
@@ -161,40 +162,11 @@ class ProfileFragment : Fragment(), OnHistoryItemClickListener {
         _binding = null
     }
 
-    override fun onHistoryItemClick(diseaseName: String, imageUrl: String) {
-        viewModel.getArticle(token).observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is Result.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                }
-
-                is Result.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    result.data.forEach { articleData ->
-                        if (articleData.title == diseaseName) {
-                            val action =
-                                ProfileFragmentDirections.actionNavigationProfileToResultFragment(
-                                    articleData,
-                                    imageUrl
-                                )
-                            findNavController().navigate(action)
-                        }
-                    }
-                }
-
-                is Result.Error -> {
-                    binding.progressBar.visibility = View.GONE
-                    Log.e("HomeFragment", result.error)
-                    if (result.error.isNotEmpty()) {
-                        showSnackBar(result.error)
-                    } else {
-                        // Error on server (5xx, etc)
-                        showSnackBar("Something went wrong. Please try again later.")
-                    }
-                }
-
-                else -> {}
-            }
-        }
+    override fun onHistoryItemClick(article: ArticleData, imageUrl: String) {
+        val action = ProfileFragmentDirections.actionNavigationProfileToResultFragment(
+            article,
+            imageUrl
+        )
+        findNavController().navigate(action)
     }
 }

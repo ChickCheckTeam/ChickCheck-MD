@@ -8,6 +8,7 @@ import com.example.chickcheckapp.data.remote.response.LoginResponse
 import com.example.chickcheckapp.data.remote.response.LogoutResponse
 import com.example.chickcheckapp.data.remote.response.NearbyPlaceBodyResponse
 import com.example.chickcheckapp.data.remote.response.ProfileResponse
+import com.example.chickcheckapp.data.remote.response.RecentHistoryResponse
 import com.example.chickcheckapp.data.remote.response.SignupResponse
 import com.example.chickcheckapp.network.ApiService
 import com.example.chickcheckapp.network.ApiServicePlace
@@ -64,5 +65,11 @@ class RemoteDataSource @Inject constructor(
         val formatToken = "Bearer $token"
         val sessionCookie = "session=$token"
         return apiService.getProfile(formatToken, sessionCookie)
+    }
+
+    suspend fun getRecentHistory(token: String): RecentHistoryResponse {
+        val formatToken = "Bearer $token"
+        val sessionCookie = "session=$token"
+        return apiService.getRecentHistory(formatToken, sessionCookie)
     }
 }

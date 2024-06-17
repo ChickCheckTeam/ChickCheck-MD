@@ -13,7 +13,7 @@
     <string name="title_sign_up">Daftar</string>
     <string name="logout_button">Logout Button</string>
     <string name="my_scan_title">Hasil Pemindaian</string>
-    <string name="your_scan_desc">Riwayat pemindaian gambar Anda</string>
+    <string name="your_scan_desc">Riwayat terbaru dari pemindaian gambar Anda</string>
     <string name="empty_image">Empty Image</string>
     <string name="scan_now">Pindai Sekarang</string>
     <string name="empty_scan_data">Kamu belum memindai gambar!</string>
@@ -28,7 +28,7 @@
     <string name="email_address">Alamat Email</string>
     <string name="password">Password</string>
     <string name="desc_dont_have_any_account">Belum mempunyai akun?</string>
-    <string name="title_scan_history">Scan History</string>
+    <string name="title_scan_history">Riwayat Pemindaian</string>
     <string name="total_histories">Total Riwayat: %s</string>
     <string name="you_don_t_have_any_history">Kamu belum memindai gambar!</string>
     <string name="name">Nama</string>

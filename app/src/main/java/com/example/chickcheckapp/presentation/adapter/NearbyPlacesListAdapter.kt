@@ -29,8 +29,8 @@ class NearbyPlacesListAdapter(private val location: Location) :
             binding.tvDistance.text = Utils.convertDistance(distance)
 
             itemView.setOnClickListener {
-                val title = "Open in Google Maps"
-                val message = "Are you sure you want to open this place in Google Maps?"
+                val title = "Buka Google Maps"
+                val message = "Apakah Anda yakin ingin membuka tempat ini di Google Maps?"
                 val dialog = dialogAlertBuilder(itemView.context,title,message, {
                     val gmmIntentUri = Uri.parse(item.googleMapsUri)
                     val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {

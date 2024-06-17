@@ -11,14 +11,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.chickcheckapp.data.remote.response.ArticleData
+import com.example.chickcheckapp.data.remote.response.RecentHistoryResponse
+import com.example.chickcheckapp.data.remote.response.ScanDataItem
 import com.example.chickcheckapp.data.remote.response.ScanHistoryItem
 import com.example.chickcheckapp.databinding.ItemScanHistoryLayoutBinding
 import com.example.chickcheckapp.utils.OnHistoryItemClickListener
 import com.example.chickcheckapp.utils.Utils
 
-class HistoryAdapter(
+class RecentHistoryAdapter(
     private val listener: OnHistoryItemClickListener
-) : ListAdapter<ScanHistoryItem, HistoryAdapter.MyViewHolder>(DIFF_CALLBACK) {
+): ListAdapter<ScanDataItem, RecentHistoryAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding =
@@ -31,14 +33,13 @@ class HistoryAdapter(
         val history = getItem(position)
         holder.bind(history)
     }
-
+    
     class MyViewHolder(
         private val binding: ItemScanHistoryLayoutBinding,
         private val listener: OnHistoryItemClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
         @RequiresApi(Build.VERSION_CODES.O)
-        fun bind(item: ScanHistoryItem) {
-
+        fun bind(item: ScanDataItem) {
             val diseaseName = item.title
             val date = item.createdAt
             val articleData = ArticleData(
@@ -82,28 +83,19 @@ class HistoryAdapter(
                 }
             }
         }
-
-
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ScanHistoryItem>() {
-            override fun areItemsTheSame(
-                oldItem: ScanHistoryItem,
-                newItem: ScanHistoryItem
-            ): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ScanDataItem>() {
+            override fun areItemsTheSame(oldItem: ScanDataItem, newItem: ScanDataItem): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(
-                oldItem: ScanHistoryItem,
-                newItem: ScanHistoryItem
-            ): Boolean {
+            override fun areContentsTheSame(oldItem: ScanDataItem, newItem: ScanDataItem): Boolean {
                 return oldItem == newItem
             }
 
 
         }
     }
-
 }
