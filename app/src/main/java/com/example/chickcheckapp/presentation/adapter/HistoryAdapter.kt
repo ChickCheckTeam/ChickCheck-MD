@@ -9,14 +9,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.chickcheckapp.data.ChickCheckRepository
 import com.example.chickcheckapp.data.remote.response.ScanHistoryItem
 import com.example.chickcheckapp.databinding.ItemScanHistoryLayoutBinding
 import com.example.chickcheckapp.utils.OnHistoryItemClickListener
 import com.example.chickcheckapp.utils.Utils
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import javax.inject.Inject
 
 class HistoryAdapter(
     private val listener: OnHistoryItemClickListener

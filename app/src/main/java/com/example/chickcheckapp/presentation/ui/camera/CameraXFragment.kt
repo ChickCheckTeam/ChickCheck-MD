@@ -11,7 +11,6 @@ import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ImageAnalysis
@@ -26,8 +25,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import com.example.chickcheckapp.R
 import com.example.chickcheckapp.data.remote.response.ArticleData
 import com.example.chickcheckapp.databinding.FragmentCameraxBinding
 import com.example.chickcheckapp.presentation.ui.result.ResultFragment
