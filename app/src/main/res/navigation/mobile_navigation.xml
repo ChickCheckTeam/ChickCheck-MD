@@ -119,7 +119,9 @@
             app:destination="@id/navigation_home" />
         <action
             android:id="@+id/action_resultFragment_to_navigation_scan"
-            app:destination="@id/navigation_scan" />
+            app:destination="@id/navigation_scan"
+            app:popUpTo="@+id/resultFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/navigation_scan"
@@ -127,7 +129,9 @@
         android:label="CameraXFragment" >
         <action
             android:id="@+id/action_navigation_scan_to_resultFragment"
-            app:destination="@id/resultFragment" />
+            app:destination="@id/resultFragment"
+            app:popUpTo="@+id/navigation_scan"
+            app:popUpToInclusive="true"/>
     </fragment>
 
 </navigation>
