@@ -13,8 +13,7 @@ Key features of ChickCheckApp include:
 - **Disease Information**: Comprehensive information about various chicken diseases is available within the app, including symptoms, causes, and treatment options.
 
 # Screenshots
-<img src="https://github.com/ChickCheckTeam/ChickCheck-MD/assets/114111567/bdc0c794-f1b9-4968-8920-9ff94acdd4d1">
-
+<img src="https://github.com/ChickCheckTeam/ChickCheck-MD/assets/114111567/5419babd-dd6b-43f8-87f4-510fd84a4153">
 
 # Tech Used
  ![Kotlin](https://img.shields.io/badge/kotlin-%230095D5.svg?style=for-the-badge&logo=kotlin&logoColor=white) ![Google Cloud](https://img.shields.io/badge/Google%20Cloud-%234285F4.svg?style=for-the-badge&logo=google-cloud&logoColor=white)
